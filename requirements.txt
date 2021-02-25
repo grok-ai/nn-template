@@ -1,0 +1,5 @@
+pytorch-lightning
+hydra-core
+wandb
+dvc
+python-dotenv

@@ -1,0 +1,3 @@
+# @package _group_
+
+_target_: src.pl_modules.model.MyModel

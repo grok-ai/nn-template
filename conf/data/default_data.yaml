@@ -1,0 +1,32 @@
+# @package _group_
+
+datamodule:
+  _target_: src.pl_datamodules.datamodule.MyDataModule
+
+  datasets:
+    train:
+      _target_: src.pl_datamodules.datamodule.MyDataset
+      name: MNIT_COLORATO
+      path: ${env:MNIST}
+
+    val:
+      - _target_: src.pl_datamodules.datamodule.MyDataset
+        name: MNIST
+        path: ${env:MNIT_COLORATO}
+
+      - _target_: src.pl_datamodules.datamodule.MyDataset
+        name: MNIT_BN
+        path: ${env:MNIT_BN}
+
+    test:
+      -
+
+  num_workers:
+    train: 8
+    val: 4
+    test: 4
+
+  batch_size:
+    train: 2
+    val: 2
+    test: 2

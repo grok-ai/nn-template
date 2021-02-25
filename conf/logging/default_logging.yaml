@@ -1,0 +1,17 @@
+# @package _group_
+
+# log frequency
+val_check_interval: 1.0
+progress_bar_refresh_rate: 20
+
+wandb:
+  project: ml-template
+  entity: null
+
+  watch:
+    log: 'all'
+    log_freq: 100
+
+lr_monitor:
+  logging_interval: "step"
+  log_momentum: False
