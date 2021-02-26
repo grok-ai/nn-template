@@ -102,7 +102,7 @@ Consider creating new root configurations `conf/myawesomeexp.yaml` instead of al
 
 ## Sweeps
 
-You can easily perform hyperparameters [sweeps](https://hydra.cc/docs/next/advanced/override_grammar/extended/), which override the configuration defined in `/conf/*`.
+You can easily perform hyperparameters [sweeps](https://hydra.cc/docs/advanced/override_grammar/extended), which override the configuration defined in `/conf/*`.
 
 The easiest one is the grid-search. It executes the code with every possible combinations of the specified hyperparameters:
 
