@@ -82,7 +82,8 @@ Weights & Biases helps you keep track of your machine learning projects. Use too
 
 ## Quickstart
 
-Login to your `wandb` account running once `wandb login`.Configure the logging in `conf/logging/*`.
+Login to your `wandb` account, running once `wandb login`.
+Configure the logging in `conf/logging/*`.
 
 
 ---
@@ -136,4 +137,3 @@ and in the hydra `.yaml` configuration files with:
 ```yaml
 ${env:MY_VAR}
 ```
-

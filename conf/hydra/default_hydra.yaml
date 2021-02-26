@@ -1,6 +1,6 @@
 # @package _group_
 
 run:
-  dir: ./myexperiments/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  dir: ./experiments/${now:%Y-%m-%d}/${now:%H-%M-%S}
 sweep:
   dir: ./experiments/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
