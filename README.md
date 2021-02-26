@@ -1,4 +1,4 @@
-# ML Template
+# NN Template
 
 Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project. Click on [<kbd>Template</kbd>](https://github.com/lucmos/ml-template/generate) and avoid writing boilerplate code for:
 
