@@ -3,23 +3,20 @@
 datamodule:
   _target_: src.pl_datamodules.datamodule.MyDataModule
 
+  val_percentage: 0.15
+
   datasets:
     train:
       _target_: src.pl_datamodules.datamodule.MyDataset
-      name: MNIT_COLORATO
+      name: MNSIT
+      train: True
       path: ${env:MNIST}
 
-    val:
+    test:
       - _target_: src.pl_datamodules.datamodule.MyDataset
         name: MNIST
-        path: ${env:MNIT_COLORATO}
-
-      - _target_: src.pl_datamodules.datamodule.MyDataset
-        name: MNIT_BN
-        path: ${env:MNIT_BN}
-
-    test:
-      -
+        train: False
+        path: ${env:MNIST}
 
   num_workers:
     train: 8
@@ -27,6 +24,6 @@ datamodule:
     test: 4
 
   batch_size:
-    train: 2
-    val: 2
-    test: 2
+    train: 32
+    val: 16
+    test: 16

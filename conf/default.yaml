@@ -11,3 +11,4 @@ defaults:
   - model: default_model
   - optim: default_optim
   - train: default_train
+#  - hydra/launcher: joblib

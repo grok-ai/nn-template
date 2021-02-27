@@ -7,6 +7,7 @@ random_seed: 0
 # training
 
 pl_trainer:
+  fast_dev_run: False
   gpus: 1
   precision: 32
   max_steps: 10000

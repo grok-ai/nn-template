@@ -31,6 +31,16 @@ def run(cfg: DictConfig) -> None:
     if cfg.train.deterministic:
         seed_everything(cfg.train.random_seed)
 
+    if cfg.train.pl_trainer.fast_dev_run:
+        hydra.utils.log.info(
+            f"Debug mode <{cfg.train.pl_trainer.fast_dev_run=}>. "
+            f"Forcing debugger friendly configuration!"
+        )
+        cfg.train.pl_trainer.gpus = 0
+        cfg.data.datamodule.num_workers.train = 0
+        cfg.data.datamodule.num_workers.val = 0
+        cfg.data.datamodule.num_workers.test = 0
+
     # Hydra run directory
     hydra_dir = Path(HydraConfig.get().run.dir)
 
@@ -93,7 +103,6 @@ def run(cfg: DictConfig) -> None:
 
     hydra.utils.log.info(f"Instantiating the Trainer")
     trainer = pl.Trainer(
-        fast_dev_run=True,
         default_root_dir=hydra_dir,
         logger=wandb_logger,
         callbacks=callbacks,
