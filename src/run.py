@@ -111,6 +111,9 @@ def run(cfg: DictConfig) -> None:
 
     shutil.copytree(".hydra", Path(wandb_logger.experiment.dir) / "hydra")
 
+    if wandb_logger is not None:
+        wandb_logger.experiment.finish()
+
 
 @hydra.main(config_path="../conf", config_name="default")
 def main(cfg: omegaconf.DictConfig):

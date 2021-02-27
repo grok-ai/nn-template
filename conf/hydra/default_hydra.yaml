@@ -2,5 +2,27 @@
 
 run:
   dir: ./experiments/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
 sweep:
-  dir: ./experiments/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  dir: ./experiments/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}/
+  subdir: ${hydra.job.num}_${hydra.job.id}
+
+job:
+  env_set:
+    WANDB_START_METHOD: thread
+
+# # decomment to enable parallel jobs
+#launcher:
+#  # @package hydra.launcher
+#  _target_: hydra_plugins.hydra_joblib_launcher.joblib_launcher.JoblibLauncher
+#  n_jobs: 1
+#  backend: null
+#  prefer: processes
+#  require: null
+#  verbose: 0
+#  timeout: null
+#  pre_dispatch: 1
+#  batch_size: auto
+#  temp_folder: null
+#  max_nbytes: null
+#  mmap_mode: r
