@@ -1,23 +1,9 @@
-from pathlib import Path
 from typing import Optional, Sequence
 
 import hydra
 import pytorch_lightning as pl
-from omegaconf import DictConfig, ValueNode
+from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset
-
-from src.common.utils import get_env
-
-
-class MyDataset(Dataset):
-    def __init__(self, path: ValueNode, name: ValueNode, cfg: DictConfig):
-        super().__init__()
-        self.cfg = cfg
-        self.path = path
-        self.name = name
-
-    def __repr__(self) -> str:
-        return f"MyDataset({self.name=}, {self.path=})"
 
 
 class MyDataModule(pl.LightningDataModule):
@@ -43,15 +29,21 @@ class MyDataModule(pl.LightningDataModule):
         # download only
         pass
 
-    def setup(self, stage: str = None) -> None:
-        self.train_dataset = hydra.utils.instantiate(self.datasets.train, cfg=self.cfg)
-        self.val_datasets = [
-            hydra.utils.instantiate(x, cfg=self.cfg) for x in self.datasets.val
-        ]
+    def setup(self, stage: Optional[str] = None):
+        # Here you should instantiate your datasets, you may also split the train into train and validation if needed.
+        if stage is None or stage == "fit":
+            self.train_dataset = hydra.utils.instantiate(
+                self.datasets.train, cfg=self.cfg
+            )
+            self.val_datasets = [
+                hydra.utils.instantiate(dataset_cfg, cfg=self.cfg)
+                for dataset_cfg in self.datasets.val
+            ]
 
-        if "test" in self.datasets and self.datasets.test:
+        if stage is None or stage == "test":
             self.test_datasets = [
-                hydra.utils.instantiate(x, cfg=self.cfg) for x in self.datasets.test
+                hydra.utils.instantiate(dataset_cfg, cfg=self.cfg)
+                for dataset_cfg in self.datasets.test
             ]
 
     def train_dataloader(self) -> DataLoader:
@@ -65,23 +57,23 @@ class MyDataModule(pl.LightningDataModule):
     def val_dataloader(self) -> Sequence[DataLoader]:
         return [
             DataLoader(
-                x,
+                dataset,
                 shuffle=False,
                 batch_size=self.batch_size.val,
                 num_workers=self.num_workers.val,
             )
-            for x in self.val_datasets
+            for dataset in self.test_datasets
         ]
 
     def test_dataloader(self) -> Sequence[DataLoader]:
         return [
             DataLoader(
-                x,
+                dataset,
                 shuffle=False,
                 batch_size=self.batch_size.test,
                 num_workers=self.num_workers.test,
             )
-            for x in self.test_datasets
+            for dataset in self.test_datasets
         ]
 
     def __repr__(self) -> str:

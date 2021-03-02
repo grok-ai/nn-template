@@ -3,7 +3,6 @@ from typing import Any, Dict, Sequence, Tuple, Union
 import hydra
 import pytorch_lightning as pl
 import torch
-import torch.nn.functional as F
 from omegaconf import DictConfig
 from torch.optim import Optimizer
 
@@ -24,11 +23,11 @@ class MyModel(pl.LightningModule):
         """
         raise NotImplementedError
 
+    def step(self, batch: Any, batch_idx: int):
+        raise NotImplementedError
+
     def training_step(self, batch: Any, batch_idx: int) -> torch.Tensor:
-        x, y = batch
-        forward_out = self(x)
-        out = forward_out["out"]
-        loss = F.mse_loss(out, y)
+        loss = self.step(batch, batch_idx)
         self.log_dict(
             {"train_loss": loss},
             on_step=True,
@@ -37,12 +36,22 @@ class MyModel(pl.LightningModule):
         )
         return loss
 
-    def validation_step(self, batch: Any, batch_idx: int) -> Any:
-        forward_output = self.forward(**batch)
-        self.log("val_loss", forward_output["loss"])
+    def validation_step(self, batch: Any, batch_idx: int) -> torch.Tensor:
+        loss = self.step(batch, batch_idx)
+        self.log_dict(
+            {"val_loss": loss},
+            on_step=False,
+            on_epoch=True,
+            prog_bar=True,
+        )
+        return loss
 
-    def test_step(self, batch: Any, batch_idx: int) -> Any:
-        raise NotImplementedError
+    def test_step(self, batch: Any, batch_idx: int) -> torch.Tensor:
+        loss = self.step(batch, batch_idx)
+        self.log_dict(
+            {"test_loss": loss},
+        )
+        return loss
 
     def configure_optimizers(
         self,
@@ -60,6 +69,8 @@ class MyModel(pl.LightningModule):
             - Tuple of dictionaries as described, with an optional 'frequency' key.
             - None - Fit will run without any optimizer.
         """
-        opt = hydra.utils.instantiate(self.cfg.opt.optimizer, params=self.parameters())
-        scheduler = hydra.utils.instantiate(self.cfg.opt.lr_scheduler, optimizer=opt)
+        opt = hydra.utils.instantiate(
+            self.cfg.optim.optimizer, params=self.parameters()
+        )
+        scheduler = hydra.utils.instantiate(self.cfg.optim.lr_scheduler, optimizer=opt)
         return [opt], [scheduler]

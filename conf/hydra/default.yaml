@@ -1,0 +1,12 @@
+# @package _group_
+
+run:
+  dir: ./experiments/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+sweep:
+  dir: ./experiments/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}/
+  subdir: ${hydra.job.num}_${hydra.job.id}
+
+job:
+  env_set:
+    WANDB_START_METHOD: thread

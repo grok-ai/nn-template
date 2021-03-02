@@ -1,6 +1,6 @@
 # NN Template
 
-Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project. Click on [<kbd>Template</kbd>](https://github.com/lucmos/ml-template/generate) and avoid writing boilerplate code for:
+Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project. Click on [<kbd>Template</kbd>](https://github.com/lucmos/nn-template/generate) and avoid writing boilerplate code for:
 
 - [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning), lightweight PyTorch wrapper for high-performance AI research.
 - [Hydra](https://github.com/facebookresearch/hydra), a framework for elegantly configuring complex applications.
@@ -24,9 +24,9 @@ Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/loc
 ├── README.md
 ├── requirements.txt    # basic requirements
 └── src
-    ├── common          # common python modules
-    ├── pl_datamodules  # pytorch lightning datamodules
-    ├── pl_modules      # pytorch lightning modules
+    ├── common          # common Python modules
+    ├── pl_data         # PyTorch Lightning datamodules and datasets
+    ├── pl_modules      # PyTorch Lightning modules
     └── run.py          # entry point to run current conf
 ```
 
@@ -80,6 +80,8 @@ Read more in the [docs](https://dvc.org/doc/start/data-versioning)!
 
 Weights & Biases helps you keep track of your machine learning projects. Use tools to log hyperparameters and output metrics from your runs, then visualize and compare results and quickly share findings with your colleagues.
 
+[This](https://wandb.ai/gladia/nn-template?workspace=user-lucmos) is an example of a simple dashboard.
+
 ## Quickstart
 
 Login to your `wandb` account, running once `wandb login`.
@@ -91,6 +93,9 @@ Configure the logging in `conf/logging/*`.
 
 Read more in the [docs](https://docs.wandb.ai/). Particularly useful the [`log` method](https://docs.wandb.ai/library/log), accessible from inside a PyTorch Lightning module with `self.logger.experiment.log`.
 
+> W&B is our logger of choice, but that is a purely subjective decision. Since we are using Lightning, you can replace 
+`wandb` with the logger you prefer (you can even build you own). 
+ More about Lightning loggers [here](https://pytorch-lightning.readthedocs.io/en/latest/extensions/logging.html).
 
 # Hydra
 
@@ -100,6 +105,18 @@ The basic functionalities are intuitive: it is enough to change the configuratio
 
 Consider creating new root configurations `conf/myawesomeexp.yaml` instead of always using the default `conf/default.yaml`.
 
+
+## Sweeps
+
+You can easily perform hyperparameters [sweeps](https://hydra.cc/docs/advanced/override_grammar/extended), which override the configuration defined in `/conf/*`.
+
+The easiest one is the grid-search. It executes the code with every possible combinations of the specified hyperparameters:
+
+```bash
+PYTHONPATH=. python src/run.py -m optim.optimizer.lr=0.02,0.002,0.0002 optim.lr_scheduler.T_mult=1,2 optim.optimizer.weight_decay=0,1e-5
+```
+
+You can explore aggregate statistics or compare and analyze each run in the W&B dashboard.
 
 ---
 
