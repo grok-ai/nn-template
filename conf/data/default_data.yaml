@@ -1,22 +1,23 @@
 # @package _group_
 
 datamodule:
-  _target_: src.pl_datamodules.datamodule.MyDataModule
-
-  val_percentage: 0.15
+  _target_: src.pl_data.datamodule.MyDataModule
 
   datasets:
     train:
-      _target_: src.pl_datamodules.datamodule.MyDataset
-      name: MNSIT
-      train: True
-      path: ${env:MNIST}
+      _target_: src.pl_data.datamodule.MyDataset
+      name: YourTrainDatasetName
+      path: ${env:YOUR_TRAIN_DATASET_PATH}
+
+    val:
+      - _target_: src.pl_data.datamodule.MyDataset
+        name: YourValDatasetName
+        path: ${env:YOUR_VAL_DATASET_PATH}
 
     test:
-      - _target_: src.pl_datamodules.datamodule.MyDataset
-        name: MNIST
-        train: False
-        path: ${env:MNIST}
+      - _target_: src.pl_data.datamodule.MyDataset
+        name: YourTestDatasetName
+        path: ${env:YOUR_TEST_DATASET_PATH}
 
   num_workers:
     train: 8

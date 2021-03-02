@@ -24,9 +24,9 @@ Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/loc
 ├── README.md
 ├── requirements.txt    # basic requirements
 └── src
-    ├── common          # common python modules
-    ├── pl_datamodules  # pytorch lightning datamodules
-    ├── pl_modules      # pytorch lightning modules
+    ├── common          # common Python modules
+    ├── pl_data         # PyTorch Lightning datamodules and datasets
+    ├── pl_modules      # PyTorch Lightning modules
     └── run.py          # entry point to run current conf
 ```
 
