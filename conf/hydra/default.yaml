@@ -11,6 +11,7 @@ job:
   env_set:
     WANDB_START_METHOD: thread
 
+# Hydra multiruns can have custom schedulers (launchers). To enable parallel multiruns, decomment the following:
 # # decomment to enable parallel jobs
 #launcher:
 #  # @package hydra.launcher
