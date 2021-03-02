@@ -91,6 +91,9 @@ Configure the logging in `conf/logging/*`.
 
 Read more in the [docs](https://docs.wandb.ai/). Particularly useful the [`log` method](https://docs.wandb.ai/library/log), accessible from inside a PyTorch Lightning module with `self.logger.experiment.log`.
 
+> W&B is our logger of choice, but that is a purely subjective decision. Since we are using Lightning, you can replace 
+`wandb` with the logger you prefer (you can even build you own). 
+ More about Lightning loggers [here](https://pytorch-lightning.readthedocs.io/en/latest/extensions/logging.html).
 
 # Hydra
 
