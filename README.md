@@ -76,7 +76,7 @@ $ dvc checkout
 Read more in the [docs](https://dvc.org/doc/start/data-versioning)!
 
 
-# Weight and Biases
+# Weights and Biases
 
 Weights & Biases helps you keep track of your machine learning projects. Use tools to log hyperparameters and output metrics from your runs, then visualize and compare results and quickly share findings with your colleagues.
 
