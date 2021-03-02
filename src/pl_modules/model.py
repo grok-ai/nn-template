@@ -3,7 +3,6 @@ from typing import Any, Dict, Sequence, Tuple, Union
 import hydra
 import pytorch_lightning as pl
 import torch
-import torch.nn.functional as F
 from omegaconf import DictConfig
 from torch.optim import Optimizer
 
