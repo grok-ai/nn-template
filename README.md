@@ -5,7 +5,7 @@ Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/loc
 - [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning), lightweight PyTorch wrapper for high-performance AI research.
 - [Hydra](https://github.com/facebookresearch/hydra), a framework for elegantly configuring complex applications.
 - [DVC](https://dvc.org/doc/start/data-versioning), track large files, directories, or ML models. Think "Git for data".
-- [Weight and Biases](https://wandb.ai/home), organize and analyze machine learning experiments. *(educational account available)*
+- [Weights and Biases](https://wandb.ai/home), organize and analyze machine learning experiments. *(educational account available)*
 
 # Structure
 
@@ -40,7 +40,7 @@ Initialize the `dvc` repository:
 $ dvc init
 ```
 
-To start tracking a file or directory, use dvc add:
+To start tracking a file or directory, use `dvc add`:
 
 ```bash
 $ dvc add data/ImageNet
@@ -96,7 +96,7 @@ Read more in the [docs](https://docs.wandb.ai/). Particularly useful the [`log` 
 
 Hydra is an open-source Python framework that simplifies the development of research and other complex applications. The key feature is the ability to dynamically create a hierarchical configuration by composition and override it through config files and the command line. The name Hydra comes from its ability to run multiple similar jobs - much like a Hydra with multiple heads.
 
-The basic funcitonalities are intuitive: it is enough to change the configuration files in `conf/*` accordingly to your preferences. Everyting will be logged in `wandb` automatically.
+The basic functionalities are intuitive: it is enough to change the configuration files in `conf/*` accordingly to your preferences. Everything will be logged in `wandb` automatically.
 
 Consider creating new root configurations `conf/myawesomeexp.yaml` instead of always using the default `conf/default.yaml`.
 
@@ -127,13 +127,13 @@ To define a new variable write inside `.env`:
 export MY_VAR=/home/user/my_system_path
 ```
 
-You can dynamically resolve the variable name from python code with:
+You can dynamically resolve the variable name from Python code with:
 
 ```python
 get_env('MY_VAR')
 ```
 
-and in the hydra `.yaml` configuration files with:
+and in the Hydra `.yaml` configuration files with:
 
 ```yaml
 ${env:MY_VAR}
