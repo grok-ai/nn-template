@@ -62,7 +62,7 @@ class MyDataModule(pl.LightningDataModule):
                 batch_size=self.batch_size.val,
                 num_workers=self.num_workers.val,
             )
-            for dataset in self.test_datasets
+            for dataset in self.val_datasets
         ]
 
     def test_dataloader(self) -> Sequence[DataLoader]:
