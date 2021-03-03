@@ -7,6 +7,10 @@ Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/loc
 - [DVC](https://dvc.org/doc/start/data-versioning), track large files, directories, or ML models. Think "Git for data".
 - [Weights and Biases](https://wandb.ai/home), organize and analyze machine learning experiments. *(educational account available)*
 
+### Usage Examples
+
+Checkout the [`mwe` branch](https://github.com/lucmos/nn-template/tree/mwe) to view a minimum working example on MNIST.
+
 # Structure
 
 ```bash
