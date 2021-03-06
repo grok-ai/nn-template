@@ -10,12 +10,19 @@
 </p>
 
 
-Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project. Click on [<kbd>Template</kbd>](https://github.com/lucmos/nn-template/generate) and avoid writing boilerplate code for:
+Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project. Click on [<kbd>Use this Template</kbd>](https://github.com/lucmos/nn-template/generate) and avoid writing boilerplate code for:
 
 - [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning), lightweight PyTorch wrapper for high-performance AI research.
 - [Hydra](https://github.com/facebookresearch/hydra), a framework for elegantly configuring complex applications.
 - [DVC](https://dvc.org/doc/start/data-versioning), track large files, directories, or ML models. Think "Git for data".
 - [Weights and Biases](https://wandb.ai/home), organize and analyze machine learning experiments. *(educational account available)*
+
+
+*`nn-template`* is opinionated so you don't have to be.
+If you use this template, please add
+[![](https://shields.io/badge/-nn--template-emerald?style=flat&logo=github&labelColor=gray)](https://github.com/lucmos/nn-template)
+to your `README`.
+
 
 ### Usage Examples
 
