@@ -17,8 +17,11 @@ Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/loc
 - [DVC](https://dvc.org/doc/start/data-versioning), track large files, directories, or ML models. Think "Git for data".
 - [Weights and Biases](https://wandb.ai/home), organize and analyze machine learning experiments. *(educational account available)*
 
+
 *`nn-template`* is opinionated so you don't have to be.
-If you use this template please add to your `README` the badge [![](https://shields.io/badge/-nn--template-emerald?style=flat&logo=github&labelColor=gray)](https://github.com/lucmos/nn-template)
+If you use this template, please add
+[![](https://shields.io/badge/-nn--template-emerald?style=flat&logo=github&labelColor=gray)](https://github.com/lucmos/nn-template)
+to your `README`.
 
 
 ### Usage Examples
