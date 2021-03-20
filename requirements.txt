@@ -3,4 +3,5 @@ hydra-core
 wandb
 dvc
 python-dotenv
+matplotlib
 # hydra-joblib-launcher
