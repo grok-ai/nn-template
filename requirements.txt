@@ -4,4 +4,6 @@ wandb
 dvc
 python-dotenv
 matplotlib
+torch==1.7.1
+torchvision==0.8.2
 # hydra-joblib-launcher
