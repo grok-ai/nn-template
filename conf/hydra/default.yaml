@@ -1,9 +1,10 @@
+output_subdir: null
 run:
-  dir: ./experiments/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  dir: .
 
 sweep:
-  dir: ./experiments/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}/
-  subdir: ${hydra.job.num}_${hydra.job.id}
+  dir: .
+  subdir: .
 
 job:
   env_set:
