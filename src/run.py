@@ -139,8 +139,6 @@ def run(cfg: DictConfig) -> None:
     hydra.utils.log.info(f"Starting testing!")
     trainer.test(model=model, datamodule=datamodule)
 
-    shutil.copytree(".hydra", Path(wandb_logger.experiment.dir) / "hydra")
-
     # Logger closing to release resources/avoid multi-run conflicts
     if wandb_logger is not None:
         wandb_logger.experiment.finish()
