@@ -15,7 +15,6 @@ class MyDataModule(pl.LightningDataModule):
         datasets: DictConfig,
         num_workers: DictConfig,
         batch_size: DictConfig,
-        cfg: DictConfig,
     ):
         super().__init__()
         self.datasets = datasets

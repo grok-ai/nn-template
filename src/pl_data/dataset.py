@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 
 
 class MyDataset(Dataset):
-    def __init__(self, name: ValueNode, path: ValueNode, cfg: DictConfig, **kwargs):
+    def __init__(self, name: ValueNode, path: ValueNode, **kwargs):
         super().__init__()
         self.path = path
         self.name = name

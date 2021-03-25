@@ -11,5 +11,5 @@ def get_model(checkpoint_path: Path):
     return MyModel.load_from_checkpoint(checkpoint_path=str(checkpoint_path))
 
 
-checkpoint_path = select_checkpoint(default_run_path="flegyas/nn-template/3hztfivf")
+checkpoint_path = select_checkpoint()
 model: MyModel = get_model(checkpoint_path=checkpoint_path)
