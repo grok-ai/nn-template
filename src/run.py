@@ -1,13 +1,13 @@
 import os
-import shutil
 from pathlib import Path
 from typing import List
 
 import hydra
 import omegaconf
 import pytorch_lightning as pl
+import wandb
 from hydra.core.hydra_config import HydraConfig
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning import seed_everything, Callback
 from pytorch_lightning.callbacks import (
     EarlyStopping,
@@ -16,13 +16,18 @@ from pytorch_lightning.callbacks import (
 )
 from pytorch_lightning.loggers import WandbLogger
 
-from src.common.utils import load_envs
-
-# Set the cwd to the project root
-os.chdir(Path(__file__).parent.parent)
+from src.common.utils import load_envs, get_env, log_hyperparameters
 
 # Load environment variables
 load_envs()
+
+# Set the cwd to the project root
+PROJECT_ROOT: Path = Path(get_env("PROJECT_ROOT"))
+assert (
+    PROJECT_ROOT.exists()
+), "You must configure the PROJECT_ROOT environment variable in a .env file!"
+
+os.chdir(PROJECT_ROOT)
 
 
 def build_callbacks(cfg: DictConfig) -> List[Callback]:
@@ -82,6 +87,9 @@ def run(cfg: DictConfig) -> None:
         cfg.data.datamodule.num_workers.val = 0
         cfg.data.datamodule.num_workers.test = 0
 
+        # Switch wandb mode to offline to prevent online logging
+        cfg.logging.wandb.mode = "offline"
+
     # Hydra run directory
     hydra_dir = Path(HydraConfig.get().run.dir)
 
@@ -110,15 +118,19 @@ def run(cfg: DictConfig) -> None:
         hydra.utils.log.info(f"Instantiating <WandbLogger>")
         wandb_config = cfg.logging.wandb
         wandb_logger = WandbLogger(
-            project=wandb_config.project,
-            entity=wandb_config.entity,
+            **wandb_config,
             tags=cfg.core.tags,
-            log_model=True,
         )
-        hydra.utils.log.info(f"W&B is now watching <{wandb_config.watch.log}>!")
+        hydra.utils.log.info(f"W&B is now watching <{cfg.logging.wandb_watch.log}>!")
         wandb_logger.watch(
-            model, log=wandb_config.watch.log, log_freq=wandb_config.watch.log_freq
+            model,
+            log=cfg.logging.wandb_watch.log,
+            log_freq=cfg.logging.wandb_watch.log_freq,
         )
+
+    # Store the YaML config separately into the wandb dir
+    yaml_conf: str = OmegaConf.to_yaml(cfg=cfg)
+    (Path(wandb_logger.experiment.dir) / "hparams.yaml").write_text(yaml_conf)
 
     hydra.utils.log.info(f"Instantiating the Trainer")
 
@@ -132,6 +144,7 @@ def run(cfg: DictConfig) -> None:
         progress_bar_refresh_rate=cfg.logging.progress_bar_refresh_rate,
         **cfg.train.pl_trainer,
     )
+    log_hyperparameters(trainer=trainer, model=model, cfg=cfg)
 
     hydra.utils.log.info(f"Starting training!")
     trainer.fit(model=model, datamodule=datamodule)
@@ -144,7 +157,7 @@ def run(cfg: DictConfig) -> None:
         wandb_logger.experiment.finish()
 
 
-@hydra.main(config_path="../conf", config_name="default")
+@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig):
     run(cfg)
 

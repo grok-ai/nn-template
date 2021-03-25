@@ -5,10 +5,12 @@ progress_bar_refresh_rate: 20
 wandb:
   project: nn-template
   entity: null
+  log_model: True
+  mode: 'online'
 
-  watch:
-    log: 'all'
-    log_freq: 100
+wandb_watch:
+  log: 'all'
+  log_freq: 100
 
 lr_monitor:
   logging_interval: "step"

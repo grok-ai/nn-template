@@ -1,11 +1,11 @@
-output_subdir: null
 run:
-  dir: .
+  dir: .cache/${now:%Y-%m-%d}/${now:%H-%M-%S}
 
 sweep:
-  dir: .
-  subdir: .
+  dir: .cache/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}/
+  subdir: ${hydra.job.num}_${hydra.job.id}
 
 job:
   env_set:
     WANDB_START_METHOD: thread
+    WANDB_DIR: ${env:PROJECT_ROOT}
