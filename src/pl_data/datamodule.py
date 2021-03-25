@@ -1,9 +1,12 @@
 from typing import Optional, Sequence
 
 import hydra
+import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset
+
+from src.common.utils import PROJECT_ROOT
 
 
 class MyDataModule(pl.LightningDataModule):
@@ -81,3 +84,14 @@ class MyDataModule(pl.LightningDataModule):
             f"{self.num_workers=}, "
             f"{self.batch_size=})"
         )
+
+
+@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
+def main(cfg: omegaconf.DictConfig):
+    datamodule: pl.LightningDataModule = hydra.utils.instantiate(
+        cfg.data.datamodule, _recursive_=False
+    )
+
+
+if __name__ == "__main__":
+    main()

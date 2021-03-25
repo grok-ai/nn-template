@@ -5,7 +5,6 @@ from typing import List
 import hydra
 import omegaconf
 import pytorch_lightning as pl
-import wandb
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning import seed_everything, Callback
@@ -16,18 +15,7 @@ from pytorch_lightning.callbacks import (
 )
 from pytorch_lightning.loggers import WandbLogger
 
-from src.common.utils import load_envs, get_env, log_hyperparameters
-
-# Load environment variables
-load_envs()
-
-# Set the cwd to the project root
-PROJECT_ROOT: Path = Path(get_env("PROJECT_ROOT"))
-assert (
-    PROJECT_ROOT.exists()
-), "You must configure the PROJECT_ROOT environment variable in a .env file!"
-
-os.chdir(PROJECT_ROOT)
+from src.common.utils import log_hyperparameters, PROJECT_ROOT
 
 
 def build_callbacks(cfg: DictConfig) -> List[Callback]:
