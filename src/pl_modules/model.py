@@ -8,10 +8,9 @@ from torch.optim import Optimizer
 
 
 class MyModel(pl.LightningModule):
-    def __init__(self, cfg: DictConfig, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-        self.cfg = cfg
-        self.save_hyperparameters(cfg)
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__()
+        self.save_hyperparameters()
 
     def forward(self, **kwargs) -> Dict[str, torch.Tensor]:
         """
@@ -70,7 +69,7 @@ class MyModel(pl.LightningModule):
             - None - Fit will run without any optimizer.
         """
         opt = hydra.utils.instantiate(
-            self.cfg.optim.optimizer, params=self.parameters()
+            self.hparams.optim.optimizer, params=self.parameters(), _convert_="partial"
         )
 
         if self.cfg.optim.use_lr_scheduler:

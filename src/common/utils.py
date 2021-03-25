@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Dict, List, Optional
 
 import dotenv
 

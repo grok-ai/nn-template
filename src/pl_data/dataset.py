@@ -8,7 +8,6 @@ from torch.utils.data import Dataset
 class MyDataset(Dataset):
     def __init__(self, name: ValueNode, path: ValueNode, cfg: DictConfig, **kwargs):
         super().__init__()
-        self.cfg = cfg
         self.path = path
         self.name = name
 

@@ -88,12 +88,18 @@ def run(cfg: DictConfig) -> None:
     # Instantiate datamodule
     hydra.utils.log.info(f"Instantiating <{cfg.data.datamodule._target_}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(
-        cfg.data.datamodule, cfg=cfg
+        cfg.data.datamodule, _recursive_=False
     )
 
     # Instantiate model
     hydra.utils.log.info(f"Instantiating <{cfg.model._target_}>")
-    model: pl.LightningModule = hydra.utils.instantiate(cfg.model, cfg=cfg)
+    model: pl.LightningModule = hydra.utils.instantiate(
+        cfg.model,
+        optim=cfg.optim,
+        data=cfg.data,
+        logging=cfg.logging,
+        _recursive_=False,
+    )
 
     # Instantiate the callbacks
     callbacks: List[Callback] = build_callbacks(cfg=cfg)
