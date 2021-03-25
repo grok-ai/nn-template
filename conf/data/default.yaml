@@ -1,5 +1,3 @@
-# @package _group_
-
 datamodule:
   _target_: src.pl_data.datamodule.MyDataModule
 

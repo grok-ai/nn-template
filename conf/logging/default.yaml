@@ -1,5 +1,3 @@
-# @package _group_
-
 # log frequency
 val_check_interval: 1.0
 progress_bar_refresh_rate: 20
