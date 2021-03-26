@@ -1,11 +1,11 @@
+hydra-core>=1.1.0.dev5
 pytorch-lightning
-hydra-core
 wandb
 dvc
 python-dotenv
 matplotlib
-torch==1.7.1
-torchvision==0.8.2
+torch
+torchvision
 streamlit
 stqdm
 # hydra-joblib-launcher
