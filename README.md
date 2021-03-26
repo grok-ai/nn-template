@@ -1,11 +1,12 @@
 # NN Template
 
 <p align="center">
-    <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-orange?logo=pytorch"></a>
-    <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-blueviolet"></a>
+    <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/-PyTorch-red?logo=pytorch&labelColor=gray"></a>
+    <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/code-Lightning-blueviolet"></a>
     <a href="https://hydra.cc/"><img alt="Conf: hydra" src="https://img.shields.io/badge/conf-hydra-blue"></a>
     <a href="https://wandb.ai/site"><img alt="Logging: wandb" src="https://img.shields.io/badge/logging-wandb-yellow"></a>
     <a href="https://dvc.org/"><img alt="Conf: hydra" src="https://img.shields.io/badge/data-dvc-9cf"></a>
+    <a href="https://streamlit.io/"><img alt="UI: streamlit" src="https://img.shields.io/badge/ui-streamlit-orange"></a>
     <a href="https://black.readthedocs.io/en/stable/"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
 
@@ -16,7 +17,7 @@ Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/loc
 - [Hydra](https://github.com/facebookresearch/hydra), a framework for elegantly configuring complex applications.
 - [DVC](https://dvc.org/doc/start/data-versioning), track large files, directories, or ML models. Think "Git for data".
 - [Weights and Biases](https://wandb.ai/home), organize and analyze machine learning experiments. *(educational account available)*
-
+- [Streamlit](https://streamlit.io/), turns data scripts into shareable web apps in minutes.
 
 *`nn-template`* is opinionated so you don't have to be.
 If you use this template, please add
@@ -32,23 +33,38 @@ Checkout the [`mwe` branch](https://github.com/lucmos/nn-template/tree/mwe) to v
 
 ```bash
 .
-├── conf                # Hydra compositional config
-│   ├── default.yaml    # current experiment configuration
-│   ├── data
-│   ├── hydra
-│   ├── logging
-│   ├── model
-│   ├── optim
-│   └── train
-├── data                # datasets
-├── experiments         # local logs
+├── conf
+│   ├── data                # Hydra compositional config
+│   ├── default.yaml        # current experiment configuration
+│   ├── hydra
+│   ├── logging
+│   ├── model
+│   ├── optim
+│   └── train
+├── data                    # datasets
+├── LICENSE
 ├── README.md
-├── requirements.txt    # basic requirements
+├── requirements.txt        # basic requirements
 └── src
-    ├── common          # common Python modules
-    ├── pl_data         # PyTorch Lightning datamodules and datasets
-    ├── pl_modules      # PyTorch Lightning modules
-    └── run.py          # entry point to run current conf
+    ├── common              # common modules and utilities
+    ├── pl_data             # PyTorch Lightning datamodules and datasets
+    ├── pl_modules          # PyTorch Lightning modules
+    ├── run.py              # entry point to run current conf
+    └── ui                  # interactive streamlit demos
+```
+
+# Streamlit
+[Streamlit](https://docs.streamlit.io/) is an open-source Python library that makes 
+it easy to create and share beautiful, custom web apps for machine learning and data science. 
+
+In just a few minutes, you can build and deploy powerful data apps to **explore** your data, 
+**interact** with your model, and **analyze** its behavior and input sensitivity. 
+Streamlit enables interactive development with automatic re-run on file changes.
+Moreover, once you have a working prototype you can showcase your system with [awesome web apps](https://streamlit.io/gallery). 
+
+Launch a minimal app with a prepackaged function to interactively instantiate a model checkpoint with:
+```bash
+PYTHONPATH=. streamlit run src/ui/run.py
 ```
 
 # Data Version Control
