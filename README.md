@@ -11,7 +11,7 @@
 </p>
 
 
-Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project. Click on [![](https://img.shields.io/badge/-Use_this_template-gray?style=flat-square)](https://github.com/lucmos/nn-template/generate) and avoid writing boilerplate code for:
+Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project. Click on [![](https://img.shields.io/badge/-Use_this_template-success?style=flat)](https://github.com/lucmos/nn-template/generate) and avoid writing boilerplate code for:
 
 - [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning), lightweight PyTorch wrapper for high-performance AI research.
 - [Hydra](https://github.com/facebookresearch/hydra), a framework for elegantly configuring complex applications.
