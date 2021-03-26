@@ -196,5 +196,5 @@ get_env('MY_VAR')
 and in the Hydra `.yaml` configuration files with:
 
 ```yaml
-${env:MY_VAR}
+${oc.env:MY_VAR}
 ```

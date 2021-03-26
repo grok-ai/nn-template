@@ -8,4 +8,4 @@ sweep:
 job:
   env_set:
     WANDB_START_METHOD: thread
-    WANDB_DIR: ${env:PROJECT_ROOT}
+    WANDB_DIR: ${oc.env:PROJECT_ROOT}
