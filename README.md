@@ -54,15 +54,20 @@ Checkout the [`mwe` branch](https://github.com/lucmos/nn-template/tree/mwe) to v
 ```
 
 # Streamlit
-[Streamlit](https://docs.streamlit.io/) is an open-source Python library that makes 
-it easy to create and share beautiful, custom web apps for machine learning and data science. 
+[Streamlit](https://docs.streamlit.io/) is an open-source Python library that makes
+it easy to create and share beautiful, custom web apps for machine learning and data science.
 
-In just a few minutes, you can build and deploy powerful data apps to **explore** your data, 
-**interact** with your model, and **analyze** its behavior and input sensitivity. 
-Streamlit enables interactive development with automatic re-run on file changes.
-Moreover, once you have a working prototype you can showcase your system with [awesome web apps](https://streamlit.io/gallery). 
+In just a few minutes, you can build and deploy powerful data apps to:
 
-Launch a minimal app with a prepackaged function to interactively instantiate a model checkpoint with:
+- **Explore** your data
+- **Interact** with your model
+- **Analyze** your model behavior and input sensitivity
+- **Showcase** your prototype with [awesome web apps](https://streamlit.io/gallery)
+
+Moreover, Streamlit enables interactive development with automatic rerun on files changes.
+
+Launch a minimal app that allows a model restore from a local or remote checkpoint with:
+
 ```bash
 PYTHONPATH=. streamlit run src/ui/run.py
 ```
@@ -130,8 +135,8 @@ Configure the logging in `conf/logging/*`.
 
 Read more in the [docs](https://docs.wandb.ai/). Particularly useful the [`log` method](https://docs.wandb.ai/library/log), accessible from inside a PyTorch Lightning module with `self.logger.experiment.log`.
 
-> W&B is our logger of choice, but that is a purely subjective decision. Since we are using Lightning, you can replace 
-`wandb` with the logger you prefer (you can even build your own). 
+> W&B is our logger of choice, but that is a purely subjective decision. Since we are using Lightning, you can replace
+`wandb` with the logger you prefer (you can even build your own).
  More about Lightning loggers [here](https://pytorch-lightning.readthedocs.io/en/latest/extensions/logging.html).
 
 # Hydra
