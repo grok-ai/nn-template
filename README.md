@@ -33,24 +33,25 @@ Checkout the [`mwe` branch](https://github.com/lucmos/nn-template/tree/mwe) to v
 
 ```bash
 .
-├── conf
-│   ├── data                # Hydra compositional config
-│   ├── default.yaml        # current experiment configuration
-│   ├── hydra
-│   ├── logging
-│   ├── model
-│   ├── optim
-│   └── train
-├── data                    # datasets
-├── LICENSE
-├── README.md
-├── requirements.txt        # basic requirements
-└── src
-    ├── common              # common modules and utilities
-    ├── pl_data             # PyTorch Lightning datamodules and datasets
-    ├── pl_modules          # PyTorch Lightning modules
-    ├── run.py              # entry point to run current conf
-    └── ui                  # interactive streamlit demos
+├── .cache              
+├── conf                # hydra compositional config 
+│   ├── data
+│   ├── default.yaml    # current experiment configuration        
+│   ├── hydra
+│   ├── logging
+│   ├── model
+│   ├── optim
+│   └── train
+├── data                # datasets
+├── .env                # system-specific env variables, e.g. PROJECT_ROOT
+├── requirements.txt    # basic requirements
+├── src
+│   ├── common          # common modules and utilities
+│   ├── pl_data         # PyTorch Lightning datamodules and datasets
+│   ├── pl_modules      # PyTorch Lightning modules
+│   ├── run.py          # entry point to run current conf
+│   └── ui              # interactive streamlit apps
+└── wandb               # local experiments (auto-generated)
 ```
 
 # Streamlit
