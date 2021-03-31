@@ -73,6 +73,8 @@ class MyModel(pl.LightningModule):
         opt = hydra.utils.instantiate(
             self.hparams.optim.optimizer, params=self.parameters(), _convert_="partial"
         )
+        if not self.hparams.optim.use_lr_scheduler:
+            return [opt]
         scheduler = hydra.utils.instantiate(
             self.hparams.optim.lr_scheduler, optimizer=opt
         )

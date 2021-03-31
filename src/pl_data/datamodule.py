@@ -33,16 +33,16 @@ class MyDataModule(pl.LightningDataModule):
         # Here you should instantiate your datasets, you may also split the train into train and validation if needed.
         if stage is None or stage == "fit":
             self.train_dataset = hydra.utils.instantiate(
-                self.datasets.train, cfg=self.cfg
+                self.datasets.train
             )
             self.val_datasets = [
-                hydra.utils.instantiate(dataset_cfg, cfg=self.cfg)
+                hydra.utils.instantiate(dataset_cfg)
                 for dataset_cfg in self.datasets.val
             ]
 
         if stage is None or stage == "test":
             self.test_datasets = [
-                hydra.utils.instantiate(dataset_cfg, cfg=self.cfg)
+                hydra.utils.instantiate(dataset_cfg)
                 for dataset_cfg in self.datasets.test
             ]
 
