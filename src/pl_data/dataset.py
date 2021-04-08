@@ -1,8 +1,13 @@
-from typing import Union, Dict, Tuple
+from typing import Dict, Tuple, Union
 
+import hydra
+import omegaconf
+import pytorch_lightning as pl
 import torch
-from omegaconf import ValueNode, DictConfig
+from omegaconf import ValueNode
 from torch.utils.data import Dataset
+
+from src.common.utils import PROJECT_ROOT
 
 
 class MyDataset(Dataset):
@@ -21,3 +26,14 @@ class MyDataset(Dataset):
 
     def __repr__(self) -> str:
         return f"MyDataset({self.name=}, {self.path=})"
+
+
+@hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
+def main(cfg: omegaconf.DictConfig):
+    dataset: pl.LightningDataModule = hydra.utils.instantiate(
+        cfg.data.datamodule.datasets.train, _recursive_=False
+    )
+
+
+if __name__ == "__main__":
+    main()
