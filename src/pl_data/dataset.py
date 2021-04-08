@@ -30,7 +30,7 @@ class MyDataset(Dataset):
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig):
-    dataset: pl.LightningDataModule = hydra.utils.instantiate(
+    dataset: MyDataset = hydra.utils.instantiate(
         cfg.data.datamodule.datasets.train, _recursive_=False
     )
 
