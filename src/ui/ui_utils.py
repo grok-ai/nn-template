@@ -3,15 +3,19 @@ import operator
 from pathlib import Path
 from typing import List
 
+import hydra
+import omegaconf
 import streamlit as st
 import wandb
+from hydra.core.global_hydra import GlobalHydra
+from hydra.experimental import compose
 from stqdm import stqdm
 
-from src.common.utils import load_envs, get_env
+from src.common.utils import PROJECT_ROOT, load_envs
 
 load_envs()
 
-WANDB_DIR: Path = Path(get_env("PROJECT_ROOT")) / "wandb"
+WANDB_DIR: Path = PROJECT_ROOT / "wandb"
 WANDB_DIR.mkdir(exist_ok=True, parents=True)
 
 st_run_sel = st.sidebar
@@ -112,3 +116,18 @@ def select_checkpoint(st_key: str = "MyAwesomeModel", default_run_path: str = ""
     run_dir: Path = get_run_dir(entity=entity, project=project, run_id=run_id)
 
     return local_checkpoint_selection(run_dir, st_key=st_key)
+
+
+def get_hydra_cfg(config_name: str = "default") -> omegaconf.DictConfig:
+    """
+    Instantiate and return the hydra config -- streamlit and jupyter compatible
+
+    Args:
+        config_name: .yaml configuration name, without the extension
+
+    Returns:
+        The desired omegaconf.DictConfig
+    """
+    GlobalHydra.instance().clear()
+    hydra.experimental.initialize_config_dir(config_dir=str(PROJECT_ROOT / "conf"))
+    return compose(config_name=config_name)
