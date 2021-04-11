@@ -1,12 +1,26 @@
 from typing import Optional, Sequence
 
 import hydra
+import numpy as np
 import omegaconf
 import pytorch_lightning as pl
+import torch
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset
 
 from src.common.utils import PROJECT_ROOT
+
+
+def worker_init_fn(id: int):
+    """
+    DataLoaders workers init function.
+
+    Initialize the numpy.random seed correctly for each worker, so that
+    random augmentations between workers and/or epochs are not identical.
+
+    If a global seed is set, the augmentations are deterministic.
+    """
+    np.random.seed((id + torch.initial_seed()) % np.iinfo(np.int32).max)
 
 
 class MyDataModule(pl.LightningDataModule):
@@ -32,9 +46,7 @@ class MyDataModule(pl.LightningDataModule):
     def setup(self, stage: Optional[str] = None):
         # Here you should instantiate your datasets, you may also split the train into train and validation if needed.
         if stage is None or stage == "fit":
-            self.train_dataset = hydra.utils.instantiate(
-                self.datasets.train
-            )
+            self.train_dataset = hydra.utils.instantiate(self.datasets.train)
             self.val_datasets = [
                 hydra.utils.instantiate(dataset_cfg)
                 for dataset_cfg in self.datasets.val
@@ -52,6 +64,7 @@ class MyDataModule(pl.LightningDataModule):
             shuffle=True,
             batch_size=self.batch_size.train,
             num_workers=self.num_workers.train,
+            worker_init_fn=worker_init_fn,
         )
 
     def val_dataloader(self) -> Sequence[DataLoader]:
@@ -61,6 +74,7 @@ class MyDataModule(pl.LightningDataModule):
                 shuffle=False,
                 batch_size=self.batch_size.val,
                 num_workers=self.num_workers.val,
+                worker_init_fn=worker_init_fn,
             )
             for dataset in self.val_datasets
         ]
@@ -72,6 +86,7 @@ class MyDataModule(pl.LightningDataModule):
                 shuffle=False,
                 batch_size=self.batch_size.test,
                 num_workers=self.num_workers.test,
+                worker_init_fn=worker_init_fn,
             )
             for dataset in self.test_datasets
         ]
