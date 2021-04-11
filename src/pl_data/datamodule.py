@@ -1,3 +1,4 @@
+import random
 from typing import Optional, Sequence
 
 import hydra
@@ -19,8 +20,12 @@ def worker_init_fn(id: int):
     random augmentations between workers and/or epochs are not identical.
 
     If a global seed is set, the augmentations are deterministic.
+
+    https://pytorch.org/docs/stable/notes/randomness.html#dataloader
     """
-    np.random.seed((id + torch.initial_seed()) % np.iinfo(np.int32).max)
+    worker_seed = torch.initial_seed() % 2 ** 32
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
 
 
 class MyDataModule(pl.LightningDataModule):
