@@ -23,9 +23,11 @@ def worker_init_fn(id: int):
 
     https://pytorch.org/docs/stable/notes/randomness.html#dataloader
     """
-    worker_seed = torch.initial_seed() % 2 ** 32
-    np.random.seed(worker_seed)
-    random.seed(worker_seed)
+    uint64_seed = torch.initial_seed()
+    ss = np.random.SeedSequence([uint64_seed])
+    # More than 128 bits (4 32-bit words) would be overkill.
+    np.random.seed(ss.generate_state(4))
+    random.seed(uint64_seed)
 
 
 class MyDataModule(pl.LightningDataModule):
