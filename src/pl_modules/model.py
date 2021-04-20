@@ -12,7 +12,7 @@ from src.common.utils import PROJECT_ROOT
 class MyModel(pl.LightningModule):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__()
-        self.save_hyperparameters()
+        self.save_hyperparameters() # populate self.hparams with args and kwargs automagically!
 
     def forward(self, **kwargs) -> Dict[str, torch.Tensor]:
         """
