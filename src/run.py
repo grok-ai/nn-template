@@ -41,7 +41,7 @@ def build_callbacks(cfg: DictConfig) -> List[Callback]:
             )
         )
 
-    if "model_checkpoints" in cfg.train.model_checkpoints:
+    if "model_checkpoints" in cfg.train:
         hydra.utils.log.info(f"Adding callback <ModelCheckpoint>")
         callbacks.append(
             ModelCheckpoint(
