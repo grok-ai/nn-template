@@ -1,15 +1,15 @@
 data:
-  _target_: src.data.datamodule.MyDataModule
+  _target_: nn_template.data.datamodule.MyDataModule
 
   datasets:
     train:
-      _target_: src.data.dataset.MyDataset
+      _target_: nn_template.data.dataset.MyDataset
 
 #    val:
-#      - _target_: src.data.dataset.MyDataset
+#      - _target_: nn_template.data.dataset.MyDataset
 
     test:
-      - _target_: src.data.dataset.MyDataset
+      - _target_: nn_template.data.dataset.MyDataset
 
   num_workers:
     train: 8
@@ -25,7 +25,7 @@ data:
   val_percentage: 0.1
 
 module:
-  _target_: src.modules.model.MyModel
+  _target_: nn_template.modules.model.MyModel
 
   optimizer:
     #  Adam-oriented deep learning

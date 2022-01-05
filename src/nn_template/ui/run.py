@@ -3,8 +3,8 @@ from pathlib import Path
 import streamlit as st
 import wandb
 
-from src.modules.model import MyModel
-from src.ui.ui_utils import select_checkpoint
+from nn_template.modules.model import MyModel
+from nn_template.ui.ui_utils import select_checkpoint
 
 
 @st.cache(allow_output_mutation=True)
