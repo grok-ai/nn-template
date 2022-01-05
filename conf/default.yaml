@@ -1,15 +1,13 @@
 # metadata specialised for each experiment
 core:
+  project_name: nn-template
   version: 0.0.1
   tags:
     - mytag
 
 defaults:
-  - data: default
   - hydra: default
-  - logging: default
-  - model: default
-  - optim: default
+  - nn: default
   - train: default
 #    Decomment this parameter to get parallel job running
 #  - hydra/launcher: joblib

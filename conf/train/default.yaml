@@ -2,9 +2,8 @@
 deterministic: False
 random_seed: 42
 
-# training
-
-pl_trainer:
+# PyTorch Lightning Trainer https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html
+trainer:
   fast_dev_run: False # Enable this for debug purposes
   gpus: 1
   precision: 32
@@ -12,14 +11,37 @@ pl_trainer:
   accumulate_grad_batches: 1
   num_sanity_val_steps: 2
   gradient_clip_val: 10.0
+  val_check_interval: 1.0
 
-monitor_metric: 'val_loss'
-monitor_metric_mode: 'min'
+monitor:
+  metric: 'val_loss'
+  mode: 'min'
 
-early_stopping:
-  patience: 42
-  verbose: False
+# TODO: add missing parameters for callbacks (for new versions of Lightning)
+callbacks:
+  - _target_: pytorch_lightning.callbacks.EarlyStopping
+    patience: 42
+    verbose: False
 
-model_checkpoints:
-  save_top_k: 2
-  verbose: False
+  - _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    save_top_k: 2
+    verbose: False
+
+  - _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: "step"
+    log_momentum: False
+
+  - _target_: pytorch_lightning.callbacks.progress.tqdm_progress.TQDMProgressBar
+    refresh_rate: 20
+
+logger:
+  _target_: pytorch_lightning.loggers.WandbLogger
+
+  project: ${core.project_name}
+  entity: null
+  log_model: True
+  mode: 'online'
+
+wandb_watch:
+  log: 'all'
+  log_freq: 100
