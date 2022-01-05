@@ -12,20 +12,24 @@ trainer:
   num_sanity_val_steps: 2
   gradient_clip_val: 10.0
   val_check_interval: 1.0
+  deterministic: ${train.deterministic}
 
 monitor:
-  metric: 'val_loss'
+  metric: 'loss/val'
   mode: 'min'
 
-# TODO: add missing parameters for callbacks (for new versions of Lightning)
 callbacks:
   - _target_: pytorch_lightning.callbacks.EarlyStopping
     patience: 42
     verbose: False
+    monitor: ${train.monitor.metric}
+    mode: ${train.monitor.mode}
 
   - _target_: pytorch_lightning.callbacks.ModelCheckpoint
     save_top_k: 2
     verbose: False
+    monitor: ${train.monitor.metric}
+    mode: ${train.monitor.mode}
 
   - _target_: pytorch_lightning.callbacks.LearningRateMonitor
     logging_interval: "step"

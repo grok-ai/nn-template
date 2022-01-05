@@ -1,10 +1,10 @@
 # Stuff easy to break with updates
-torch==1.8.1
-torchvision==0.9.1
-pytorch-lightning==1.2.5
-hydra-core==1.1.0.dev5
-wandb==0.10.23
-streamlit==0.79.0
+torch
+torchvision
+pytorch-lightning
+hydra-core
+wandb
+streamlit
 # hydra-joblib-launcher
 
 # Stable stuff usually backward compatible
