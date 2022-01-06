@@ -16,6 +16,11 @@ profile = 'black'
 line_length = 120
 known_local_folder = "nn_template"
 
+[tool.pydocstyle]
+convention = 'google'
+# ignore all missing docs errors
+add-ignore = ['D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D106', 'D107']
+
 [tool.setuptools_scm]
 write_to = "src/nn_template/_version.py"
 write_to_template = '__version__ = "{version}"'
