@@ -14,6 +14,8 @@ ignore_missing_imports = true
 [tool.isort]
 profile = 'black'
 line_length = 120
+known_third_party = ["numpy", "pytest", "wandb", "torch"]
+known_first_party = []
 known_local_folder = "nn_template"
 
 [tool.pydocstyle]
