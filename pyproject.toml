@@ -7,6 +7,12 @@ testpaths = ["tests"]
 line-length = 120
 include = '\.pyi?$'
 
+[tool.pylint.messages_control]
+disable = "C0330, C0326"
+
+[tool.pylint.format]
+max-line-length = "120"
+
 [tool.mypy]
 files= ["src/**/*.py", "test/*.py"]
 ignore_missing_imports = true
