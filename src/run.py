@@ -21,36 +21,9 @@ from src.common.utils import log_hyperparameters, PROJECT_ROOT
 def build_callbacks(cfg: DictConfig) -> List[Callback]:
     callbacks: List[Callback] = []
 
-    if "lr_monitor" in cfg.logging:
-        hydra.utils.log.info(f"Adding callback <LearningRateMonitor>")
-        callbacks.append(
-            LearningRateMonitor(
-                logging_interval=cfg.logging.lr_monitor.logging_interval,
-                log_momentum=cfg.logging.lr_monitor.log_momentum,
-            )
-        )
-
-    if "early_stopping" in cfg.train:
-        hydra.utils.log.info(f"Adding callback <EarlyStopping>")
-        callbacks.append(
-            EarlyStopping(
-                monitor=cfg.train.monitor_metric,
-                mode=cfg.train.monitor_metric_mode,
-                patience=cfg.train.early_stopping.patience,
-                verbose=cfg.train.early_stopping.verbose,
-            )
-        )
-
-    if "model_checkpoints" in cfg.train:
-        hydra.utils.log.info(f"Adding callback <ModelCheckpoint>")
-        callbacks.append(
-            ModelCheckpoint(
-                monitor=cfg.train.monitor_metric,
-                mode=cfg.train.monitor_metric_mode,
-                save_top_k=cfg.train.model_checkpoints.save_top_k,
-                verbose=cfg.train.model_checkpoints.verbose,
-            )
-        )
+    for callback in cfg:
+        hydra.utils.log.info(f"Adding callback <{callback['_target_'].split('.')[-1]}>")
+        callbacks.append(hydra.utils.instantiate(callback, _recursive_=False))
 
     return callbacks
 
@@ -64,73 +37,67 @@ def run(cfg: DictConfig) -> None:
     if cfg.train.deterministic:
         seed_everything(cfg.train.random_seed)
 
-    if cfg.train.pl_trainer.fast_dev_run:
+    if cfg.train.trainer.fast_dev_run:
         hydra.utils.log.info(
-            f"Debug mode <{cfg.train.pl_trainer.fast_dev_run=}>. "
+            f"Debug mode <{cfg.train.trainer.fast_dev_run=}>. "
             f"Forcing debugger friendly configuration!"
         )
         # Debuggers don't like GPUs nor multiprocessing
-        cfg.train.pl_trainer.gpus = 0
-        cfg.data.datamodule.num_workers.train = 0
-        cfg.data.datamodule.num_workers.val = 0
-        cfg.data.datamodule.num_workers.test = 0
+        cfg.train.trainer.gpus = 0
+        cfg.nn.data.num_workers.train = 0
+        cfg.nn.data.num_workers.val = 0
+        cfg.nn.data.num_workers.test = 0
 
         # Switch wandb mode to offline to prevent online logging
-        cfg.logging.wandb.mode = "offline"
+        cfg.train.logger.mode = "offline"
 
     # Hydra run directory
     hydra_dir = Path(HydraConfig.get().run.dir)
 
     # Instantiate datamodule
-    hydra.utils.log.info(f"Instantiating <{cfg.data.datamodule._target_}>")
+    hydra.utils.log.info(f"Instantiating <{cfg.nn.data._target_}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(
-        cfg.data.datamodule, _recursive_=False
+        cfg.nn.data, _recursive_=False
     )
 
     # Instantiate model
-    hydra.utils.log.info(f"Instantiating <{cfg.model._target_}>")
+    hydra.utils.log.info(f"Instantiating <{cfg.nn.module._target_}>")
     model: pl.LightningModule = hydra.utils.instantiate(
-        cfg.model,
-        optim=cfg.optim,
-        data=cfg.data,
-        logging=cfg.logging,
+        cfg.nn.module,
         _recursive_=False,
     )
 
     # Instantiate the callbacks
-    callbacks: List[Callback] = build_callbacks(cfg=cfg)
+    callbacks: List[Callback] = build_callbacks(cfg=cfg.train.callbacks)
 
     # Logger instantiation/configuration
-    wandb_logger = None
-    if "wandb" in cfg.logging:
-        hydra.utils.log.info(f"Instantiating <WandbLogger>")
-        wandb_config = cfg.logging.wandb
-        wandb_logger = WandbLogger(
-            **wandb_config,
-            tags=cfg.core.tags,
-        )
-        hydra.utils.log.info(f"W&B is now watching <{cfg.logging.wandb_watch.log}>!")
-        wandb_logger.watch(
-            model,
-            log=cfg.logging.wandb_watch.log,
-            log_freq=cfg.logging.wandb_watch.log_freq,
-        )
+    logger = None
+    if "logger" in cfg.train:
+        logger_cfg = cfg.train.logger
+        hydra.utils.log.info(f"Instantiating <{logger_cfg['_target_'].split('.')[-1]}>")
+        logger = hydra.utils.instantiate(logger_cfg)
+
+        # TODO: incompatible with other loggers! :]
+        if "wandb_watch" in cfg.train:
+            hydra.utils.log.info(f"W&B is now watching <{cfg.train.wandb_watch.log}>!")
+            logger.watch(
+                model,
+                log=cfg.train.wandb_watch.log,
+                log_freq=cfg.train.wandb_watch.log_freq,
+            )
 
     # Store the YaML config separately into the wandb dir
     yaml_conf: str = OmegaConf.to_yaml(cfg=cfg)
-    (Path(wandb_logger.experiment.dir) / "hparams.yaml").write_text(yaml_conf)
+    (Path(logger.experiment.dir) / "hparams.yaml").write_text(yaml_conf)
 
     hydra.utils.log.info(f"Instantiating the Trainer")
 
     # The Lightning core, the Trainer
     trainer = pl.Trainer(
-        default_root_dir=hydra_dir,
-        logger=wandb_logger,
+        default_root_dir=str(hydra_dir),
+        logger=logger,
         callbacks=callbacks,
-        deterministic=cfg.train.deterministic,
-        val_check_interval=cfg.logging.val_check_interval,
-        progress_bar_refresh_rate=cfg.logging.progress_bar_refresh_rate,
-        **cfg.train.pl_trainer,
+        **cfg.train.trainer,
     )
     log_hyperparameters(trainer=trainer, model=model, cfg=cfg)
 
@@ -141,8 +108,8 @@ def run(cfg: DictConfig) -> None:
     trainer.test(datamodule=datamodule)
 
     # Logger closing to release resources/avoid multi-run conflicts
-    if wandb_logger is not None:
-        wandb_logger.experiment.finish()
+    if logger is not None:
+        logger.experiment.finish()
 
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
