@@ -1,10 +1,14 @@
+import logging
 import os
 from pathlib import Path
 from typing import Optional
 
 import dotenv
+import git
 import pytorch_lightning as pl
 from omegaconf import DictConfig, OmegaConf
+
+logger = logging.getLogger(__name__)
 
 
 def get_env(env_name: str, default: Optional[str] = None) -> str:
@@ -82,10 +86,12 @@ def log_hyperparameters(
 # Load environment variables
 load_envs()
 
-# Set the cwd to the project root
-PROJECT_ROOT: Path = Path(get_env("PROJECT_ROOT"))
-assert PROJECT_ROOT.exists(), "You must configure the PROJECT_ROOT environment variable in a .env file!"
+try:
+    PROJECT_ROOT = Path(git.Repo(Path.cwd(), search_parent_directories=True).working_dir)
+except git.exc.InvalidGitRepositoryError:
+    PROJECT_ROOT = Path(Path.cwd())
 
-os.chdir(PROJECT_ROOT)
+logger.debug(f"Inferred project root: {PROJECT_ROOT}")
+os.environ["PROJECT_ROOT"] = str(PROJECT_ROOT)
 
 Split = str
