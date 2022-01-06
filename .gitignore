@@ -1,3 +1,5 @@
+# ignore the _version.py file
+_version.py
 
 # .gitignore defaults for python and pycharm
 .idea
