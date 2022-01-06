@@ -1,13 +1,13 @@
-from typing import Any, Dict, Sequence, Tuple, Union, Mapping
+from typing import Any, Mapping, Sequence, Tuple, Union
 
 import hydra
 import omegaconf
 import pytorch_lightning as pl
 import torch
+import torch.nn.functional as F
 import torchmetrics
 from torch.optim import Optimizer
 from torchvision.models.resnet import BasicBlock, ResNet
-import torch.nn.functional as F
 
 from nn_template.common.utils import PROJECT_ROOT
 
@@ -17,9 +17,7 @@ class MnistResNet(ResNet):
     # https://zablo.net/blog/post/using-resnet-for-mnist-in-pytorch-tutorial/
     def __init__(self) -> None:
         super(MnistResNet, self).__init__(BasicBlock, [2, 2, 2, 2], num_classes=10)
-        self.conv1 = torch.nn.Conv2d(
-            1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False
-        )
+        self.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
 
 
 class MyModel(pl.LightningModule):
@@ -36,10 +34,11 @@ class MyModel(pl.LightningModule):
         self.test_accuracy = metric.clone()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """
-        Method for the forward pass.
+        """Method for the forward pass.
+
         'training_step', 'validation_step' and 'test_step' should call
         this method in order to compute the output predictions and the loss.
+
         Returns:
             output_dict: forward output containing the predictions (output logits ecc...) and the loss if any.
         """
@@ -115,9 +114,10 @@ class MyModel(pl.LightningModule):
     def configure_optimizers(
         self,
     ) -> Union[Optimizer, Tuple[Sequence[Optimizer], Sequence[Any]]]:
-        """
-        Choose what optimizers and learning-rate schedulers to use in your optimization.
+        """Choose what optimizers and learning-rate schedulers to use in your optimization.
+
         Normally you'd need one. But in the case of GANs or similar you might have multiple.
+
         Return:
             Any of these 6 options.
             - Single optimizer.
@@ -128,9 +128,7 @@ class MyModel(pl.LightningModule):
             - Tuple of dictionaries as described, with an optional 'frequency' key.
             - None - Fit will run without any optimizer.
         """
-        opt = hydra.utils.instantiate(
-            self.hparams.optimizer, params=self.parameters(), _convert_="partial"
-        )
+        opt = hydra.utils.instantiate(self.hparams.optimizer, params=self.parameters(), _convert_="partial")
         if "lr_scheduler" not in self.hparams:
             return [opt]
         scheduler = hydra.utils.instantiate(self.hparams.lr_scheduler, optimizer=opt)
@@ -139,7 +137,7 @@ class MyModel(pl.LightningModule):
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig):
-    model: pl.LightningModule = hydra.utils.instantiate(
+    _: pl.LightningModule = hydra.utils.instantiate(
         cfg.model,
         optim=cfg.optim,
         _recursive_=False,
