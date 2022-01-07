@@ -1,0 +1,36 @@
+[tool.pytest.ini_options]
+minversion = "6.2"
+addopts = "-ra --cov=nn_template"
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+
+[tool.mypy]
+files= ["src/**/*.py", "test/*.py"]
+ignore_missing_imports = true
+
+[tool.isort]
+profile = 'black'
+line_length = 120
+known_third_party = ["numpy", "pytest", "wandb", "torch"]
+known_first_party = []
+known_local_folder = "nn_template"
+
+[tool.pydocstyle]
+convention = 'google'
+# ignore all missing docs errors
+add-ignore = ['D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D106', 'D107']
+
+[tool.bandit]
+skips = ["B101"]
+
+[tool.setuptools_scm]
+write_to = "src/nn_template/_version.py"
+write_to_template = '__version__ = "{version}"'
+
+[build-system]
+requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=6.3.1"]
+build-backend = "setuptools.build_meta"
+
