@@ -89,7 +89,7 @@ load_envs()
 try:
     PROJECT_ROOT = Path(git.Repo(Path.cwd(), search_parent_directories=True).working_dir)
 except git.exc.InvalidGitRepositoryError:
-    PROJECT_ROOT = Path(Path.cwd())
+    PROJECT_ROOT = Path.cwd()
 
 logger.debug(f"Inferred project root: {PROJECT_ROOT}")
 os.environ["PROJECT_ROOT"] = str(PROJECT_ROOT)
