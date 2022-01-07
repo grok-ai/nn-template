@@ -9,7 +9,7 @@ from torch.optim import Optimizer
 from torchvision.models.resnet import BasicBlock, ResNet
 import torch.nn.functional as F
 
-from src.common.utils import PROJECT_ROOT
+from nn_template.common.utils import PROJECT_ROOT
 
 
 # example

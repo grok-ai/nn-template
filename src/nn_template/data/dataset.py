@@ -3,7 +3,7 @@ import omegaconf
 from torch.utils.data import Dataset
 from torchvision.datasets import FashionMNIST
 
-from src.common.utils import PROJECT_ROOT, Split
+from nn_template.common.utils import PROJECT_ROOT, Split
 
 
 class MyDataset(Dataset):
