@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from typing import List
 
@@ -7,15 +6,9 @@ import omegaconf
 import pytorch_lightning as pl
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
-from pytorch_lightning import seed_everything, Callback
-from pytorch_lightning.callbacks import (
-    EarlyStopping,
-    LearningRateMonitor,
-    ModelCheckpoint,
-)
-from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning import Callback, seed_everything
 
-from nn_template.common.utils import log_hyperparameters, PROJECT_ROOT
+from nn_template.common.utils import PROJECT_ROOT, log_hyperparameters
 
 
 def build_callbacks(cfg: DictConfig) -> List[Callback]:
@@ -29,8 +22,7 @@ def build_callbacks(cfg: DictConfig) -> List[Callback]:
 
 
 def run(cfg: DictConfig) -> None:
-    """
-    Generic train loop
+    """Generic train loop.
 
     :param cfg: run configuration, defined by Hydra in /conf
     """
@@ -39,8 +31,7 @@ def run(cfg: DictConfig) -> None:
 
     if cfg.train.trainer.fast_dev_run:
         hydra.utils.log.info(
-            f"Debug mode <{cfg.train.trainer.fast_dev_run=}>. "
-            f"Forcing debugger friendly configuration!"
+            f"Debug mode <{cfg.train.trainer.fast_dev_run=}>. Forcing debugger friendly configuration!"
         )
         # Debuggers don't like GPUs nor multiprocessing
         cfg.train.trainer.gpus = 0
@@ -56,9 +47,7 @@ def run(cfg: DictConfig) -> None:
 
     # Instantiate datamodule
     hydra.utils.log.info(f"Instantiating <{cfg.nn.data._target_}>")
-    datamodule: pl.LightningDataModule = hydra.utils.instantiate(
-        cfg.nn.data, _recursive_=False
-    )
+    datamodule: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
 
     # Instantiate model
     hydra.utils.log.info(f"Instantiating <{cfg.nn.module._target_}>")
@@ -90,7 +79,7 @@ def run(cfg: DictConfig) -> None:
     yaml_conf: str = OmegaConf.to_yaml(cfg=cfg)
     (Path(logger.experiment.dir) / "hparams.yaml").write_text(yaml_conf)
 
-    hydra.utils.log.info(f"Instantiating the Trainer")
+    hydra.utils.log.info("Instantiating the Trainer")
 
     # The Lightning core, the Trainer
     trainer = pl.Trainer(
@@ -101,10 +90,10 @@ def run(cfg: DictConfig) -> None:
     )
     log_hyperparameters(trainer=trainer, model=model, cfg=cfg)
 
-    hydra.utils.log.info(f"Starting training!")
+    hydra.utils.log.info("Starting training!")
     trainer.fit(model=model, datamodule=datamodule)
 
-    hydra.utils.log.info(f"Starting testing!")
+    hydra.utils.log.info("Starting testing!")
     trainer.test(datamodule=datamodule)
 
     # Logger closing to release resources/avoid multi-run conflicts

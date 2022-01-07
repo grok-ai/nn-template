@@ -36,9 +36,7 @@ class MyDataModule(pl.LightningDataModule):
         pass
 
     def setup(self, stage: Optional[str] = None):
-        transform = transforms.Compose(
-            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
-        )
+        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 
         # Here you should instantiate your datasets, you may also split the train into train and validation if needed.
         if stage is None or stage == "fit":
@@ -51,9 +49,7 @@ class MyDataModule(pl.LightningDataModule):
             )
             train_length = int(len(mnist_train) * (1 - self.val_percentage))
             val_length = len(mnist_train) - train_length
-            self.train_dataset, val_dataset = random_split(
-                mnist_train, [train_length, val_length]
-            )
+            self.train_dataset, val_dataset = random_split(mnist_train, [train_length, val_length])
 
             self.val_datasets = [val_dataset]
 
@@ -99,19 +95,12 @@ class MyDataModule(pl.LightningDataModule):
         ]
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__name__}("
-            f"{self.datasets=}, "
-            f"{self.num_workers=}, "
-            f"{self.batch_size=})"
-        )
+        return f"{self.__class__.__name__}(" f"{self.datasets=}, " f"{self.num_workers=}, " f"{self.batch_size=})"
 
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig):
-    datamodule: pl.LightningDataModule = hydra.utils.instantiate(
-        cfg.data.datamodule, _recursive_=False
-    )
+    _: pl.LightningDataModule = hydra.utils.instantiate(cfg.data.datamodule, _recursive_=False)
 
 
 if __name__ == "__main__":

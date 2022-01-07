@@ -13,9 +13,7 @@ def get_model(checkpoint_path: Path):
 
 
 if wandb.api.api_key is None:
-    st.error(
-        "You are not logged in on `Weights and Biases`: https://docs.wandb.ai/ref/cli/wandb-login"
-    )
+    st.error("You are not logged in on `Weights and Biases`: https://docs.wandb.ai/ref/cli/wandb-login")
     st.stop()
 
 st.sidebar.subheader(f"Logged in W&B as: {wandb.api.viewer()['entity']}")

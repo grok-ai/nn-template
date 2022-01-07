@@ -33,10 +33,10 @@ Checkout the [`mwe` branch](https://github.com/lucmos/nn-template/tree/mwe) to v
 
 ```bash
 .
-├── .cache              
-├── conf                # hydra compositional config 
+├── .cache
+├── conf                # hydra compositional config
 │   ├── nn
-│   ├── default.yaml    # current experiment configuration        
+│   ├── default.yaml    # current experiment configuration
 │   ├── hydra
 │   └── train
 ├── data                # datasets
@@ -187,7 +187,7 @@ export MY_VAR=/home/user/my_system_path
 You can dynamically resolve the variable name from Python code with:
 
 ```python
-get_env('MY_VAR')
+get_env("MY_VAR")
 ```
 
 and in the Hydra `.yaml` configuration files with:
