@@ -16,6 +16,7 @@ class MyDataModule(pl.LightningDataModule):
         datasets: DictConfig,
         num_workers: DictConfig,
         batch_size: DictConfig,
+        gpus: int,
         # example
         val_percentage: float,
     ):
@@ -23,7 +24,7 @@ class MyDataModule(pl.LightningDataModule):
         self.datasets = datasets
         self.num_workers = num_workers
         self.batch_size = batch_size
-
+        self.gpus = gpus
         self.train_dataset: Optional[Dataset] = None
         self.val_datasets: Optional[Sequence[Dataset]] = None
         self.test_datasets: Optional[Sequence[Dataset]] = None
@@ -70,6 +71,7 @@ class MyDataModule(pl.LightningDataModule):
             shuffle=True,
             batch_size=self.batch_size.train,
             num_workers=self.num_workers.train,
+            pin_memory=False if self.gpus == 0 else True,
         )
 
     def val_dataloader(self) -> Sequence[DataLoader]:
@@ -79,6 +81,7 @@ class MyDataModule(pl.LightningDataModule):
                 shuffle=False,
                 batch_size=self.batch_size.val,
                 num_workers=self.num_workers.val,
+                pin_memory=False if self.gpus == 0 else True,
             )
             for dataset in self.val_datasets
         ]
@@ -90,6 +93,7 @@ class MyDataModule(pl.LightningDataModule):
                 shuffle=False,
                 batch_size=self.batch_size.test,
                 num_workers=self.num_workers.test,
+                pin_memory=False if self.gpus == 0 else True,
             )
             for dataset in self.test_datasets
         ]
