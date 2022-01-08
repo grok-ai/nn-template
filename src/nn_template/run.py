@@ -97,6 +97,11 @@ def run(cfg: DictConfig) -> None:
         logger = hydra.utils.instantiate(logger_cfg)
 
         # TODO: incompatible with other loggers! :]
+        logger.experiment.log_code(
+            root=PROJECT_ROOT,
+            name=None,
+            include_fn=(lambda path: path.endswith((".py", ".yaml", ".yml", ".toml", ".cfg")) and ".cache" not in path),
+        )
         if "wandb_watch" in cfg.train:
             pylogger.info(f"W&B is now watching <{cfg.train.wandb_watch.log}>!")
             logger.watch(
