@@ -1,4 +1,4 @@
-from typing import Optional, Sequence, Union, List
+from typing import List, Optional, Sequence, Union
 
 import hydra
 import omegaconf
@@ -6,6 +6,7 @@ import pytorch_lightning as pl
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision import transforms
+
 from nn_template.common.utils import PROJECT_ROOT
 
 
