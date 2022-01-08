@@ -11,6 +11,8 @@ data:
     test:
       - _target_: nn_template.data.dataset.MyDataset
 
+  gpus: ${train.trainer.gpus}
+
   num_workers:
     train: 8
     val: 4

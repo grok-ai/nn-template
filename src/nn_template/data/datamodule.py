@@ -1,4 +1,4 @@
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Union, List
 
 import hydra
 import omegaconf
@@ -6,7 +6,6 @@ import pytorch_lightning as pl
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision import transforms
-
 from nn_template.common.utils import PROJECT_ROOT
 
 
@@ -16,6 +15,7 @@ class MyDataModule(pl.LightningDataModule):
         datasets: DictConfig,
         num_workers: DictConfig,
         batch_size: DictConfig,
+        gpus: Optional[Union[List[int], str, int]],
         # example
         val_percentage: float,
     ):
@@ -23,7 +23,8 @@ class MyDataModule(pl.LightningDataModule):
         self.datasets = datasets
         self.num_workers = num_workers
         self.batch_size = batch_size
-
+        # https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html#gpus
+        self.pin_memory: bool = gpus is not None and str(gpus) != "0"
         self.train_dataset: Optional[Dataset] = None
         self.val_datasets: Optional[Sequence[Dataset]] = None
         self.test_datasets: Optional[Sequence[Dataset]] = None
@@ -70,6 +71,7 @@ class MyDataModule(pl.LightningDataModule):
             shuffle=True,
             batch_size=self.batch_size.train,
             num_workers=self.num_workers.train,
+            pin_memory=self.pin_memory,
         )
 
     def val_dataloader(self) -> Sequence[DataLoader]:
@@ -79,6 +81,7 @@ class MyDataModule(pl.LightningDataModule):
                 shuffle=False,
                 batch_size=self.batch_size.val,
                 num_workers=self.num_workers.val,
+                pin_memory=self.pin_memory,
             )
             for dataset in self.val_datasets
         ]
@@ -90,6 +93,7 @@ class MyDataModule(pl.LightningDataModule):
                 shuffle=False,
                 batch_size=self.batch_size.test,
                 num_workers=self.num_workers.test,
+                pin_memory=self.pin_memory,
             )
             for dataset in self.test_datasets
         ]
