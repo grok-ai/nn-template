@@ -12,3 +12,13 @@ def test_storage_config(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig)
     with cfg_path.open() as f:
         loaded_cfg = yaml.safe_load(f)
     assert loaded_cfg == cfg_all_not_dry
+
+
+def test_storage_checkpoint(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig) -> None:
+    cktps_path = Path(run_trainings_not_dry) / "checkpoints"
+
+    assert cktps_path.exists()
+
+    checkpoints = list(cktps_path.glob("*"))
+    assert len(checkpoints) == 1
+    assert checkpoints[0].name.endswith(".ckpt")
