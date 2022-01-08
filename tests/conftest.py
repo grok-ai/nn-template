@@ -1,10 +1,11 @@
 import os
+import shutil
 
 import pytest
 from hydra import compose, initialize
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
-from pytest import FixtureRequest, TempdirFactory
+from pytest import FixtureRequest, TempPathFactory
 from pytorch_lightning import seed_everything
 
 from nn_template.run import run
@@ -14,14 +15,31 @@ seed_everything(0)
 TRAIN_MAX_NSTEPS = 1
 
 
+#
+# Base configurations
+#
 @pytest.fixture(scope="package")
-def cfg() -> DictConfig:
+def cfg(tmp_path_factory: TempPathFactory) -> DictConfig:
+    test_cfg_tmpdir = tmp_path_factory.mktemp("test_train_tmpdir")
+
     with initialize(config_path="../conf"):
         cfg = compose(config_name="default", return_hydra_config=True)
         HydraConfig().set_config(cfg)
+
+        # Force the wandb dir to be in the temp folder
+        os.environ["WANDB_DIR"] = str(test_cfg_tmpdir)
+
+        # Force the storage dir to be in the temp folder
+        cfg.core.storage_dir = str(test_cfg_tmpdir)
+
         yield cfg
 
+    shutil.rmtree(test_cfg_tmpdir)
 
+
+#
+# Training configurations
+#
 @pytest.fixture(scope="package")
 def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg = OmegaConf.create(cfg)
@@ -53,29 +71,42 @@ def cfg_fast_dev_run(cfg_simple_train: DictConfig) -> DictConfig:
     return cfg_simple_train
 
 
-@pytest.fixture(scope="package", params=["cfg_simple_train", "cfg_fast_dev_run"])
-def cfg_all_training(request: FixtureRequest):
+#
+# Training configurations aggregations
+#
+@pytest.fixture(
+    scope="package",
+    params=[
+        "cfg_simple_train",
+    ],
+)
+def cfg_all_not_dry(request: FixtureRequest):
+    return request.getfixturevalue(request.param)
+
+
+@pytest.fixture(
+    scope="package",
+    params=[
+        "cfg_simple_train",
+        "cfg_fast_dev_run",
+    ],
+)
+def cfg_all(request: FixtureRequest):
     return request.getfixturevalue(request.param)
 
 
 #
-# Test training scripts
+# Training fixtures
 #
-def _test_train(tmpdir_factory: TempdirFactory, cfg_parametrized: DictConfig) -> None:
-    cfg_parametrized = OmegaConf.create(cfg_parametrized)
-
-    test_train_tmpdir = tmpdir_factory.mktemp("test_train_tmpdir")
-
-    # Force the wandb dir to be in the temp folder
-    os.environ["WANDB_DIR"] = str(test_train_tmpdir)
-
-    cfg_parametrized.core.storage_dir = str(test_train_tmpdir)
-
-    yield run(cfg=cfg_parametrized)
-
-    test_train_tmpdir.remove()
+@pytest.fixture(
+    scope="package",
+)
+def run_trainings_not_dry(cfg_all_not_dry: DictConfig) -> str:
+    yield run(cfg=cfg_all_not_dry)
 
 
-@pytest.fixture(scope="package")
-def run_test_train(tmpdir_factory: TempdirFactory, cfg_all_training: DictConfig):
-    yield from _test_train(tmpdir_factory=tmpdir_factory, cfg_parametrized=cfg_all_training)
+@pytest.fixture(
+    scope="package",
+)
+def run_trainings(cfg_all: DictConfig) -> str:
+    yield run(cfg=cfg_all)

@@ -1,2 +1,2 @@
-def test_train_loop(run_test_train):
-    print(run_test_train)
+def test_train_loop(run_trainings):
+    print(run_trainings)
