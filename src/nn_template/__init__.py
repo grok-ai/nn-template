@@ -4,7 +4,9 @@ from typing import Optional
 
 from rich.console import ConsoleRenderable
 from rich.logging import RichHandler
-from rich.traceback import Traceback
+from rich.traceback import Traceback, install
+
+install()
 
 
 class CustomRichHandler(RichHandler):
