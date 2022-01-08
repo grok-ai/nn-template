@@ -15,7 +15,7 @@ ignore_missing_imports = true
 profile = 'black'
 line_length = 120
 known_third_party = ["numpy", "pytest", "wandb", "torch"]
-known_first_party = []
+known_first_party = ["nn_core"]
 known_local_folder = "nn_template"
 
 [tool.pydocstyle]

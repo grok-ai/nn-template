@@ -8,15 +8,18 @@ import torch.nn.functional as F
 import torchmetrics
 from torch.optim import Optimizer
 
+from nn_core.model_logging import NNLogger
+
 from nn_template.common.utils import PROJECT_ROOT
 from nn_template.modules.module import CNN
 
 
 class MyLightningModule(pl.LightningModule):
+    logger: NNLogger
+
     def __init__(self, *args, **kwargs) -> None:
         super().__init__()
-        self.save_hyperparameters()  # populate self.hparams with args and kwargs automagically!
-
+        self.save_hyperparameters(logger=False)  # populate self.hparams with args and kwargs automagically!
         # example
         self.model = CNN()
 

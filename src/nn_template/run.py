@@ -8,7 +8,7 @@ import nn_template  # isort:skip # noqa
 
 import logging
 from pathlib import Path
-from typing import Callable, Dict, List, NoReturn
+from typing import List
 
 import hydra
 import omegaconf
@@ -16,8 +16,12 @@ import pytorch_lightning as pl
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning import Callback, seed_everything
+from pytorch_lightning.loggers import LightningLoggerBase
 
-from nn_template.common.utils import PROJECT_ROOT, log_hyperparameters
+from nn_core.hooks import OnSaveCheckpointInjection
+from nn_core.model_logging import NNLogger
+
+from nn_template.common.utils import PROJECT_ROOT
 
 pylogger = logging.getLogger(__name__)
 
@@ -30,26 +34,6 @@ def build_callbacks(cfg: DictConfig) -> List[Callback]:
         callbacks.append(hydra.utils.instantiate(callback, _recursive_=False))
 
     return callbacks
-
-
-class OnSaveCheckpointInjectionHook:
-    def __init__(
-        self,
-        cfg: DictConfig,
-        on_save_checkpoint: Callable[[Dict], NoReturn],
-    ):
-        """Inject the configuration into the checkpoint monkey patching the on_save_checkpoint hook.
-
-        Args:
-            cfg: the configuration to inject
-            on_save_checkpoint: the on_save_checkpoint to monkey patch
-        """
-        self.cfg = cfg
-        self.on_save_checkpoint = on_save_checkpoint
-
-    def __call__(self, checkpoint: Dict) -> None:
-        self.on_save_checkpoint(checkpoint)
-        checkpoint["cfg"] = OmegaConf.to_container(self.cfg, resolve=True)
 
 
 def run(cfg: DictConfig) -> None:
@@ -84,7 +68,7 @@ def run(cfg: DictConfig) -> None:
         cfg.nn.module,
         _recursive_=False,
     )
-    model.on_save_checkpoint = OnSaveCheckpointInjectionHook(cfg=cfg, on_save_checkpoint=model.on_save_checkpoint)
+    model.on_save_checkpoint = OnSaveCheckpointInjection(cfg=cfg, on_save_checkpoint=model.on_save_checkpoint)
 
     # Instantiate the callbacks
     callbacks: List[Callback] = build_callbacks(cfg=cfg.train.callbacks)
@@ -94,7 +78,7 @@ def run(cfg: DictConfig) -> None:
     if "logger" in cfg.train:
         logger_cfg = cfg.train.logger
         pylogger.info(f"Instantiating <{logger_cfg['_target_'].split('.')[-1]}>")
-        logger = hydra.utils.instantiate(logger_cfg)
+        logger: LightningLoggerBase = hydra.utils.instantiate(logger_cfg)
 
         # TODO: incompatible with other loggers! :]
         logger.experiment.log_code(
@@ -120,6 +104,8 @@ def run(cfg: DictConfig) -> None:
                 log_freq=cfg.train.wandb_watch.log_freq,
             )
 
+        logger: NNLogger = NNLogger(logger=logger)
+
     # Store the YaML config separately into the wandb dir
     yaml_conf: str = OmegaConf.to_yaml(cfg=cfg)
     (Path(logger.experiment.dir) / "hparams.yaml").write_text(yaml_conf)
@@ -133,7 +119,7 @@ def run(cfg: DictConfig) -> None:
         callbacks=callbacks,
         **cfg.train.trainer,
     )
-    log_hyperparameters(trainer=trainer, model=model, cfg=cfg)
+    logger.log_configuration(cfg=cfg, model=model)
 
     pylogger.info("Starting training!")
     trainer.fit(model=model, datamodule=datamodule)
