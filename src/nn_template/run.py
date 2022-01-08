@@ -100,7 +100,17 @@ def run(cfg: DictConfig) -> None:
         logger.experiment.log_code(
             root=PROJECT_ROOT,
             name=None,
-            include_fn=(lambda path: path.endswith((".py", ".yaml", ".yml", ".toml", ".cfg")) and ".cache" not in path),
+            include_fn=(
+                lambda path: path.startswith(
+                    (
+                        str(PROJECT_ROOT / "conf"),
+                        str(PROJECT_ROOT / "src"),
+                        str(PROJECT_ROOT / "setup.cfg"),
+                        str(PROJECT_ROOT / "env.yaml"),
+                    )
+                )
+                and path.endswith((".py", ".yaml", ".yml", ".toml", ".cfg"))
+            ),
         )
         if "wandb_watch" in cfg.train:
             pylogger.info(f"W&B is now watching <{cfg.train.wandb_watch.log}>!")
