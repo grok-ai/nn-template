@@ -1,3 +1,11 @@
+# Required workaround because PyTorch Lightning configures the logging on import,
+# thus the logging configuration defined in the __init__.py must be called before
+# the lightning import otherwise it has no effect.
+# See https://github.com/PyTorchLightning/pytorch-lightning/issues/1503
+#
+# Force the execution of __init__.py if this file is executed directly.
+import nn_template  # isort:skip # noqa
+
 import logging
 from pathlib import Path
 from typing import List
