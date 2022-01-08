@@ -78,8 +78,11 @@ def run(cfg: DictConfig) -> None:
     pylogger.info("Starting training!")
     trainer.fit(model=model, datamodule=datamodule)
 
-    pylogger.info("Starting testing!")
-    trainer.test(datamodule=datamodule)
+    if cfg.train.trainer.fast_dev_run:
+        pylogger.info("Skipping testing in 'fast_dev_run' mode!")
+    else:
+        pylogger.info("Starting testing!")
+        trainer.test(datamodule=datamodule)
 
     # Logger closing to release resources/avoid multi-run conflicts
     if logger is not None:
