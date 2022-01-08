@@ -20,9 +20,5 @@ def test_pl_module_instantiation(cfg: DictConfig) -> None:
     hydra.utils.instantiate(cfg.nn.module, _recursive_=False)
 
 
-def test_logger_instantiation(cfg: DictConfig) -> None:
-    hydra.utils.instantiate(cfg.train.logger, mode="disabled", _recursive_=False)
-
-
 def test_cfg_parametrization(cfg_all_training: DictConfig):
     assert cfg_all_training

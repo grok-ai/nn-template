@@ -14,6 +14,7 @@ import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 from pytorch_lightning import Callback, seed_everything
+from pytorch_lightning.loggers.base import DummyLogger
 
 from nn_core.common import PROJECT_ROOT
 from nn_core.hooks import OnSaveCheckpointInjection
@@ -63,7 +64,7 @@ def run(cfg: DictConfig) -> None:
     storage_dir: str = cfg.core.storage_dir
 
     # The logger attribute will be filled by the NNLoggerConfiguration callback.
-    logger: NNLogger = NNLogger(logger=None, storage_dir=storage_dir, cfg=cfg)
+    logger: NNLogger = NNLogger(logger=DummyLogger(), storage_dir=storage_dir, cfg=cfg)
 
     pylogger.info("Instantiating the Trainer")
 

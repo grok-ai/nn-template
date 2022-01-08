@@ -27,7 +27,10 @@ def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg = OmegaConf.create(cfg)
 
     # Disable logger
-    cfg.train.logger.mode = "disabled"
+    logger_reference = "nn_core.callbacks.NNLoggerConfiguration"
+    callbacks_targets = [x["_target_"] for x in cfg.train.callbacks]
+    if logger_reference in callbacks_targets:
+        cfg.train.callbacks[callbacks_targets.index(logger_reference)].logger.mode = "disabled"
 
     # Disable multiple workers in test training
     cfg.nn.data.num_workers.train = 0
@@ -66,7 +69,7 @@ def _test_train(tmpdir_factory: TempdirFactory, cfg_parametrized: DictConfig) ->
     # Force the wandb dir to be in the temp folder
     os.environ["WANDB_DIR"] = str(test_train_tmpdir)
 
-    cfg_parametrized.core.default_root_dir = str(test_train_tmpdir)
+    cfg_parametrized.core.storage_dir = str(test_train_tmpdir)
 
     yield run(cfg=cfg_parametrized)
 

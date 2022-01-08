@@ -8,6 +8,7 @@ trainer:
   gpus: 1
   precision: 32
   max_epochs: 3
+  max_steps: 1000
   accumulate_grad_batches: 1
   num_sanity_val_steps: 2
   gradient_clip_val: 10.0
