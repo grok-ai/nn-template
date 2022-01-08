@@ -48,8 +48,6 @@ def run(cfg: DictConfig) -> None:
         cfg.nn.data.num_workers.val = 0
         cfg.nn.data.num_workers.test = 0
 
-        cfg.train.logger.mode = "offline"
-
     # Instantiate datamodule
     pylogger.info(f"Instantiating <{cfg.nn.data['_target_']}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
