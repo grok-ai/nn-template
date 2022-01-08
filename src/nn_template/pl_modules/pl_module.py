@@ -7,26 +7,18 @@ import torch
 import torch.nn.functional as F
 import torchmetrics
 from torch.optim import Optimizer
-from torchvision.models.resnet import BasicBlock, ResNet
 
 from nn_template.common.utils import PROJECT_ROOT
+from nn_template.modules.module import CNN
 
 
-# example
-class MnistResNet(ResNet):
-    # https://zablo.net/blog/post/using-resnet-for-mnist-in-pytorch-tutorial/
-    def __init__(self) -> None:
-        super(MnistResNet, self).__init__(BasicBlock, [2, 2, 2, 2], num_classes=10)
-        self.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
-
-
-class MyModel(pl.LightningModule):
+class MyLightningModule(pl.LightningModule):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__()
         self.save_hyperparameters()  # populate self.hparams with args and kwargs automagically!
 
         # example
-        self.resnet = MnistResNet()
+        self.model = CNN()
 
         metric = torchmetrics.Accuracy()
         self.train_accuracy = metric.clone()
@@ -43,7 +35,7 @@ class MyModel(pl.LightningModule):
             output_dict: forward output containing the predictions (output logits ecc...) and the loss if any.
         """
         # example
-        return self.resnet(x)
+        return self.model(x)
 
     # example
     def step(self, x, y) -> Mapping[str, Any]:

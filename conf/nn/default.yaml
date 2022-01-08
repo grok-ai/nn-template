@@ -25,7 +25,7 @@ data:
   val_percentage: 0.1
 
 module:
-  _target_: nn_template.modules.model.MyModel
+  _target_: nn_template.pl_modules.pl_module.MyLightningModule
 
   optimizer:
     #  Adam-oriented deep learning
