@@ -7,7 +7,7 @@ from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision import transforms
 
-from nn_template.common.utils import PROJECT_ROOT
+from nn_core.common import PROJECT_ROOT
 
 
 class MyDataModule(pl.LightningDataModule):

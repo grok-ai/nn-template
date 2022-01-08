@@ -11,7 +11,7 @@ from hydra.core.global_hydra import GlobalHydra
 from hydra.experimental import compose
 from stqdm import stqdm
 
-from nn_template.common.utils import PROJECT_ROOT, load_envs
+from nn_core.common import PROJECT_ROOT, load_envs
 
 load_envs()
 

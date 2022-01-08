@@ -1,10 +1,6 @@
 import logging
 
-from rich.traceback import install
-
 from nn_core.console_logging import NNRichHandler
-
-install()
 
 FORMAT = "%(message)s"
 logging.basicConfig(

@@ -8,9 +8,9 @@ import torch.nn.functional as F
 import torchmetrics
 from torch.optim import Optimizer
 
+from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
 
-from nn_template.common.utils import PROJECT_ROOT
 from nn_template.modules.module import CNN
 
 

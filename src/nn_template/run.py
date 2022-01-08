@@ -18,10 +18,9 @@ from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning import Callback, seed_everything
 from pytorch_lightning.loggers import LightningLoggerBase
 
+from nn_core.common import PROJECT_ROOT
 from nn_core.hooks import OnSaveCheckpointInjection
 from nn_core.model_logging import NNLogger
-
-from nn_template.common.utils import PROJECT_ROOT
 
 pylogger = logging.getLogger(__name__)
 
