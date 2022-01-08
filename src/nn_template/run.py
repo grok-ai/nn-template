@@ -33,7 +33,7 @@ def build_callbacks(cfg: DictConfig) -> List[Callback]:
     return callbacks
 
 
-def run(cfg: DictConfig) -> None:
+def run(cfg: DictConfig) -> str:
     """Generic train loop.
 
     :param cfg: run configuration, defined by Hydra in /conf
@@ -88,6 +88,8 @@ def run(cfg: DictConfig) -> None:
     # Logger closing to release resources/avoid multi-run conflicts
     if logger is not None:
         logger.experiment.finish()
+
+    return logger.run_dir
 
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
