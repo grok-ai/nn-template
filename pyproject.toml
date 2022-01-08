@@ -1,6 +1,6 @@
 [tool.pytest.ini_options]
 minversion = "6.2"
-addopts = "-ra --cov=nn_template"
+addopts = "-ra"
 testpaths = ["tests"]
 
 [tool.black]
