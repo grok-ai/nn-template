@@ -14,6 +14,7 @@ import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 from pytorch_lightning import Callback, seed_everything
+from pytorch_lightning.loggers.base import DummyLogger
 
 from nn_core.common import PROJECT_ROOT
 from nn_core.hooks import OnSaveCheckpointInjection
@@ -32,7 +33,7 @@ def build_callbacks(cfg: DictConfig) -> List[Callback]:
     return callbacks
 
 
-def run(cfg: DictConfig) -> None:
+def run(cfg: DictConfig) -> str:
     """Generic train loop.
 
     :param cfg: run configuration, defined by Hydra in /conf
@@ -40,7 +41,8 @@ def run(cfg: DictConfig) -> None:
     if cfg.train.deterministic:
         seed_everything(cfg.train.random_seed)
 
-    if cfg.train.trainer.fast_dev_run:
+    fast_dev_run: bool = cfg.train.trainer.fast_dev_run
+    if fast_dev_run:
         pylogger.info(f"Debug mode <{cfg.train.trainer.fast_dev_run=}>. Forcing debugger friendly configuration!")
         # Debuggers don't like GPUs nor multiprocessing
         cfg.train.trainer.gpus = 0
@@ -63,7 +65,7 @@ def run(cfg: DictConfig) -> None:
     storage_dir: str = cfg.core.storage_dir
 
     # The logger attribute will be filled by the NNLoggerConfiguration callback.
-    logger: NNLogger = NNLogger(logger=None, storage_dir=storage_dir, cfg=cfg)
+    logger: NNLogger = NNLogger(logger=DummyLogger(), storage_dir=storage_dir, cfg=cfg)
 
     pylogger.info("Instantiating the Trainer")
 
@@ -78,12 +80,17 @@ def run(cfg: DictConfig) -> None:
     pylogger.info("Starting training!")
     trainer.fit(model=model, datamodule=datamodule)
 
-    pylogger.info("Starting testing!")
-    trainer.test(datamodule=datamodule)
+    if fast_dev_run:
+        pylogger.info("Skipping testing in 'fast_dev_run' mode!")
+    else:
+        pylogger.info("Starting testing!")
+        trainer.test(datamodule=datamodule)
 
     # Logger closing to release resources/avoid multi-run conflicts
     if logger is not None:
         logger.experiment.finish()
+
+    return logger.run_dir
 
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")

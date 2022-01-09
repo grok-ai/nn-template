@@ -1,7 +1,15 @@
 [tool.pytest.ini_options]
 minversion = "6.2"
-addopts = "-ra --cov=nn_template"
+addopts = "-ra"
 testpaths = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "raise NotImplementedError",
+    "raise NotImplementedError()",
+    "pragma: nocover",
+    "if __name__ == .__main__.:",
+]
 
 [tool.black]
 line-length = 120
