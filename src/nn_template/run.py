@@ -18,6 +18,7 @@ from pytorch_lightning.loggers.base import DummyLogger
 
 from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
+from nn_core.resume import resolve_ckpt, resolve_run_path, resolve_run_version
 
 pylogger = logging.getLogger(__name__)
 
@@ -49,6 +50,22 @@ def run(cfg: DictConfig) -> str:
         cfg.nn.data.num_workers.val = 0
         cfg.nn.data.num_workers.test = 0
 
+    resume_ckpt_path = None
+    resume_run_version = None
+    ckpt_or_run_path = cfg.train.resume.ckpt_or_run_path
+    if ckpt_or_run_path is not None:
+        if cfg.train.resume.training:
+            resume_ckpt_path = resolve_ckpt(ckpt_or_run_path)
+            pylogger.info(f"Resume training from: '{resume_ckpt_path}'")
+
+        if cfg.train.resume.logging:
+            run_path = resolve_run_path(ckpt_or_run_path)
+            resume_run_version = resolve_run_version(run_path=run_path)
+            pylogger.info(f"Resume logging to: '{run_path}'")
+
+        if resume_ckpt_path is None and resume_run_version is None:
+            pylogger.warning(f"Not resuming training or logging but 'train.resume.ckpt_or_run_path={ckpt_or_run_path}'")
+
     # Instantiate datamodule
     pylogger.info(f"Instantiating <{cfg.nn.data['_target_']}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
@@ -63,9 +80,9 @@ def run(cfg: DictConfig) -> str:
     storage_dir: str = cfg.core.storage_dir
 
     # The logger attribute will be filled by the NNLoggerConfiguration callback.
-    logger: NNLogger = NNLogger(logger=DummyLogger(), storage_dir=storage_dir, cfg=cfg)
+    logger: NNLogger = NNLogger(logger=DummyLogger(), storage_dir=storage_dir, cfg=cfg, resume_id=resume_run_version)
 
-    pylogger.info("Instantiating the Trainer")
+    pylogger.info("Instantiating the <Trainer>")
     trainer = pl.Trainer(
         default_root_dir=storage_dir,
         logger=logger,
@@ -74,7 +91,7 @@ def run(cfg: DictConfig) -> str:
     )
 
     pylogger.info("Starting training!")
-    trainer.fit(model=model, datamodule=datamodule)
+    trainer.fit(model=model, datamodule=datamodule, ckpt_path=resume_ckpt_path)
 
     if fast_dev_run:
         pylogger.info("Skipping testing in 'fast_dev_run' mode!")
