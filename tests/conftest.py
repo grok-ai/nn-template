@@ -10,7 +10,7 @@ from pytorch_lightning import seed_everything
 
 from nn_template.run import run
 
-seed_everything(0)
+seed_everything(42)
 
 TRAIN_MAX_NSTEPS = 1
 
