@@ -41,7 +41,8 @@ def run(cfg: DictConfig) -> str:
     if cfg.train.deterministic:
         seed_everything(cfg.train.random_seed)
 
-    if cfg.train.trainer.fast_dev_run:
+    fast_dev_run: bool = cfg.train.trainer.fast_dev_run
+    if fast_dev_run:
         pylogger.info(f"Debug mode <{cfg.train.trainer.fast_dev_run=}>. Forcing debugger friendly configuration!")
         # Debuggers don't like GPUs nor multiprocessing
         cfg.train.trainer.gpus = 0
@@ -79,7 +80,7 @@ def run(cfg: DictConfig) -> str:
     pylogger.info("Starting training!")
     trainer.fit(model=model, datamodule=datamodule)
 
-    if cfg.train.trainer.fast_dev_run:
+    if fast_dev_run:
         pylogger.info("Skipping testing in 'fast_dev_run' mode!")
     else:
         pylogger.info("Starting testing!")
