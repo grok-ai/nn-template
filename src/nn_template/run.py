@@ -17,7 +17,6 @@ from pytorch_lightning import Callback, seed_everything
 from pytorch_lightning.loggers.base import DummyLogger
 
 from nn_core.common import PROJECT_ROOT
-from nn_core.hooks import OnSaveCheckpointInjection
 from nn_core.model_logging import NNLogger
 
 pylogger = logging.getLogger(__name__)
@@ -57,7 +56,6 @@ def run(cfg: DictConfig) -> str:
     # Instantiate model
     pylogger.info(f"Instantiating <{cfg.nn.module['_target_']}>")
     model: pl.LightningModule = hydra.utils.instantiate(cfg.nn.module, _recursive_=False)
-    model.on_save_checkpoint = OnSaveCheckpointInjection(cfg=cfg, on_save_checkpoint=model.on_save_checkpoint)
 
     # Instantiate the callbacks
     callbacks: List[Callback] = build_callbacks(cfg=cfg.train.callbacks)
@@ -68,8 +66,6 @@ def run(cfg: DictConfig) -> str:
     logger: NNLogger = NNLogger(logger=DummyLogger(), storage_dir=storage_dir, cfg=cfg)
 
     pylogger.info("Instantiating the Trainer")
-
-    # The Lightning core, the Trainer
     trainer = pl.Trainer(
         default_root_dir=storage_dir,
         logger=logger,
