@@ -7,7 +7,7 @@ trainer:
   fast_dev_run: False # Enable this for debug purposes
   gpus: 1
   precision: 32
-  max_steps: 10000
+  max_epochs: 3
   accumulate_grad_batches: 1
   num_sanity_val_steps: 2
   gradient_clip_val: 10.0
@@ -38,14 +38,20 @@ callbacks:
   - _target_: pytorch_lightning.callbacks.progress.tqdm_progress.TQDMProgressBar
     refresh_rate: 20
 
-logger:
-  _target_: pytorch_lightning.loggers.WandbLogger
+  - _target_: nn_core.callbacks.NNLoggerConfiguration
 
-  project: ${core.project_name}
-  entity: null
-  log_model: True
-  mode: 'online'
+    upload:
+      checkpoint: true
+      source: true
 
-wandb_watch:
-  log: 'all'
-  log_freq: 100
+    logger:
+      _target_: pytorch_lightning.loggers.WandbLogger
+
+      project: ${core.project_name}
+      entity: null
+      log_model: ${..upload.checkpoint}
+      mode: 'online'
+
+    wandb_watch:
+      log: 'all'
+      log_freq: 100

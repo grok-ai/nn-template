@@ -1,9 +1,13 @@
+## https://github.com/facebookresearch/hydra/issues/910
+# Not changing the working directory
 run:
-  dir: ${oc.env:PROJECT_ROOT}/.cache/${now:%Y-%m-%d}/${now:%H-%M-%S}
-
+  dir: .
 sweep:
-  dir: ${oc.env:PROJECT_ROOT}/.cache/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}/
-  subdir: ${hydra.job.num}_${hydra.job.id}
+  dir: .
+  subdir: .
+
+# Not saving the .hydra directory
+output_subdir: null
 
 job:
   env_set:
@@ -11,7 +15,6 @@ job:
     WANDB_DIR: ${oc.env:PROJECT_ROOT}
 
 defaults:
-  # Disable hydra logging configuration, otherwise the basicConfig
-  # does not have any effect
+  # Disable hydra logging configuration, otherwise the basicConfig does not have any effect
   - override job_logging: none
   - override hydra_logging: none

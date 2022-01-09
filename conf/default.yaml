@@ -1,6 +1,7 @@
 # metadata specialised for each experiment
 core:
   project_name: nn-template
+  storage_dir: ${oc.env:PROJECT_ROOT}/storage
   version: 0.0.1
   tags:
     - mytag
