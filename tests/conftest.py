@@ -1,7 +1,10 @@
 import os
 import shutil
+from pathlib import Path
+from typing import Dict, Union
 
 import pytest
+import torch
 from hydra import compose, initialize
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
@@ -59,6 +62,10 @@ def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg.train.trainer.max_steps = TRAIN_MAX_NSTEPS
     cfg.train.trainer.val_check_interval = TRAIN_MAX_NSTEPS
 
+    # Ensure the resuming is disabled
+    cfg.train.restore.ckpt_or_run_path = None
+    cfg.train.restore.mode = None
+
     return cfg
 
 
@@ -110,3 +117,19 @@ def run_trainings_not_dry(cfg_all_not_dry: DictConfig) -> str:
 )
 def run_trainings(cfg_all: DictConfig) -> str:
     yield run(cfg=cfg_all)
+
+
+#
+# Utility functions
+#
+def get_checkpoint_path(storagedir: Union[str, Path]) -> Path:
+    ckpts_path = Path(storagedir) / "checkpoints"
+    checkpoint_path = next(ckpts_path.glob("*"))
+    assert checkpoint_path
+    return checkpoint_path
+
+
+def load_checkpoint(storagedir: Union[str, Path]) -> Dict:
+    checkpoint = torch.load(get_checkpoint_path(storagedir))
+    assert checkpoint
+    return checkpoint
