@@ -43,8 +43,6 @@ callbacks:
   - _target_: pytorch_lightning.callbacks.progress.tqdm_progress.TQDMProgressBar
     refresh_rate: 20
 
-  - _target_: nn_core.callbacks.NNTemplateCore  # do not disable
-
 logging:
   upload:
     checkpoint: false  # TODO: implement behaviour

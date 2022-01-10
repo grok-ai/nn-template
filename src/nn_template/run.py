@@ -14,6 +14,7 @@ import pytorch_lightning as pl
 from omegaconf import DictConfig
 from pytorch_lightning import Callback, seed_everything
 
+from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
 from nn_core.resume import resolve_ckpt, resolve_run_path, resolve_run_version
@@ -41,7 +42,7 @@ RESUME_MODES = {
 
 
 def build_callbacks(cfg: DictConfig) -> List[Callback]:
-    callbacks: List[Callback] = []
+    callbacks: List[Callback] = [NNTemplateCore()]
 
     for callback in cfg:
         pylogger.info(f"Adding callback <{callback['_target_'].split('.')[-1]}>")
