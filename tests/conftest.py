@@ -63,9 +63,8 @@ def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg.train.trainer.val_check_interval = TRAIN_MAX_NSTEPS
 
     # Ensure the resuming is disabled
-    cfg.train.resume.ckpt_or_run_path = None
-    cfg.train.resume.training = None
-    cfg.train.resume.logging = None
+    cfg.train.restore.ckpt_or_run_path = None
+    cfg.train.restore.mode = None
 
     return cfg
 

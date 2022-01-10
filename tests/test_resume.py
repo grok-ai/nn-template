@@ -16,9 +16,8 @@ def test_resume(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig, tmp_pat
     new_cfg.core.storage_dir = str(new_storage_dir)
     new_cfg.train.trainer.max_steps = 2 * TRAIN_MAX_NSTEPS
 
-    new_cfg.train.resume.ckpt_or_run_path = str(old_checkpoint_path)
-    new_cfg.train.resume.training = True
-    new_cfg.train.resume.logging = False
+    new_cfg.train.restore.ckpt_or_run_path = str(old_checkpoint_path)
+    new_cfg.train.restore.mode = "hotstart"
 
     new_training_dir = run(new_cfg)
 

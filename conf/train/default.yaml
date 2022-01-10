@@ -15,10 +15,9 @@ trainer:
   val_check_interval: 1.0
   deterministic: ${train.deterministic}
 
-resume:
+restore:
   ckpt_or_run_path: null
-  training: false
-  logging: false
+  mode: null # null, continue, hotstart
 
 monitor:
   metric: 'loss/val'
