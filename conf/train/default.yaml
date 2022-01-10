@@ -43,20 +43,21 @@ callbacks:
   - _target_: pytorch_lightning.callbacks.progress.tqdm_progress.TQDMProgressBar
     refresh_rate: 20
 
-  - _target_: nn_core.callbacks.NNLoggerConfiguration
+  - _target_: nn_core.callbacks.NNTemplateCore  # do not disable
 
-    upload:
-      checkpoint: true
-      source: true
+logging:
+  upload:
+    checkpoint: false  # TODO: implement behaviour
+    source: true
 
-    logger:
-      _target_: pytorch_lightning.loggers.WandbLogger
+  logger:
+    _target_: pytorch_lightning.loggers.WandbLogger
 
-      project: ${core.project_name}
-      entity: null
-      log_model: ${..upload.checkpoint}
-      mode: 'online'
+    project: ${core.project_name}
+    entity: null
+    log_model: ${..upload.checkpoint}
+    mode: 'online'
 
-    wandb_watch:
-      log: 'all'
-      log_freq: 100
+  wandb_watch:
+    log: 'all'
+    log_freq: 100
