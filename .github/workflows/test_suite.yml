@@ -1,6 +1,11 @@
 name: Test Suite
 
 on:
+  push:
+    branches:
+      - main
+      - develop
+
   pull_request:
     types:
       - opened
