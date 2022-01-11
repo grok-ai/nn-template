@@ -47,6 +47,9 @@ def cfg(tmp_path_factory: TempPathFactory) -> DictConfig:
 def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg = OmegaConf.create(cfg)
 
+    # Disable gpus
+    cfg.train.trainer.gpus = 0
+
     # Disable logger
     cfg.train.logging.logger.mode = "disabled"
 

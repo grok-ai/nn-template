@@ -4,6 +4,8 @@
 # See https://github.com/PyTorchLightning/pytorch-lightning/issues/1503
 #
 # Force the execution of __init__.py if this file is executed directly.
+import nn_template  # isort:skip # noqa
+
 import logging
 from operator import xor
 from typing import List, Optional, Tuple
@@ -18,9 +20,6 @@ from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
 from nn_core.resume import resolve_ckpt, resolve_run_path, resolve_run_version
-
-import nn_template  # isort:skip # noqa
-
 
 pylogger = logging.getLogger(__name__)
 

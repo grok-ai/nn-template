@@ -39,5 +39,5 @@ write_to = "src/nn_template/_version.py"
 write_to_template = '__version__ = "{version}"'
 
 [build-system]
-requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=6.3.1"]
+requires = ["setuptools==59.5", "wheel", "setuptools_scm[toml]>=6.3.1"]
 build-backend = "setuptools.build_meta"
