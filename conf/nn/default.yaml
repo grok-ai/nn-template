@@ -44,4 +44,4 @@ module:
     T_mult: 2
     eta_min: 0 # min value for the lr
     last_epoch: -1
-    verbose: True
+    verbose: False
