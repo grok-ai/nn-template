@@ -1,9 +1,12 @@
-name: Test Suite
+name: Publish
 
-on: push
+on:
+  release:
+    types:
+      - created
 
 env:
-  CACHE_NUMBER: 1  # increase to reset cache manually
+  CACHE_NUMBER: 0  # increase to reset cache manually
   CONDA_ENV_FILE: './env.yaml'
   CONDA_ENV_NAME: 'nn-template'
 
@@ -13,19 +16,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9']
+        python-version: ['3.9']
         include:
           - os: ubuntu-20.04
             label: linux-64
             prefix: /usr/share/miniconda3/envs/
-
-#           - os: macos-latest
-#             label: osx-64
-#             prefix: /Users/runner/miniconda3/envs/$CONDA_ENV_NAME
-
-#           - os: windows-latest
-#             label: win-64
-#             prefix: C:\Miniconda3\envs\$CONDA_ENV_NAME
 
     name: ${{ matrix.label }}-py${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
@@ -41,7 +36,19 @@ jobs:
       - name: echo conda prefix
         run: echo ${{ env.PY_PREFIX }}
 
+      # extract the first two digits from the release note
+      - name: Set release notes tag
+        run: |
+          export RELEASE_TAG_VERSION=${{ github.event.release.tag_name }}
+          echo "RELEASE_TAG_VERSION=${RELEASE_TAG_VERSION%.*}">> $GITHUB_ENV
+
+      - name: Echo release notes tag
+        run: |
+          echo "${RELEASE_TAG_VERSION}"
+
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       # Remove the python version pin from the env.yml which could be inconsistent
       - name: Remove explicit python version from the environment
@@ -116,3 +123,10 @@ jobs:
         shell: bash -l {0}
         run: |
           pytest -v
+
+      - name: Build docs website
+        shell: bash -l {0}
+        run: |
+          git config user.name ci-bot
+          git config user.email ci-bot@ci.com
+          mike deploy --push --rebase --update-aliases ${RELEASE_TAG_VERSION} latest
