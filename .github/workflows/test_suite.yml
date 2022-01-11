@@ -1,6 +1,15 @@
 name: Test Suite
 
-on: push
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+      - ready_for_review
+      - review_requested
+      - auto_merge_enabled
 
 env:
   CACHE_NUMBER: 1  # increase to reset cache manually
