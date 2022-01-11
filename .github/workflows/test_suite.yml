@@ -69,17 +69,20 @@ jobs:
             use-mamba: true
 
       - uses: actions/cache@v2
+        name: Conda cache
         with:
           path: ${{ env.PY_PREFIX }}
           key: ${{ matrix.label }}-conda-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.CONDA_ENV_FILE) }}-${{hashFiles('./setup.cfg') }}
         id: conda_cache
 
       - uses: actions/cache@v2
+        name: Pip cache
         with:
           path: ~/.cache/pip
           key: ${{ matrix.label }}-pip-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.CONDA_ENV_FILE) }}-${{hashFiles('./setup.cfg') }}
 
       - uses: actions/cache@v2
+        name: Pre-commit cache
         with:
           path: ~/.cache/pre-commit
           key: ${{ matrix.label }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.CONDA_ENV_FILE) }}-${{hashFiles('./setup.cfg') }}
