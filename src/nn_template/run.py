@@ -13,8 +13,8 @@ import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 from pytorch_lightning import Callback, seed_everything
-from pytorch_lightning.loggers.base import DummyLogger
 
+from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
 from nn_core.resume import resolve_ckpt, resolve_run_path, resolve_run_version
@@ -42,7 +42,7 @@ RESUME_MODES = {
 
 
 def build_callbacks(cfg: DictConfig) -> List[Callback]:
-    callbacks: List[Callback] = []
+    callbacks: List[Callback] = [NNTemplateCore()]
 
     for callback in cfg:
         pylogger.info(f"Adding callback <{callback['_target_'].split('.')[-1]}>")
@@ -115,8 +115,7 @@ def run(cfg: DictConfig) -> str:
 
     storage_dir: str = cfg.core.storage_dir
 
-    # The logger attribute will be filled by the NNLoggerConfiguration callback.
-    logger: NNLogger = NNLogger(logger=DummyLogger(), storage_dir=storage_dir, cfg=cfg, resume_id=resume_run_version)
+    logger: NNLogger = NNLogger(logging_cfg=cfg.train.logging, cfg=cfg, resume_id=resume_run_version)
 
     pylogger.info("Instantiating the <Trainer>")
     trainer = pl.Trainer(
