@@ -15,6 +15,7 @@ import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 from pytorch_lightning import Callback, seed_everything
+from rich.prompt import Prompt
 
 from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT
@@ -82,6 +83,16 @@ def parse_restore(restore_cfg: DictConfig) -> Tuple[Optional[str], Optional[str]
     return resume_ckpt_path, resume_run_version
 
 
+def enforce_tags(tags: Optional[List[str]]) -> List[str]:
+    if tags is None:
+        pylogger.warning("No tags provided, asking for tags...")
+        tags = Prompt.ask("Enter a list of comma separated tags", default="develop")
+        tags = [x.strip() for x in tags.split(",")]
+
+    pylogger.info(f"Tags: {tags}")
+    return tags
+
+
 def run(cfg: DictConfig) -> str:
     """Generic train loop.
 
@@ -99,6 +110,7 @@ def run(cfg: DictConfig) -> str:
         cfg.nn.data.num_workers.val = 0
         cfg.nn.data.num_workers.test = 0
 
+    cfg.core.tags = enforce_tags(cfg.core.tags)
     resume_ckpt_path, resume_run_version = parse_restore(cfg.train.restore)
 
     # Instantiate datamodule
