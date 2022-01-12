@@ -28,6 +28,10 @@ class MyLightningModule(pl.LightningModule):
         self.val_accuracy = metric.clone()
         self.test_accuracy = metric.clone()
 
+    @property
+    def name(self) -> str:
+        return "simple_cnn"
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Method for the forward pass.
 

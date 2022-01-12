@@ -114,6 +114,7 @@ def run(cfg: DictConfig) -> str:
 
     storage_dir: str = cfg.core.storage_dir
 
+    cfg.train.logging.logger.name = f"{datamodule.name}-{model.name}"
     logger: NNLogger = NNLogger(logging_cfg=cfg.train.logging, cfg=cfg, resume_id=resume_run_version)
 
     pylogger.info("Instantiating the <Trainer>")
