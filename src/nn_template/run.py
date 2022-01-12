@@ -3,6 +3,7 @@ from operator import xor
 from typing import List, Optional, Tuple
 
 import hydra
+import numpy as np
 import omegaconf
 import pytorch_lightning as pl
 from hydra.core.hydra_config import HydraConfig
@@ -96,8 +97,15 @@ def run(cfg: DictConfig) -> str:
 
     :param cfg: run configuration, defined by Hydra in /conf
     """
-    if cfg.train.deterministic:
-        seed_everything(cfg.train.random_seed)
+    if "seed_index" in cfg.train and cfg.train.seed_index is not None:
+        seed_index = cfg.train.seed_index
+        seed_everything(42)
+        seeds = np.random.randint(np.iinfo(np.int32).max, size=max(42, seed_index + 1))
+        seed = seeds[seed_index]
+        seed_everything(seed)
+        pylogger.info(f"Setting seed {seed} from seeds[{seed_index}]")
+    else:
+        pylogger.warning("The seed has not been set! The reproducibility is not guaranteed.")
 
     fast_dev_run: bool = cfg.train.trainer.fast_dev_run
     if fast_dev_run:
