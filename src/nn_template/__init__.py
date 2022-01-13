@@ -2,6 +2,18 @@ import logging
 
 from nn_core.console_logging import NNRichHandler
 
+# Required workaround because PyTorch Lightning configures the logging on import,
+# thus the logging configuration defined in the __init__.py must be called before
+# the lightning import otherwise it has no effect.
+# See https://github.com/PyTorchLightning/pytorch-lightning/issues/1503
+#
+# Force the execution of __init__.py if this file is executed directly.
+lightning_logger = logging.getLogger("pytorch_lightning")
+# Remove all handlers associated with the lightning logger.
+for handler in lightning_logger.handlers[:]:
+    lightning_logger.removeHandler(handler)
+lightning_logger.propagate = True
+
 FORMAT = "%(message)s"
 logging.basicConfig(
     format=FORMAT,
