@@ -89,7 +89,7 @@ def enforce_tags(tags: Optional[List[str]]) -> List[str]:
         tags = Prompt.ask("Enter a list of comma separated tags", default="develop")
         tags = [x.strip() for x in tags.split(",")]
 
-    pylogger.info(f"Tags: {tags}")
+    pylogger.info(f"Tags: {tags if tags is not None else []}")
     return tags
 
 
