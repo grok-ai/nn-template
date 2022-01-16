@@ -5,8 +5,10 @@ from typing import List, Optional, Tuple
 import hydra
 import omegaconf
 import pytorch_lightning as pl
+from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig
 from pytorch_lightning import Callback, seed_everything
+from rich.prompt import Prompt
 
 from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT
@@ -73,6 +75,22 @@ def parse_restore(restore_cfg: DictConfig) -> Tuple[Optional[str], Optional[str]
     return resume_ckpt_path, resume_run_version
 
 
+def enforce_tags(tags: Optional[List[str]]) -> List[str]:
+    if tags is None:
+        if "id" in HydraConfig().cfg.hydra.job:
+            # We are in multi-run setting (either via a sweep or a scheduler)
+            message: str = "You need to specify 'core.tags' in a multi-run setting!"
+            pylogger.error(message)
+            raise ValueError(message)
+
+        pylogger.warning("No tags provided, asking for tags...")
+        tags = Prompt.ask("Enter a list of comma separated tags", default="develop")
+        tags = [x.strip() for x in tags.split(",")]
+
+    pylogger.info(f"Tags: {tags if tags is not None else []}")
+    return tags
+
+
 def run(cfg: DictConfig) -> str:
     """Generic train loop.
 
@@ -90,6 +108,7 @@ def run(cfg: DictConfig) -> str:
         cfg.nn.data.num_workers.val = 0
         cfg.nn.data.num_workers.test = 0
 
+    cfg.core.tags = enforce_tags(cfg.core.get("tags", None))
     resume_ckpt_path, resume_run_version = parse_restore(cfg.train.restore)
 
     # Instantiate datamodule

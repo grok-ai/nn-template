@@ -47,6 +47,9 @@ def cfg(tmp_path_factory: TempPathFactory) -> DictConfig:
 def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg = OmegaConf.create(cfg)
 
+    # Add test tag
+    cfg.core.tags = ["testing"]
+
     # Disable gpus
     cfg.train.trainer.gpus = 0
 
