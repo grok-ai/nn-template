@@ -110,7 +110,7 @@ def run(cfg: DictConfig) -> str:
         cfg.nn.data.num_workers.val = 0
         cfg.nn.data.num_workers.test = 0
 
-    cfg.core.tags = enforce_tags(cfg.core.tags)
+    cfg.core.tags = enforce_tags(cfg.core.get("tags", None))
     resume_ckpt_path, resume_run_version = parse_restore(cfg.train.restore)
 
     # Instantiate datamodule
