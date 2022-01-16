@@ -2,15 +2,14 @@ import logging
 from typing import List
 
 import hydra
-import numpy as np
 import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
-from pytorch_lightning import Callback, seed_everything
+from pytorch_lightning import Callback
 
 from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT
-from nn_core.common.utils import enforce_tags
+from nn_core.common.utils import enforce_tags, seed_index_everything
 from nn_core.model_logging import NNLogger
 from nn_core.resume import parse_restore
 
@@ -35,15 +34,7 @@ def run(cfg: DictConfig) -> str:
 
     :param cfg: run configuration, defined by Hydra in /conf
     """
-    if "seed_index" in cfg.train and cfg.train.seed_index is not None:
-        seed_index = cfg.train.seed_index
-        seed_everything(42)
-        seeds = np.random.randint(np.iinfo(np.int32).max, size=max(42, seed_index + 1))
-        seed = seeds[seed_index]
-        seed_everything(seed)
-        pylogger.info(f"Setting seed {seed} from seeds[{seed_index}]")
-    else:
-        pylogger.warning("The seed has not been set! The reproducibility is not guaranteed.")
+    seed_index_everything(cfg.train)
 
     fast_dev_run: bool = cfg.train.trainer.fast_dev_run
     if fast_dev_run:
