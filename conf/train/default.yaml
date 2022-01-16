@@ -1,6 +1,6 @@
 # reproducibility
+seed_index: 0
 deterministic: False
-random_seed: 42
 
 # PyTorch Lightning Trainer https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html
 trainer:
