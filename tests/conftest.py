@@ -56,6 +56,10 @@ def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     # Disable logger
     cfg.train.logging.logger.mode = "disabled"
 
+    # Disable files upload because wandb in offline modes uses always /tmp
+    # as run.dir, which causes conflicts between multiple trainings
+    cfg.train.logging.upload.run_files = False
+
     # Disable multiple workers in test training
     cfg.nn.data.num_workers.train = 0
     cfg.nn.data.num_workers.val = 0
