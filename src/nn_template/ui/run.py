@@ -3,13 +3,14 @@ from pathlib import Path
 import streamlit as st
 import wandb
 
-from nn_template.modules.model import MyModel
-from nn_template.ui.ui_utils import select_checkpoint
+from nn_core.ui import select_checkpoint
+
+from nn_template.pl_modules.pl_module import MyLightningModule
 
 
 @st.cache(allow_output_mutation=True)
 def get_model(checkpoint_path: Path):
-    return MyModel.load_from_checkpoint(checkpoint_path=str(checkpoint_path))
+    return MyLightningModule.load_from_checkpoint(checkpoint_path=str(checkpoint_path))
 
 
 if wandb.api.api_key is None:
@@ -19,4 +20,5 @@ if wandb.api.api_key is None:
 st.sidebar.subheader(f"Logged in W&B as: {wandb.api.viewer()['entity']}")
 
 checkpoint_path = select_checkpoint()
-model: MyModel = get_model(checkpoint_path=checkpoint_path)
+model: MyLightningModule = get_model(checkpoint_path=checkpoint_path)
+model
