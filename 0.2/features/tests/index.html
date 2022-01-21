@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#tests" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -668,6 +673,8 @@ You're not viewing the latest version.
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Tests
@@ -713,7 +720,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -753,81 +760,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -848,8 +784,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -891,20 +825,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -999,6 +919,24 @@ You're not viewing the latest version.
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -1009,9 +947,16 @@ You're not viewing the latest version.
 </a>
 
 
-  <h1>Tests</h1>
-
-
+<h1 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h1>
+<p>The generated project includes automated tests that use the <strong>current configuration</strong> defined in your project.</p>
+<p>You should write additional tests specific to each project, but running the tests should give an
+idea at least if the code and fundamental operations work as expected.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>You can execute the tests with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>pytest -v
+</code></pre></div>
+</div>
 
               
             </article>

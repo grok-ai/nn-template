@@ -758,7 +758,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../../features/determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -798,81 +798,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../../features/cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -893,8 +822,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -936,20 +863,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../../features/bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -1097,27 +1010,29 @@ You're not viewing the latest version.
 <h1 id="data-version-control">Data Version Control<a class="headerlink" href="#data-version-control" title="Permanent link">&para;</a></h1>
 <p>DVC runs alongside <code>git</code> and uses the current commit hash to version control the data.</p>
 <p>Initialize the <code>dvc</code> repository:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ dvc init
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>$ dvc init
 </code></pre></div>
 <p>To start tracking a file or directory, use <code>dvc add</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ dvc add data/ImageNet
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>$ dvc add data/ImageNet
 </code></pre></div>
 <p>DVC stores information about the added file (or a directory) in a special <code>.dvc</code> file named <code>data/ImageNet.dvc</code>, a small text file with a human-readable format.
 This file can be easily versioned like source code with Git, as a placeholder for the original data (which gets listed in <code>.gitignore</code>):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git add data/ImageNet.dvc data/.gitignore
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git commit -m <span class="s2">&quot;Add raw data&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a>git add data/ImageNet.dvc data/.gitignore
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a>git commit -m <span class="s2">&quot;Add raw data&quot;</span>
 </code></pre></div>
 <h2 id="making-changes">Making changes<a class="headerlink" href="#making-changes" title="Permanent link">&para;</a></h2>
 <p>When you make a change to a file or directory, run <code>dvc add</code> again to track the latest version:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$ dvc add data/ImageNet
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a>$ dvc add data/ImageNet
 </code></pre></div>
 <h2 id="switching-between-versions">Switching between versions<a class="headerlink" href="#switching-between-versions" title="Permanent link">&para;</a></h2>
 <p>The regular workflow is to use <code>git checkout</code> first to switch a branch, checkout a commit, or a revision of a <code>.dvc</code> file, and then run <code>dvc checkout</code> to sync data:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ git checkout &lt;...&gt;
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>$ dvc checkout
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>$ git checkout &lt;...&gt;
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a>$ dvc checkout
 </code></pre></div>
-<hr />
-<p>Read more in the <a href="https://dvc.org/doc/start/data-versioning">docs</a>!</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Read more in the DVC <a href="https://dvc.org/doc/start/data-versioning">docs</a>!</p>
+</div>
 
               
             </article>

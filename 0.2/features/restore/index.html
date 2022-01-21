@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#restore" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -682,10 +687,50 @@ You're not viewing the latest version.
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Restore
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Restore
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ckpt_or_run_path" class="md-nav__link">
+    ckpt_or_run_path
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mode" class="md-nav__link">
+    mode
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -713,7 +758,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -753,81 +798,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -848,8 +822,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -891,20 +863,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -999,6 +957,46 @@ You're not viewing the latest version.
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ckpt_or_run_path" class="md-nav__link">
+    ckpt_or_run_path
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mode" class="md-nav__link">
+    mode
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -1009,9 +1007,48 @@ You're not viewing the latest version.
 </a>
 
 
-  <h1>Restore</h1>
-
-
+<h1 id="restore">Restore<a class="headerlink" href="#restore" title="Permanent link">&para;</a></h1>
+<p>The template offers a way to restore a previous run from the configuration.
+The relevant configuration block is in <code>conf/train/default.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">restore</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>  <span class="nt">ckpt_or_run_path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>  <span class="nt">mode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span> <span class="c1"># null, continue, hotstart</span>
+</code></pre></div>
+<h2 id="ckpt_or_run_path">ckpt_or_run_path<a class="headerlink" href="#ckpt_or_run_path" title="Permanent link">&para;</a></h2>
+<p>The <code>ckpt_or_run_path</code> can be a path towards a Lightning Checkpoint or the run identifies.
+In case of W&amp;B it is called <code>run_path</code> and are in the form of <code>entity/project/run_id</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If <code>ckpt_or_run_path</code> points to a checkpoint, that checkpoint must have been saved with
+this template, because additional information are attached to the checkpoint to guarantee
+a correct restore. These include the <code>run_path</code> itself and the whole configuration used.</p>
+</div>
+<h2 id="mode">mode<a class="headerlink" href="#mode" title="Permanent link">&para;</a></h2>
+<p>We support three different modes for restoring an experiment:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">continue</label><label for="__tabbed_1_2">hotstart</label><label for="__tabbed_1_3">null</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nt">restore</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>    <span class="nt">mode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">continue</span>
+</code></pre></div>
+In this <code>mode</code> the training continues from the checkpoint <strong>and</strong> the logging continues
+in the previous run. No new run is created on the logger dashboard.</p>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="nt">restore</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a>    <span class="nt">mode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">hotstart</span>
+</code></pre></div>
+In this <code>mode</code> the training continues from the checkpoint <strong>but</strong> the logging does not.
+A new run is created on the logger dashboard.</p>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nt">restore</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a>    <span class="nt">mode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">null</span>
+</code></pre></div>
+In this <code>mode</code> no restore happens, and <code>ckpt_or_run_path</code> is ignored.</p>
+</div>
+</div>
+</div>
 
               
             </article>

@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#python-environment" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -705,7 +710,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -745,81 +750,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -842,8 +776,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -875,10 +807,50 @@ You're not viewing the latest version.
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Python Environment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Python Environment
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    Update
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -893,20 +865,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -1001,6 +959,46 @@ You're not viewing the latest version.
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    Update
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -1011,9 +1009,27 @@ You're not viewing the latest version.
 </a>
 
 
-  <h1>Python Environment</h1>
-
-
+<h1 id="python-environment">Python Environment<a class="headerlink" href="#python-environment" title="Permanent link">&para;</a></h1>
+<p>The generated project is a Python Package, whose dependencies are defined in the <code>setup.cfg</code>
+The development setup comprises a <code>conda</code> environment which installs the package itself in edit mode.</p>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<p>All the project dependencies should be defined in the <code>setup.cfg</code> as <code>pip</code> dependencies.
+In rare cases, it is useful to specify conda dependencies --- they will not be resolved when installing the package
+from PyPi.</p>
+<p>This division is useful when installing particular or optimized packages such a <code>PyTorch</code> and PyTorch Geometric.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It is possible to manage the Python version to use in the conda <code>env.yaml</code>.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This organization allows for <code>conda</code> and <code>pip</code> dependencies to co-exhist, which in practice happens a lot in
+research projects.</p>
+</div>
+<h2 id="update">Update<a class="headerlink" href="#update" title="Permanent link">&para;</a></h2>
+<p>In order to update the <code>pip</code> dependencies after changing the <code>setup.cfg</code> it is enough to run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>pip install -e <span class="s1">&#39;.[dev]&#39;</span>
+</code></pre></div>
 
               
             </article>
@@ -1032,7 +1048,7 @@ You're not viewing the latest version.
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../docs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Docs" rel="prev">
+        <a href="../cicd/" class="md-footer__link md-footer__link--prev" aria-label="Previous: CI/CD" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1041,7 +1057,7 @@ You're not viewing the latest version.
               <span class="md-footer__direction">
                 Previous
               </span>
-              Docs
+              CI/CD
             </div>
           </div>
         </a>

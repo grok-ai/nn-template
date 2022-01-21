@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#nn-template-core" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -626,6 +631,8 @@ You're not viewing the latest version.
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Core
@@ -713,7 +720,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -753,81 +760,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -848,8 +784,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -891,20 +825,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -999,6 +919,24 @@ You're not viewing the latest version.
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -1009,9 +947,24 @@ You're not viewing the latest version.
 </a>
 
 
-  <h1>Core</h1>
-
-
+<h1 id="nn-template-core">NN Template core<a class="headerlink" href="#nn-template-core" title="Permanent link">&para;</a></h1>
+<p>Most of the logic is abstracted from the template into an accompanying library: <a href="https://pypi.org/project/nn-template-core/"><code>nn-tempalte-core</code></a>.</p>
+<p>This library contains the logic necessary for the restore, logging, and many other functionalities implemented in the template.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This decoupling eases the updating of the template, reaching a desiderable tradeoff:</p>
+<ul>
+<li><code>template</code>: easy to use and customize, hard to update</li>
+<li><code>library</code>: hard to customize, easy to update</li>
+</ul>
+<p>With our approach updating most of the functions is extremely easy, it is just a python
+dependency, while maintaing the flexibility of a template.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is important to not remove the <code>NNTemplateCore</code> callback from the instantiated callbacks
+in the template. It is used to inject personalized behaviour in the training loop.</p>
+</div>
 
               
             </article>

@@ -720,7 +720,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../../features/determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -760,81 +760,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../../features/cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -855,8 +784,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -898,20 +825,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../../features/bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -1035,23 +948,23 @@ You're not viewing the latest version.
 
 
 <h1 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h1>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>.
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── .cache
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── conf                <span class="c1"># hydra compositional config</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   ├── nn
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── default.yaml    <span class="c1"># current experiment configuration</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── hydra
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   └── train
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>├── data                <span class="c1"># datasets</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├── .env                <span class="c1"># system-specific env variables, e.g. PROJECT_ROOT</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>├── requirements.txt    <span class="c1"># basic requirements</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>├── src
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   ├── common          <span class="c1"># common modules and utilities</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│   ├── data         <span class="c1"># PyTorch Lightning datamodules and datasets</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│   ├── modules      <span class="c1"># PyTorch Lightning modules</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│   ├── run.py          <span class="c1"># entry point to run current conf</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│   └── ui              <span class="c1"># interactive streamlit apps</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>└── wandb               <span class="c1"># local experiments (auto-generated)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>.
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>├── .cache
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>├── conf                <span class="c1"># hydra compositional config</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>│   ├── nn
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>│   ├── default.yaml    <span class="c1"># current experiment configuration</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>│   ├── hydra
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>│   └── train
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a>├── data                <span class="c1"># datasets</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>├── .env                <span class="c1"># system-specific env variables, e.g. PROJECT_ROOT</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>├── requirements.txt    <span class="c1"># basic requirements</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>├── src
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>│   ├── common          <span class="c1"># common modules and utilities</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a>│   ├── data         <span class="c1"># PyTorch Lightning datamodules and datasets</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a>│   ├── modules      <span class="c1"># PyTorch Lightning modules</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a>│   ├── run.py          <span class="c1"># entry point to run current conf</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>│   └── ui              <span class="c1"># interactive streamlit apps</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a>└── wandb               <span class="c1"># local experiments (auto-generated)</span>
 </code></pre></div>
 
               

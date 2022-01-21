@@ -751,7 +751,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../../features/determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -791,81 +791,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../../features/cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -886,8 +815,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -929,20 +856,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../../features/bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../features/precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -1087,11 +1000,13 @@ You're not viewing the latest version.
 <h2 id="sweeps">Sweeps<a class="headerlink" href="#sweeps" title="Permanent link">&para;</a></h2>
 <p>You can easily perform hyperparameters <a href="https://hydra.cc/docs/advanced/override_grammar/extended">sweeps</a>, which override the configuration defined in <code>/conf/*</code>.</p>
 <p>The easiest one is the grid-search. It executes the code with every possible combinations of the specified hyperparameters:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">PYTHONPATH</span><span class="o">=</span>. python src/run.py -m optim.optimizer.lr<span class="o">=</span><span class="m">0</span>.02,0.002,0.0002 optim.lr_scheduler.T_mult<span class="o">=</span><span class="m">1</span>,2 optim.optimizer.weight_decay<span class="o">=</span><span class="m">0</span>,1e-5
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nv">PYTHONPATH</span><span class="o">=</span>. python src/run.py -m optim.optimizer.lr<span class="o">=</span><span class="m">0</span>.02,0.002,0.0002 optim.lr_scheduler.T_mult<span class="o">=</span><span class="m">1</span>,2 optim.optimizer.weight_decay<span class="o">=</span><span class="m">0</span>,1e-5
 </code></pre></div>
 <p>You can explore aggregate statistics or compare and analyze each run in the W&amp;B dashboard.</p>
-<hr />
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>We recommend to go through at least the <a href="https://hydra.cc/docs/tutorials/basic/your_first_app/simple_cli">Basic Tutorial</a>, and the docs about <a href="https://hydra.cc/docs/patterns/instantiate_objects/overview">Instantiating objects with Hydra</a>.</p>
+</div>
 
               
             </article>

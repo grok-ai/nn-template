@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#tooling" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -705,7 +710,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -745,81 +750,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -842,8 +776,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -889,25 +821,44 @@ You're not viewing the latest version.
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Tooling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Tooling
       </a>
       
-    </li>
-  
+        
 
-            
-          
-            
-              
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
-    <li class="md-nav__item">
-      <a href="../precommits/" class="md-nav__link">
-        Pre-commits
-      </a>
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-commits" class="md-nav__link">
+    Pre commits
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1001,6 +952,39 @@ You're not viewing the latest version.
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-commits" class="md-nav__link">
+    Pre commits
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -1011,9 +995,30 @@ You're not viewing the latest version.
 </a>
 
 
-  <h1>Tooling</h1>
-
-
+<h1 id="tooling">Tooling<a class="headerlink" href="#tooling" title="Permanent link">&para;</a></h1>
+<p>The template configures are the tooling necessary for a modern python project.</p>
+<p>These include:</p>
+<ul>
+<li><a href="https://editorconfig.org/"><strong>EditorConfig</strong></a>  maintain consistent coding styles for multiple developers.</li>
+<li><a href="https://black.readthedocs.io/en/stable/index.html"><strong>Black</strong></a> the uncompromising code formatter.</li>
+<li><a href="https://github.com/PyCQA/isort"><strong>isort</strong></a> sort imports alphabetically, and automatically separated into sections and by type.</li>
+<li><a href="https://flake8.pycqa.org/en/latest/"><strong>flake8</strong></a> check coding style (PEP8), programming errors and cyclomatic complexity.</li>
+<li><a href="http://www.pydocstyle.org/en/stable/"><strong>pydocstyle</strong></a> static analysis tool for checking compliance with Python docstring conventions.</li>
+<li><a href="http://mypy-lang.org/"><strong>MyPy</strong></a> static type checker for Python.</li>
+<li><a href="https://coverage.readthedocs.io/en/6.2/"><strong>Coverage</strong></a> measure code coverage of Python programs.</li>
+<li><a href="https://github.com/PyCQA/bandit"><strong>bandit</strong></a> security linter from PyCQA.</li>
+<li><a href="https://pre-commit.com/"><strong>pre-commit</strong></a> framework for managing and maintaining pre-commit hooks.</li>
+</ul>
+<h2 id="pre-commits">Pre commits<a class="headerlink" href="#pre-commits" title="Permanent link">&para;</a></h2>
+<p>The pre-commits configuration is defined in <code>.pre-commit-config.yaml</code>,
+and includes the most important checks and auto-fix to perform.</p>
+<p>If one of the pre-commits fails, <strong>the commit is aborted</strong> avoiding distraction errors.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The pre-commits are also run in the CI/CD as part of the Test Suite. This helps
+guaranteeing the all the contributors are respecting the code conventions in the
+pull requests.</p>
+</div>
 
               
             </article>
@@ -1048,13 +1053,13 @@ You're not viewing the latest version.
       
       
         
-        <a href="../precommits/" class="md-footer__link md-footer__link--next" aria-label="Next: Pre-commits" rel="next">
+        <a href="../../changelog/" class="md-footer__link md-footer__link--next" aria-label="Next: Changelog" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Pre-commits
+              Changelog
             </div>
           </div>
           <div class="md-footer__button md-icon">

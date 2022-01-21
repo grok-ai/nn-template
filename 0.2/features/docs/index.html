@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#documentation" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -646,11 +651,15 @@ You're not viewing the latest version.
               
   
   
+    
   
-    <li class="md-nav__item">
+  
+    <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
+      
+        
       
       
       <a href="./" class="md-nav__link md-nav__link--active">
@@ -711,7 +720,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -750,92 +759,11 @@ You're not viewing the latest version.
               
   
   
-    
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" checked>
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
   
     <li class="md-nav__item">
       <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        Docs
-      </a>
-      
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -856,8 +784,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -899,20 +825,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -1007,6 +919,24 @@ You're not viewing the latest version.
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -1017,9 +947,35 @@ You're not viewing the latest version.
 </a>
 
 
-  <h1>Docs</h1>
-
-
+<h1 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h1>
+<p><code>MkDocs</code> and <code>Material for MkDocs</code> is already configured in the generated project.</p>
+<p>In order to create your docs it is enough to:</p>
+<ol>
+<li>
+<p>Modify the <code>nav</code> index in the <code>mkdocs.yaml</code>, which describes how to organize the pages.
+   An example of the <code>nav</code> is the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">nav</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>  <span class="p p-Indicator">-</span> <span class="nt">Home</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">index.md</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>  <span class="p p-Indicator">-</span> <span class="nt">Getting started</span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="p p-Indicator">-</span> <span class="nt">Generating your project</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">getting-started/generation.md</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>    <span class="p p-Indicator">-</span> <span class="nt">Strucure</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">getting-started/structure.md</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create all the files referenced in the <code>nav</code> relative to the <code>docs/</code> folder.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>❯ tree docs
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>docs
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>├── getting-started
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a>│   ├── generation.md
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a>│   └── structure.md
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>└── index.md
+</code></pre></div>
+</li>
+<li>
+<p>To preview your documentation it is enough to run <code>mkdocs serve</code>. To manually deploy the documentation
+    see <a href="https://github.com/jimporter/mike"><code>mike</code></a>, or see the integrated GitHub Action to <a href="/features/publish/docs/">publish the docs on release</a>.</p>
+</li>
+</ol>
 
               
             </article>
@@ -1038,7 +994,7 @@ You're not viewing the latest version.
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../pypi/" class="md-footer__link md-footer__link--prev" aria-label="Previous: PyPi" rel="prev">
+        <a href="../tags/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Tags" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1047,20 +1003,20 @@ You're not viewing the latest version.
               <span class="md-footer__direction">
                 Previous
               </span>
-              PyPi
+              Tags
             </div>
           </div>
         </a>
       
       
         
-        <a href="../conda/" class="md-footer__link md-footer__link--next" aria-label="Next: Python Environment" rel="next">
+        <a href="../tests/" class="md-footer__link md-footer__link--next" aria-label="Next: Tests" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Python Environment
+              Tests
             </div>
           </div>
           <div class="md-footer__button md-icon">

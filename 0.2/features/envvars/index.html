@@ -710,7 +710,7 @@ You're not viewing the latest version.
   
     <li class="md-nav__item">
       <a href="../determinism/" class="md-nav__link">
-        Seeding
+        Determinism
       </a>
     </li>
   
@@ -760,81 +760,10 @@ You're not viewing the latest version.
   
   
   
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_10" type="checkbox" id="__nav_4_10" >
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_4_10">
-          Publish
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Publish" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_10">
-          <span class="md-nav__icon md-icon"></span>
-          Publish
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../cicd/" class="md-nav__link">
         CI/CD
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pypi/" class="md-nav__link">
-        PyPi
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../docs/" class="md-nav__link">
-        Docs
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -855,8 +784,6 @@ You're not viewing the latest version.
       
       
       
-        
-          
         
           
         
@@ -898,20 +825,6 @@ You're not viewing the latest version.
     <li class="md-nav__item">
       <a href="../bestpractices/" class="md-nav__link">
         Tooling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../precommits/" class="md-nav__link">
-        Pre-commits
       </a>
     </li>
   
@@ -1035,18 +948,33 @@ You're not viewing the latest version.
 
 
 <h1 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h1>
-<p>System specific variables (e.g. absolute paths to datasets) should not be under version control, otherwise there will be conflicts between different users.</p>
+<p>System specific variables (e.g. absolute paths) should not be under version control, otherwise there will be conflicts between different users.</p>
 <p>The best way to handle system specific variables is through environment variables.</p>
 <p>You can define new environment variables in a <code>.env</code> file in the project root. A copy of this file (e.g. <code>.env.template</code>) can be under version control to ease new project configurations.</p>
 <p>To define a new variable write inside <code>.env</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span> <span class="nv">MY_VAR</span><span class="o">=</span>/home/user/my_system_path
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nb">export</span> <span class="nv">MY_VAR</span><span class="o">=</span>/home/user/my_system_path
 </code></pre></div>
-<p>You can dynamically resolve the variable name from Python code with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">get_env</span><span class="p">(</span><span class="s2">&quot;MY_VAR&quot;</span><span class="p">)</span>
+<p>You can dynamically resolve the variable name from everywhere</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">python</label><label for="__tabbed_1_2">yaml</label><label for="__tabbed_1_3">posix</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>In Python code use:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="n">get_env</span><span class="p">(</span><span class="s2">&quot;MY_VAR&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>and in the Hydra <code>.yaml</code> configuration files with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="l l-Scalar l-Scalar-Plain">${oc.env:MY_VAR}</span><span class="w"></span>
+</div>
+<div class="tabbed-block">
+<p>In the Hydra <code>yaml</code> configurations:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="l l-Scalar l-Scalar-Plain">${oc.env:MY_VAR}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>In posix shells:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a>. .env
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nb">echo</span> <span class="nv">$MY_VAR</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 
               
             </article>
