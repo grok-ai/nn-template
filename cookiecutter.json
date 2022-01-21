@@ -1,9 +1,8 @@
 {
-    "project_name": "Project Name",
-    "__repository_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
-    "__package_name": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",
-
-    "conda_env_name": "{{ cookiecutter.__project_slug }}",
+    "project_name": "nn template",
+    "repository_name": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
+    "package_name": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('-', '_') }}",
+    "conda_env_name": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
 
     "use_docs": ["yes", "no"],
 
@@ -15,11 +14,9 @@
 
     "python_version": "3.9",
 
-    "logger": ["wandb"],
-
     "github_user": "",
 
-    "__version": "0.0.2",
+    "__version": "0.0.2"
 
 
 }

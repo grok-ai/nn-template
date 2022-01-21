@@ -5,7 +5,7 @@ import wandb
 
 from nn_core.ui import select_checkpoint
 
-from nn_template.pl_modules.pl_module import MyLightningModule
+from {{ cookiecutter.package_name }}.pl_modules.pl_module import MyLightningModule
 
 
 @st.cache(allow_output_mutation=True)

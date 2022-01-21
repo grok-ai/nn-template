@@ -24,7 +24,7 @@ profile = 'black'
 line_length = 120
 known_third_party = ["numpy", "pytest", "wandb", "torch"]
 known_first_party = ["nn_core"]
-known_local_folder = "nn_template"
+known_local_folder = "{{ cookiecutter.package_name }}"
 
 [tool.pydocstyle]
 convention = 'google'
@@ -35,7 +35,7 @@ add-ignore = ['D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D106', 'D107']
 skips = ["B101"]
 
 [tool.setuptools_scm]
-write_to = "src/nn_template/_version.py"
+write_to = "src/{{ cookiecutter.package_name }}/_version.py"
 write_to_template = '__version__ = "{version}"'
 
 [build-system]

@@ -14,7 +14,7 @@ from nn_core.model_logging import NNLogger
 from nn_core.resume import parse_restore
 
 # Force the execution of __init__.py if this file is executed directly.
-import nn_template  # noqa
+import {{ cookiecutter.package_name }}  # noqa
 
 pylogger = logging.getLogger(__name__)
 

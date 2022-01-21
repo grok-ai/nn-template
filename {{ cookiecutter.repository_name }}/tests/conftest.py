@@ -11,7 +11,7 @@ from omegaconf import DictConfig, OmegaConf
 from pytest import FixtureRequest, TempPathFactory
 from pytorch_lightning import seed_everything
 
-from nn_template.run import run
+from {{ cookiecutter.package_name }}.run import run
 
 seed_everything(42)
 

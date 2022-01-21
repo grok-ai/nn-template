@@ -4,7 +4,7 @@ from pytest import TempPathFactory
 
 from tests.conftest import TRAIN_MAX_NSTEPS, get_checkpoint_path, load_checkpoint
 
-from nn_template.run import run
+from {{ cookiecutter.package_name }}.run import run
 
 
 def test_resume(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig, tmp_path_factory: TempPathFactory) -> None:

@@ -17,6 +17,7 @@ env:
   CONDA_ENV_FILE: './env.yaml'
   CONDA_ENV_NAME: '{{ cookiecutter.conda_env_name }}'
 
+{% raw %}
 jobs:
   build:
 
@@ -136,3 +137,4 @@ jobs:
         shell: bash -l {0}
         run: |
           pytest -v
+{% endraw %}

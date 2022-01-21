@@ -7,8 +7,8 @@ from pytorch_lightning import LightningModule
 
 from tests.conftest import load_checkpoint
 
-from nn_template.pl_modules.pl_module import MyLightningModule
-from nn_template.run import run
+from {{ cookiecutter.package_name }}.pl_modules.pl_module import MyLightningModule
+from {{ cookiecutter.package_name }}.run import run
 
 
 def test_load_checkpoint(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig) -> None:

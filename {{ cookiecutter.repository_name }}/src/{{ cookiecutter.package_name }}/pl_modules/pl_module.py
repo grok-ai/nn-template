@@ -11,7 +11,7 @@ from torch.optim import Optimizer
 from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
 
-from nn_template.modules.module import CNN
+from {{ cookiecutter.package_name }}.modules.module import CNN
 
 
 class MyLightningModule(pl.LightningModule):

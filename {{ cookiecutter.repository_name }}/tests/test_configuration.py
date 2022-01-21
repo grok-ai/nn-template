@@ -1,7 +1,7 @@
 import hydra
 from omegaconf import DictConfig
 
-from nn_template.run import build_callbacks
+from {{ cookiecutter.package_name }}.run import build_callbacks
 
 
 def test_configuration_parsing(cfg: DictConfig) -> None:
