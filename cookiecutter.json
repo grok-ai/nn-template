@@ -1,0 +1,25 @@
+{
+    "project_name": "Project Name",
+    "__repository_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
+    "__package_name": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",
+
+    "conda_env_name": "{{ cookiecutter.__project_slug }}",
+
+    "use_docs": ["yes", "no"],
+
+    "project_description": "",
+
+    "author": "",
+
+    "author_email": "",
+
+    "python_version": "3.9",
+
+    "logger": ["wandb"],
+
+    "github_user": "",
+
+    "__version": "0.0.2",
+
+
+}
