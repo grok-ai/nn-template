@@ -85,7 +85,7 @@ def interactive_setup() -> None:
         "conda activate {{ cookiecutter.conda_env_name }}\n"
     )
     print(
-        f"\nActivate you conda environment with:\n"
+        f"\nActivate your conda environment with:\n"
         f"{textwrap.indent(final_command, prefix='    ')}\n"
     )
 
