@@ -8,7 +8,6 @@
     "package_name": "{{ cookiecutter.project_name.strip().lower().replace(' ', '-').replace('-', '_') }}",
     "repository_url": "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name.strip().lower().replace(' ', '-') }}",
     "conda_env_name": "{{ cookiecutter.project_name.strip().lower().replace(' ', '-') }}",
-    "use_docs": ["yes", "no"],
     "python_version": "3.9",
     "__version": "0.0.2"
 }
