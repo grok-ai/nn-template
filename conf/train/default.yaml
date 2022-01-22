@@ -51,6 +51,7 @@ logging:
   logger:
     _target_: pytorch_lightning.loggers.WandbLogger
 
+    name: null
     project: ${core.project_name}
     entity: null
     log_model: ${..upload.run_files}

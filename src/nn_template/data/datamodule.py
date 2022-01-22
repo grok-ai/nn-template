@@ -33,6 +33,10 @@ class MyDataModule(pl.LightningDataModule):
         # example
         self.val_percentage: float = val_percentage
 
+    @property
+    def name(self) -> str:
+        return "mnist_data"
+
     def prepare_data(self) -> None:
         # download only
         pass
