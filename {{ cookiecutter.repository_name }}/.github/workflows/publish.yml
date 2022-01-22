@@ -8,7 +8,7 @@ on:
 env:
   CACHE_NUMBER: 0  # increase to reset cache manually
   CONDA_ENV_FILE: './env.yaml'
-  CONDA_ENV_NAME: {{ cookiecutter.conda_env_name }}
+  CONDA_ENV_NAME: '{{ cookiecutter.conda_env_name }}'
 
 {% raw %}
 jobs:
@@ -133,4 +133,19 @@ jobs:
           git config user.name ci-bot
           git config user.email ci-bot@ci.com
           mike deploy --push --rebase --update-aliases ${RELEASE_TAG_VERSION} latest
-{% endraw %}
+          mike set-default latest
+
+        # Uncomment to publish on PyPI on release
+#      - name: Build SDist and wheel
+#        run: pipx run build
+#
+#      - name: Check metadata
+#        run: pipx run twine check dist/*
+#
+#      - name: Publish distribution 📦 to PyPI
+#        uses: pypa/gh-action-pypi-publish@release/v1
+#        with:
+#          user: __token__
+#          password: ${{ secrets.PYPI_API_TOKEN }}
+#
+#{% endraw %}
