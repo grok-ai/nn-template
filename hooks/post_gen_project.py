@@ -93,4 +93,7 @@ def interactive_setup() -> None:
 initialize_env_variables()
 interactive_setup()
 
-print("Have fun! :)")
+print(
+    'You are all set! Remember that if you use PyCharm, you must mark the "src" directory as "Sources Root"'
+)
+print("Have fun! :]")
