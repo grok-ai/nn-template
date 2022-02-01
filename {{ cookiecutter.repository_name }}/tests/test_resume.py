@@ -1,7 +1,7 @@
-import torch
 from omegaconf import DictConfig, OmegaConf
 from pytest import TempPathFactory
 
+from nn_core.serialization import NNCheckpointIO
 from tests.conftest import TRAIN_MAX_NSTEPS, get_checkpoint_path, load_checkpoint
 
 from {{ cookiecutter.package_name }}.run import run
@@ -21,7 +21,7 @@ def test_resume(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig, tmp_pat
 
     new_training_dir = run(new_cfg)
 
-    old_checkpoint = torch.load(old_checkpoint_path)
+    old_checkpoint = NNCheckpointIO.load(path=old_checkpoint_path)
     new_checkpoint = load_checkpoint(new_training_dir)
 
     assert old_checkpoint["run_path"] != new_checkpoint["run_path"]

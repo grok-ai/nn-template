@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import Dict, List
 
 import hydra
 import omegaconf
@@ -11,7 +11,7 @@ from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT
 from nn_core.common.utils import enforce_tags, seed_index_everything
 from nn_core.model_logging import NNLogger
-from nn_core.resume import parse_restore
+from nn_core.serialization import NNCheckpointIO
 
 # Force the execution of __init__.py if this file is executed directly.
 import {{ cookiecutter.package_name }}  # noqa
@@ -19,8 +19,8 @@ import {{ cookiecutter.package_name }}  # noqa
 pylogger = logging.getLogger(__name__)
 
 
-def build_callbacks(cfg: DictConfig) -> List[Callback]:
-    callbacks: List[Callback] = [NNTemplateCore()]
+def build_callbacks(cfg: DictConfig, *args: Callback) -> List[Callback]:
+    callbacks: List[Callback] = list(args)
 
     for callback in cfg:
         pylogger.info(f"Adding callback <{callback['_target_'].split('.')[-1]}>")
@@ -46,33 +46,38 @@ def run(cfg: DictConfig) -> str:
         cfg.nn.data.num_workers.test = 0
 
     cfg.core.tags = enforce_tags(cfg.core.get("tags", None))
-    resume_ckpt_path, resume_run_version = parse_restore(cfg.train.restore)
 
     # Instantiate datamodule
     pylogger.info(f"Instantiating <{cfg.nn.data['_target_']}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
 
+    metadata: Dict = getattr(datamodule, "metadata", None)
+
     # Instantiate model
     pylogger.info(f"Instantiating <{cfg.nn.module['_target_']}>")
-    model: pl.LightningModule = hydra.utils.instantiate(cfg.nn.module, _recursive_=False)
+    model: pl.LightningModule = hydra.utils.instantiate(cfg.nn.module, _recursive_=False, metadata=metadata)
 
     # Instantiate the callbacks
-    callbacks: List[Callback] = build_callbacks(cfg=cfg.train.callbacks)
+    template_core: NNTemplateCore = NNTemplateCore(
+        restore_cfg=cfg.train.get("restore", None),
+    )
+    callbacks: List[Callback] = build_callbacks(cfg.train.callbacks, template_core)
 
     storage_dir: str = cfg.core.storage_dir
 
-    logger: NNLogger = NNLogger(logging_cfg=cfg.train.logging, cfg=cfg, resume_id=resume_run_version)
+    logger: NNLogger = NNLogger(logging_cfg=cfg.train.logging, cfg=cfg, resume_id=template_core.resume_id)
 
     pylogger.info("Instantiating the <Trainer>")
     trainer = pl.Trainer(
         default_root_dir=storage_dir,
+        plugins=[NNCheckpointIO(jailing_dir=logger.run_dir)],
         logger=logger,
         callbacks=callbacks,
         **cfg.train.trainer,
     )
 
     pylogger.info("Starting training!")
-    trainer.fit(model=model, datamodule=datamodule, ckpt_path=resume_ckpt_path)
+    trainer.fit(model=model, datamodule=datamodule, ckpt_path=template_core.trainer_ckpt_path)
 
     if fast_dev_run:
         pylogger.info("Skipping testing in 'fast_dev_run' mode!")

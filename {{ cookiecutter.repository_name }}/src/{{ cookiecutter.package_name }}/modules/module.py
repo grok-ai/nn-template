@@ -3,7 +3,7 @@ from torch import nn
 
 # https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118
 class CNN(nn.Module):
-    def __init__(self):
+    def __init__(self, num_classes: int):
         super(CNN, self).__init__()
         self.model = nn.Sequential(
             nn.Conv2d(
@@ -20,7 +20,7 @@ class CNN(nn.Module):
             nn.MaxPool2d(2),
         )
         self.conv2 = nn.Sequential()
-        self.out = nn.Linear(32 * 7 * 7, 10)
+        self.out = nn.Linear(32 * 7 * 7, num_classes)
 
     def forward(self, x):
         x = self.model(x)

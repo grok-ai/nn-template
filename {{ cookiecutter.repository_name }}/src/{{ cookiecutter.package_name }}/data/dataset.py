@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 from torchvision.datasets import FashionMNIST
 
 from nn_core.common import PROJECT_ROOT
-from nn_core.types import Split
+from nn_core.nn_types import Split
 
 
 class MyDataset(Dataset):
@@ -19,6 +19,10 @@ class MyDataset(Dataset):
             download=True,
             transform=kwargs["transform"],
         )
+
+    @property
+    def class_vocab(self):
+        return self.mnist.class_to_idx
 
     def __len__(self) -> int:
         # example
