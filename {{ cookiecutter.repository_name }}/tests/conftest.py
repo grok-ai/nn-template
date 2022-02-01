@@ -1,17 +1,21 @@
+import logging
 import os
 import shutil
 from pathlib import Path
 from typing import Dict, Union
 
 import pytest
-import torch
 from hydra import compose, initialize
 from hydra.core.hydra_config import HydraConfig
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig, OmegaConf, open_dict
 from pytest import FixtureRequest, TempPathFactory
 from pytorch_lightning import seed_everything
 
+from nn_core.serialization import NNCheckpointIO
+
 from {{ cookiecutter.package_name }}.run import run
+
+logging.basicConfig(force=True, level=logging.DEBUG)
 
 seed_everything(42)
 
@@ -70,8 +74,10 @@ def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg.train.trainer.val_check_interval = TRAIN_MAX_NSTEPS
 
     # Ensure the resuming is disabled
-    cfg.train.restore.ckpt_or_run_path = None
-    cfg.train.restore.mode = None
+    with open_dict(config=cfg):
+        cfg.train.restore = {}
+        cfg.train.restore.ckpt_or_run_path = None
+        cfg.train.restore.mode = None
 
     return cfg
 
@@ -137,6 +143,6 @@ def get_checkpoint_path(storagedir: Union[str, Path]) -> Path:
 
 
 def load_checkpoint(storagedir: Union[str, Path]) -> Dict:
-    checkpoint = torch.load(get_checkpoint_path(storagedir))
+    checkpoint = NNCheckpointIO.load(path=get_checkpoint_path(storagedir))
     assert checkpoint
     return checkpoint

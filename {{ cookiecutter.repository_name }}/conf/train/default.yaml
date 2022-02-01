@@ -17,7 +17,7 @@ trainer:
 
 restore:
   ckpt_or_run_path: null
-  mode: null # null, continue, hotstart
+  mode: continue # null, finetune, hotstart, continue
 
 monitor:
   metric: 'loss/val'
@@ -31,7 +31,7 @@ callbacks:
     mode: ${train.monitor.mode}
 
   - _target_: pytorch_lightning.callbacks.ModelCheckpoint
-    save_top_k: 2
+    save_top_k: 1
     verbose: False
     monitor: ${train.monitor.metric}
     mode: ${train.monitor.mode}

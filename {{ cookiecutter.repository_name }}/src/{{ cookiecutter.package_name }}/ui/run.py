@@ -3,6 +3,7 @@ from pathlib import Path
 import streamlit as st
 import wandb
 
+from nn_core.serialization import NNCheckpointIO
 from nn_core.ui import select_checkpoint
 
 from {{ cookiecutter.package_name }}.pl_modules.pl_module import MyLightningModule
@@ -10,7 +11,7 @@ from {{ cookiecutter.package_name }}.pl_modules.pl_module import MyLightningModu
 
 @st.cache(allow_output_mutation=True)
 def get_model(checkpoint_path: Path):
-    return MyLightningModule.load_from_checkpoint(checkpoint_path=str(checkpoint_path))
+    return NNCheckpointIO.load(path=checkpoint_path)
 
 
 if wandb.api.api_key is None:

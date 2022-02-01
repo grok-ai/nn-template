@@ -21,4 +21,3 @@ def test_storage_checkpoint(run_trainings_not_dry: str, cfg_all_not_dry: DictCon
 
     checkpoints = list(cktps_path.glob("*"))
     assert len(checkpoints) == 1
-    assert checkpoints[0].name.endswith(".ckpt")

@@ -1,4 +1,5 @@
-from typing import Any, Mapping, Sequence, Tuple, Union
+import logging
+from typing import Any, Mapping, Optional, Sequence, Tuple, Union
 
 import hydra
 import omegaconf
@@ -11,22 +12,31 @@ from torch.optim import Optimizer
 from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
 
+from {{ cookiecutter.package_name }}.data.datamodule import MetaData
 from {{ cookiecutter.package_name }}.modules.module import CNN
+
+pylogger = logging.getLogger(__name__)
 
 
 class MyLightningModule(pl.LightningModule):
     logger: NNLogger
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, metadata: Optional[MetaData] = None, *args, **kwargs) -> None:
         super().__init__()
-        self.save_hyperparameters(logger=False)  # populate self.hparams with args and kwargs automagically!
-        # example
-        self.model = CNN()
 
+        # populate self.hparams with args and kwargs automagically!
+        # We want to skip metadata since it is saved separately by the
+        self.save_hyperparameters(logger=False, ignore=("metadata",))
+
+        self.metadata = metadata
+
+        # example
         metric = torchmetrics.Accuracy()
         self.train_accuracy = metric.clone()
         self.val_accuracy = metric.clone()
         self.test_accuracy = metric.clone()
+
+        self.model = CNN(num_classes=len(metadata.class_vocab))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Method for the forward pass.

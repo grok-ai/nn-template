@@ -5,6 +5,7 @@ from typing import Any, Dict
 from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning import LightningModule
 
+from nn_core.serialization import NNCheckpointIO
 from tests.conftest import load_checkpoint
 
 from {{ cookiecutter.package_name }}.pl_modules.pl_module import MyLightningModule
@@ -21,7 +22,9 @@ def test_load_checkpoint(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig
     module_class: LightningModule = getattr(import_module(module_ref), class_ref)
     assert module_class is not None
 
-    module = module_class.load_from_checkpoint(checkpoint_path=checkpoint_path)
+    checkpoint = NNCheckpointIO.load(path=checkpoint_path)
+
+    module = module_class._load_model_state(checkpoint=checkpoint, metadata=checkpoint["metadata"])
     assert module is not None
     assert sum(p.numel() for p in module.parameters())
 
