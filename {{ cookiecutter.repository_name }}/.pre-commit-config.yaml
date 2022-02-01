@@ -1,0 +1,83 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  -   repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.1.0
+      hooks:
+      - id: check-added-large-files  # prevents giant files from being committed.
+        args: ['--maxkb=4096']
+      - id: check-ast  # simply checks whether the files parse as valid python.
+#      - id: check-byte-order-marker  # forbids files which have a utf-8 byte-order marker.
+#      - id: check-builtin-literals  # requires literal syntax when initializing empty or zero python builtin types.
+#      - id: check-case-conflict  # checks for files that would conflict in case-insensitive filesystems.
+      - id: check-docstring-first  # checks a common error of defining a docstring after code.
+      - id: check-executables-have-shebangs  # ensures that (non-binary) executables have a shebang.
+#      - id: check-json  # checks json files for parseable syntax.
+#      - id: check-shebang-scripts-are-executable  # ensures that (non-binary) files with a shebang are executable.
+#      - id: pretty-format-json  # sets a standard for formatting json files.
+      - id: check-merge-conflict  # checks for files that contain merge conflict strings.
+      - id: check-symlinks  # checks for symlinks which do not point to anything.
+      - id: check-toml  # checks toml files for parseable syntax.
+#      - id: check-vcs-permalinks  # ensures that links to vcs websites are permalinks.
+#      - id: check-xml  # checks xml files for parseable syntax.
+      - id: check-yaml  # checks yaml files for parseable syntax.
+      - id: debug-statements  # checks for debugger imports and py37+ `breakpoint()` calls in python source.
+      - id: destroyed-symlinks  # detects symlinks which are changed to regular files with a content of a path which that symlink was pointing to.
+#      - id: detect-aws-credentials  # detects *your* aws credentials from the aws cli credentials file.
+      - id: detect-private-key  # detects the presence of private keys.
+#      - id: double-quote-string-fixer  # replaces double quoted strings with single quoted strings.
+      - id: end-of-file-fixer  # ensures that a file is either empty, or ends with one newline.
+#      - id: file-contents-sorter  # sorts the lines in specified files (defaults to alphabetical). you must provide list of target files as input in your .pre-commit-config.yaml file.
+#      - id: fix-byte-order-marker  # removes utf-8 byte order marker.
+#      - id: fix-encoding-pragma  # adds  # -*- coding: utf-8 -*- to the top of python files.
+#      - id: forbid-new-submodules  # prevents addition of new git submodules.
+      - id: mixed-line-ending  # replaces or checks mixed line ending.
+        args: ['--fix=no']
+#      - id: name-tests-test  # this verifies that test files are named correctly.
+#      - id: no-commit-to-branch  # don't commit to branch
+#      - id: requirements-txt-fixer  # sorts entries in requirements.txt.
+#      - id: sort-simple-yaml  # sorts simple yaml files which consist only of top-level keys, preserving comments and blocks.
+      - id: trailing-whitespace  # trims trailing whitespace.
+
+  - repo: https://github.com/PyCQA/isort.git
+    rev: '5.10.1'
+    hooks:
+      - id: isort
+
+  -   repo: https://github.com/psf/black.git
+      rev: '22.1.0'
+      hooks:
+      -   id: black
+      -   id: black-jupyter
+
+  - repo: https://github.com/asottile/blacken-docs.git
+    rev: 'v1.12.1'
+    hooks:
+    - id: blacken-docs
+
+  - repo: https://github.com/PyCQA/flake8.git
+    rev: '4.0.1'
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          - flake8-docstrings==1.6.0
+
+  - repo: https://github.com/pycqa/pydocstyle.git
+    rev: '6.1.1'
+    hooks:
+    -   id: pydocstyle
+        additional_dependencies:
+          - toml
+
+  - repo: https://github.com/kynan/nbstripout.git
+    rev: '0.5.0'
+    hooks:
+    -   id: nbstripout
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: '1.7.1'
+    hooks:
+    - id: bandit
+      args: ['-c', 'pyproject.toml', '--recursive', 'src']
+      additional_dependencies:
+        - toml

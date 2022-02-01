@@ -13,11 +13,11 @@ on:
       - synchronize
 
 env:
-  CACHE_NUMBER: 2  # increase to reset cache manually
+  CACHE_NUMBER: 1  # increase to reset cache manually
   CONDA_ENV_FILE: './env.yaml'
-  CONDA_ENV_NAME: 'project-test'
-  COOKIECUTTER_PROJECT_NAME: 'project-test'
+  CONDA_ENV_NAME: '{{ cookiecutter.conda_env_name }}'
 
+{% raw %}
 jobs:
   build:
 
@@ -54,39 +54,12 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      # COOKIECUTTER GENERATION
-      - name: Set up Python
-        uses: actions/setup-python@v1
-
-      - name: Install Dependencies
-        shell: bash -l {0}
-        run: |
-          pip install cookiecutter
-
-      - name: Generate Repo
-        shell: bash -l {0}
-        run: |
-          echo -e 'n\nn\nn\n' | cookiecutter . --no-input project_name=${{ env.COOKIECUTTER_PROJECT_NAME }}
-
-      - name: Init git into generated repo
-        shell: bash -l {0}
-        run: |
-          git config --global user.name ci-bot
-          git config --global user.email ci-bot@ci.com
-          git init
-          git add --all
-          git commit -m "Initial commit"
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
-
-      # GENERATED PROJECT CI/CD
-
       # Remove the python version pin from the env.yml which could be inconsistent
       - name: Remove explicit python version from the environment
         shell: bash -l {0}
         run: |
           sed -Ei '/^\s*-?\s*python\s*([#=].*)?$/d' ${{ env.CONDA_ENV_FILE }}
           cat  ${{ env.CONDA_ENV_FILE }}
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
       - name: Setup Mambaforge
         uses: conda-incubator/setup-miniconda@v2
@@ -123,45 +96,35 @@ jobs:
           echo "Installed Python: $(python --version)"
           echo "Expected: ${{ matrix.python-version }}"
           python --version | grep "Python ${{ matrix.python-version }}"
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
       - name: Update conda environment
         run: mamba env update -n ${{ env.PY_CONDA_ENV_NAME }} -f ${{ env.CONDA_ENV_FILE }}
         if: steps.conda_cache.outputs.cache-hit != 'true'
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
       # Update pip env whether or not there was a conda cache hit
       - name: Update pip environment
         shell: bash -l {0}
         run: pip install -e ".[dev]"
         if: steps.conda_cache.outputs.cache-hit == 'true'
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
       - run: pip3 list
         shell: bash -l {0}
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
-
       - run: mamba info
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
-
       - run: mamba list
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
-      # Ensure the hack for the python version worked
+       # Ensure the hack for the python version worked
       - name: Ensure we have the right Python
         shell: bash -l {0}
         run: |
           echo "Installed Python: $(python --version)"
           echo "Expected: ${{ matrix.python-version }}"
           python --version | grep "Python ${{ matrix.python-version }}"
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
       - name: Run pre-commits
         shell: bash -l {0}
         run: |
           pre-commit install
           pre-commit run -v --all-files --show-diff-on-failure
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
       # https://stackoverflow.com/questions/70520120/attributeerror-module-setuptools-distutils-has-no-attribute-version
       # https://github.com/pytorch/pytorch/pull/69904
@@ -169,10 +132,10 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install setuptools==59.5.0
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
       - name: Test with pytest
         shell: bash -l {0}
         run: |
           pytest -v
-        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
+#
+#{% endraw %}

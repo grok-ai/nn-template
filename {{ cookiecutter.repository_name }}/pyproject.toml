@@ -1,0 +1,43 @@
+[tool.pytest.ini_options]
+minversion = "6.2"
+addopts = "-ra"
+testpaths = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "raise NotImplementedError",
+    "raise NotImplementedError()",
+    "pragma: nocover",
+    "if __name__ == .__main__.:",
+]
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+
+[tool.mypy]
+files= ["src/**/*.py", "test/*.py"]
+ignore_missing_imports = true
+
+[tool.isort]
+profile = 'black'
+line_length = 120
+known_third_party = ["numpy", "pytest", "wandb", "torch"]
+known_first_party = ["nn_core"]
+known_local_folder = "{{ cookiecutter.package_name }}"
+
+[tool.pydocstyle]
+convention = 'google'
+# ignore all missing docs errors
+add-ignore = ['D100', 'D101', 'D102', 'D103', 'D104', 'D105', 'D106', 'D107']
+
+[tool.bandit]
+skips = ["B101"]
+
+[tool.setuptools_scm]
+write_to = "src/{{ cookiecutter.package_name }}/_version.py"
+write_to_template = '__version__ = "{version}"'
+
+[build-system]
+requires = ["setuptools==59.5", "wheel", "setuptools_scm[toml]>=6.3.1"]
+build-backend = "setuptools.build_meta"
