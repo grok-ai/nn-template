@@ -1,0 +1,13 @@
+{
+    "author": "Paul Erdős",
+    "author_email": "paul@erdos.com",
+    "github_user": "erdos",
+    "project_name": "Awesome Project",
+    "project_description": "A new awesome project.",
+    "repository_name": "{{ cookiecutter.project_name.strip().lower().replace(' ', '-') }}",
+    "package_name": "{{ cookiecutter.project_name.strip().lower().replace(' ', '-').replace('-', '_') }}",
+    "repository_url": "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name.strip().lower().replace(' ', '-') }}",
+    "conda_env_name": "{{ cookiecutter.project_name.strip().lower().replace(' ', '-') }}",
+    "python_version": "3.9",
+    "__version": "0.0.2"
+}
