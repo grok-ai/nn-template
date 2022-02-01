@@ -13,7 +13,7 @@ on:
       - synchronize
 
 env:
-  CACHE_NUMBER: 2  # increase to reset cache manually
+  CACHE_NUMBER: 3  # increase to reset cache manually
   CONDA_ENV_FILE: './env.yaml'
   CONDA_ENV_NAME: 'project-test'
   COOKIECUTTER_PROJECT_NAME: 'project-test'
