@@ -1,6 +1,12 @@
 # NN Template
 
 <p align="center">
+    <a href="https://github.com/lucmos/nn-template/actions/workflows/test_suite.yml"><img alt="CI" src=https://img.shields.io/github/workflow/status/lucmos/nn-template/Test%20Suite/main"></a>
+    <a href="https://lucmos.github.io/nn-template"><img alt="Docs" src=https://img.shields.io/github/workflow/status/lucmos/nn-template/pages%20build%20and%20deployment/gh-pages?label=docs></a>
+    <a href="https://pypi.org/project/nn-template-core/"><img alt="Release" src="https://img.shields.io/pypi/v/nn-template-core?label=nn-core"></a>
+</p>
+
+<p align="center">
     <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/-PyTorch-red?logo=pytorch&labelColor=gray"></a>
     <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/code-Lightning-blueviolet"></a>
     <a href="https://hydra.cc/"><img alt="Conf: hydra" src="https://img.shields.io/badge/conf-hydra-blue"></a>
