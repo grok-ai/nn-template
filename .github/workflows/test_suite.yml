@@ -125,6 +125,14 @@ jobs:
           python --version | grep "Python ${{ matrix.python-version }}"
         working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
+      # https://stackoverflow.com/questions/70520120/attributeerror-module-setuptools-distutils-has-no-attribute-version
+      # https://github.com/pytorch/pytorch/pull/69904
+      - name: Downgrade setuptools due to a but in PyTorch 1.10.1
+        shell: bash -l {0}
+        run: |
+          pip install setuptools==59.5.0 --upgrade
+        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
+
       - name: Update conda environment
         run: mamba env update -n ${{ env.PY_CONDA_ENV_NAME }} -f ${{ env.CONDA_ENV_FILE }}
         if: steps.conda_cache.outputs.cache-hit != 'true'
