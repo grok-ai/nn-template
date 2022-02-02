@@ -62,6 +62,8 @@ Avoid writing boilerplate code to integrate:
 
 ## Structure
 
+The generated projects will contain the following files:
+
 ```bash
 .
 ├── conf
@@ -73,13 +75,24 @@ Avoid writing boilerplate code to integrate:
 │   └── train
 │       └── default.yaml
 ├── data
+│   └── .gitignore
 ├── docs
 │   ├── index.md
 │   └── overrides
 │       └── main.html
+├── .editorconfig
+├── .env
+├── .env.template
 ├── env.yaml
+├── .flake8
+├── .github
+│   └── workflows
+│       ├── publish.yml
+│       └── test_suite.yml
+├── .gitignore
 ├── LICENSE
 ├── mkdocs.yml
+├── .pre-commit-config.yaml
 ├── pyproject.toml
 ├── README.md
 ├── setup.cfg
