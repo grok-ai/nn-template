@@ -20,7 +20,7 @@ pylogger = logging.getLogger(__name__)
 
 
 def build_callbacks(cfg: ListConfig, *args: Callback) -> List[Callback]:
-    """Instantiate the callbacks given their configuration
+    """Instantiate the callbacks given their configuration.
 
     Args:
         cfg: a list of callbacks instantiable configuration
@@ -39,7 +39,7 @@ def build_callbacks(cfg: ListConfig, *args: Callback) -> List[Callback]:
 
 
 def run(cfg: DictConfig) -> str:
-    """Generic train loop
+    """Generic train loop.
 
     Args:
         cfg: run configuration, defined by Hydra in /conf

@@ -142,7 +142,7 @@ class MyLightningModule(pl.LightningModule):
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig) -> None:
-    """Debug main to quickly develop the Lightning Module
+    """Debug main to quickly develop the Lightning Module.
 
     Args:
         cfg: the hydra configuration

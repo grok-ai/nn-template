@@ -16,7 +16,7 @@ pylogger = logging.getLogger(__name__)
 
 class MetaData:
     def __init__(self, class_vocab: Mapping[str, int]):
-        """ The data information the Lightning Module will be provided
+        """The data information the Lightning Module will be provided.
 
         The Lightning Module will receive an instance of MetaData when instantiated,
         both in the train loop or when restored from a checkpoint.
@@ -35,7 +35,7 @@ class MetaData:
         self.class_vocab: Mapping[str, int] = class_vocab
 
     def save(self, dst_path: Path) -> None:
-        """Serialize the MetaData attributes into the zipped checkpoint in dst_path
+        """Serialize the MetaData attributes into the zipped checkpoint in dst_path.
 
         Args:
             dst_path: the root folder of the metadata inside the zipped checkpoint
@@ -48,7 +48,7 @@ class MetaData:
 
     @staticmethod
     def load(src_path: Path) -> "MetaData":
-        """Deserialize the MetaData from the information contained inside the zipped checkpoint in src_path
+        """Deserialize the MetaData from the information contained inside the zipped checkpoint in src_path.
 
         Args:
             src_path: the root folder of the metadata inside the zipped checkpoint
@@ -180,7 +180,7 @@ class MyDataModule(pl.LightningDataModule):
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
 def main(cfg: omegaconf.DictConfig) -> None:
-    """Debug main to quickly develop the DataModule
+    """Debug main to quickly develop the DataModule.
 
     Args:
         cfg: the hydra configuration
