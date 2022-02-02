@@ -16,16 +16,21 @@ pylogger = logging.getLogger(__name__)
 
 class MetaData:
     def __init__(self, class_vocab: Mapping[str, int]):
-        """The data information the Lightning Module will be provided.
+        """The data information the Lightning Module will be provided with.
+
+        This is a "bridge" between the Lightning DataModule and the Lightning Module.
+        There is no constraint on the class name nor in the stored information, as long as it exposes the
+        `save` and `load` methods.
 
         The Lightning Module will receive an instance of MetaData when instantiated,
         both in the train loop or when restored from a checkpoint.
-        In this way, the architecture can ba parametric (e.g. in the number of classes).
 
-        MetaData should contain all the information needed a test time, derived from its train dataset.
+        This decoupling allows the architecture to be parametric (e.g. in the number of classes) and
+        DataModule/Trainer independent (useful in prediction scenarios).
+        MetaData should contain all the information needed at test time, derived from its train dataset.
+
         Examples are the class names in a classification task or the vocabulary in NLP tasks.
-
-        Moreover, MetaData exposes `save` and `load`. Those are two user-defined methods that specify
+        MetaData exposes `save` and `load`. Those are two user-defined methods that specify
         how to serialize and de-serialize the information contained in its attributes.
         This is needed for the checkpointing restore to work properly.
 
