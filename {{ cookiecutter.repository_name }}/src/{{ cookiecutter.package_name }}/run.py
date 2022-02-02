@@ -4,7 +4,7 @@ from typing import Dict, List
 import hydra
 import omegaconf
 import pytorch_lightning as pl
-from omegaconf import DictConfig
+from omegaconf import DictConfig, ListConfig
 from pytorch_lightning import Callback
 
 from nn_core.callbacks import NNTemplateCore
@@ -19,7 +19,16 @@ import {{ cookiecutter.package_name }}  # noqa
 pylogger = logging.getLogger(__name__)
 
 
-def build_callbacks(cfg: DictConfig, *args: Callback) -> List[Callback]:
+def build_callbacks(cfg: ListConfig, *args: Callback) -> List[Callback]:
+    """Instantiate the callbacks given their configuration
+
+    Args:
+        cfg: a list of callbacks instantiable configuration
+        *args: a list of extra callbacks already instantiated
+
+    Returns:
+        the complete list of callbacks to use
+    """
     callbacks: List[Callback] = list(args)
 
     for callback in cfg:
@@ -30,9 +39,13 @@ def build_callbacks(cfg: DictConfig, *args: Callback) -> List[Callback]:
 
 
 def run(cfg: DictConfig) -> str:
-    """Generic train loop.
+    """Generic train loop
 
-    :param cfg: run configuration, defined by Hydra in /conf
+    Args:
+        cfg: run configuration, defined by Hydra in /conf
+
+    Returns:
+        the run directory inside the storage_dir used by the current experiment
     """
     seed_index_everything(cfg.train)
 
