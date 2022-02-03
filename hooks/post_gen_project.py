@@ -214,8 +214,8 @@ print(
 )
 print(
     "Remember to:\n"
-    "    - Enable the GitHub Actions in the repository.\n"
-    '    - Enable the Github Pages in the "gh-pages" branch, auto-published on each release.'
+    "    - Ensure the GitHub Actions in the repository are enabled.\n"
+    "    - Ensure the Github Pages are enabled to auto-publish the docs on each release."
 )
 
 print("Have fun! :]")
