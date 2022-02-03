@@ -103,7 +103,8 @@ SETUP_COMMANDS: List[Query] = [
         interactive=False,
         prompt="Activate your conda environment with:",
         command="cd {{ cookiecutter.repository_name }}\n"
-        "conda activate {{ cookiecutter.conda_env_name }}",
+        "conda activate {{ cookiecutter.conda_env_name }}\n"
+        "pytest -v",
         autorun=False,
         dependencies=[
             Dependency(id="conda_env", expected=True),
