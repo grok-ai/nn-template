@@ -54,6 +54,7 @@ class Dependency:
 class Query:
     id: str
     interactive: bool
+    default: bool
     prompt: str
     command: str
     autorun: bool
@@ -64,6 +65,7 @@ SETUP_COMMANDS: List[Query] = [
     Query(
         id="git_init",
         interactive=True,
+        default=True,
         prompt="Initializing git repository...",
         command="git init\n"
         "git add --all\n"
@@ -73,6 +75,7 @@ SETUP_COMMANDS: List[Query] = [
     Query(
         id="git_remote",
         interactive=True,
+        default=True,
         prompt="Adding git remote...",
         command="git remote add origin git@github.com:{{ cookiecutter.github_user }}/{{ cookiecutter.repository_name }}.git",
         autorun=True,
@@ -81,15 +84,28 @@ SETUP_COMMANDS: List[Query] = [
         ],
     ),
     Query(
+        id="git_push_main",
+        interactive=True,
+        default=True,
+        prompt="Pushing default branch to existing remote...",
+        command="git push -u origin HEAD",
+        autorun=True,
+        dependencies=[
+            Dependency(id="git_remote", expected=True),
+        ],
+    ),
+    Query(
         id="conda_env",
         interactive=True,
+        default=True,
         prompt="Creating conda environment...",
         command="conda env create -f env.yaml",
         autorun=True,
     ),
     Query(
         id="precommit_install",
-        interactive=False,
+        interactive=True,
+        default=True,
         prompt="Installing pre-commits...",
         command="conda run -n {{ cookiecutter.conda_env_name }} pre-commit install",
         autorun=True,
@@ -99,8 +115,34 @@ SETUP_COMMANDS: List[Query] = [
         ],
     ),
     Query(
+        id="mike_init",
+        interactive=True,
+        default=True,
+        prompt="Initializing gh-pages branch for GitHub Pages...",
+        command="conda run -n {{ cookiecutter.conda_env_name }} mike deploy --update-aliases 0.0 latest\n"
+        "conda run -n {{ cookiecutter.conda_env_name }} mike set-default latest",
+        autorun=True,
+        dependencies=[
+            Dependency(id="conda_env", expected=True),
+            Dependency(id="git_init", expected=True),
+        ],
+    ),
+    Query(
+        id="mike_push",
+        interactive=True,
+        default=True,
+        prompt="Pushing 'gh-pages' branch to existing remote...",
+        command="git push origin gh-pages",
+        autorun=True,
+        dependencies=[
+            Dependency(id="mike_init", expected=True),
+            Dependency(id="git_remote", expected=True),
+        ],
+    ),
+    Query(
         id="conda_activate",
         interactive=False,
+        default=True,
         prompt="Activate your conda environment with:",
         command="cd {{ cookiecutter.repository_name }}\n"
         "conda activate {{ cookiecutter.conda_env_name }}\n"
@@ -137,7 +179,7 @@ def setup(setup_commands) -> None:
                     f'{textwrap.indent(query.command, prefix="    ")}\n'
                     f"\n"
                     f"Execute?",
-                    default=True,
+                    default=query.default,
                 )
             else:
                 print(
@@ -165,9 +207,15 @@ initialize_env_variables()
 setup(setup_commands=SETUP_COMMANDS)
 
 print(
-    "\nYou are all set!\n"
+    "\nYou are all set!\n\n"
     "Remember that if you use PyCharm, you must:\n"
     '    - Mark the "src" directory as "Sources Root".\n'
     '    - Enable "Emulate terminal in output console" in the run configuration.\n'
 )
+print(
+    "Remember to:\n"
+    "    - Enable the GitHub Actions in the repository.\n"
+    '    - Enable the Github Pages in the "gh-pages" branch, auto-published on each release.'
+)
+
 print("Have fun! :]")
