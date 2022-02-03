@@ -1,1 +1,1 @@
-See the changelog in the [releases](https://github.com/lucmos/nn-template/releases) page.
+See the changelog in the [releases](https://github.com/grok-ai/nn-template/releases) page.

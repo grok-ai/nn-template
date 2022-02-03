@@ -32,14 +32,14 @@
 
 
 Generic cookiecutter template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
-read more in the [documentation](https://lucmos.github.io/nn-template).
+read more in the [documentation](https://grok-ai.github.io/nn-template).
 
 ## Get started
 
 Generate your project with cookiecutter:
 
 ```bash
-cookiecutter https://github.com/lucmos/nn-template
+cookiecutter https://github.com/grok-ai/nn-template
 ```
 
 > This is a *parametrized* template that uses [cookiecutter](https://github.com/cookiecutter/cookiecutter).
