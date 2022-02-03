@@ -52,6 +52,16 @@ jobs:
       - name: echo conda prefix
         run: echo ${{ env.PY_PREFIX }}
 
+      - name: Define generated project files paths
+        run: |
+          echo "PROJECT_SETUPCFG_FILE=${{ env.COOKIECUTTER_PROJECT_NAME }}/setup.cfg" >> $GITHUB_ENV
+          echo "PROJECT_CONDAENV_FILE=${{ env.COOKIECUTTER_PROJECT_NAME }}/${{ env.CONDA_ENV_FILE }}" >> $GITHUB_ENV
+          echo "PROJECT_PRECOMMIT_FILE=${{ env.COOKIECUTTER_PROJECT_NAME }}/.pre-commit-config.yaml" >> $GITHUB_ENV
+
+      - name: Define cache key postfix
+        run: |
+          echo "CACHE_KEY_POSTFIX=${{ matrix.label }}-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.PROJECT_CONDAENV_FILE) }}-${{ hashFiles(env.PROJECT_SETUPCFG_FILE) }}" >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
 
       # COOKIECUTTER GENERATION
@@ -101,20 +111,20 @@ jobs:
         name: Conda cache
         with:
           path: ${{ env.PY_PREFIX }}
-          key: ${{ matrix.label }}-conda-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.CONDA_ENV_FILE) }}-${{hashFiles('./setup.cfg') }}
+          key: conda-${{ env.CACHE_KEY_POSTFIX }}
         id: conda_cache
 
       - uses: actions/cache@v2
         name: Pip cache
         with:
           path: ~/.cache/pip
-          key: ${{ matrix.label }}-pip-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.CONDA_ENV_FILE) }}-${{hashFiles('./setup.cfg') }}
+          key: pip-${{ env.CACHE_KEY_POSTFIX }}
 
       - uses: actions/cache@v2
         name: Pre-commit cache
         with:
           path: ~/.cache/pre-commit
-          key: ${{ matrix.label }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.CONDA_ENV_FILE) }}-${{hashFiles('./setup.cfg') }}
+          key: pre-commit-${{ hashFiles(env.PROJECT_PRECOMMIT_FILE) }}-conda-${{ env.CACHE_KEY_POSTFIX }}
 
       # Ensure the hack for the python version worked
       - name: Ensure we have the right Python
