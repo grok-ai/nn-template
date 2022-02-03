@@ -140,7 +140,7 @@ jobs:
           git config user.name ci-bot
           git config user.email ci-bot@ci.com
           mike deploy --push --rebase --update-aliases ${RELEASE_TAG_VERSION} latest
-          mike set-default latest
+          mike set-default --push --rebase latest
 
         # Uncomment to publish on PyPI on release
 #      - name: Build SDist and wheel
