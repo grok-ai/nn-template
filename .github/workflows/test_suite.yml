@@ -58,17 +58,6 @@ jobs:
           echo "PROJECT_CONDAENV_FILE=${{ env.COOKIECUTTER_PROJECT_NAME }}/${{ env.CONDA_ENV_FILE }}" >> $GITHUB_ENV
           echo "PROJECT_PRECOMMIT_FILE=${{ env.COOKIECUTTER_PROJECT_NAME }}/.pre-commit-config.yaml" >> $GITHUB_ENV
 
-      - name: Define cache key postfix
-        run: |
-          echo "CACHE_KEY_POSTFIX=${{ matrix.label }}-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.PROJECT_CONDAENV_FILE) }}-${{ hashFiles(env.PROJECT_SETUPCFG_FILE) }}" >> $GITHUB_ENV
-
-      - name: Echo cache keys
-        run: |
-          echo ${{ env.PROJECT_SETUPCFG_FILE }}
-          echo ${{ env.PROJECT_CONDAENV_FILE }}
-          echo ${{ env.PROJECT_PRECOMMIT_FILE }}
-          echo ${{ env.CACHE_KEY_POSTFIX }}
-
       - uses: actions/checkout@v2
 
       # COOKIECUTTER GENERATION
@@ -94,6 +83,17 @@ jobs:
           git add --all
           git commit -m "Initial commit"
         working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
+
+      - name: Define cache key postfix
+        run: |
+          echo "CACHE_KEY_POSTFIX=${{ matrix.label }}-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.PROJECT_CONDAENV_FILE) }}-${{ hashFiles(env.PROJECT_SETUPCFG_FILE) }}" >> $GITHUB_ENV
+
+      - name: Echo cache keys
+        run: |
+          echo ${{ env.PROJECT_SETUPCFG_FILE }}
+          echo ${{ env.PROJECT_CONDAENV_FILE }}
+          echo ${{ env.PROJECT_PRECOMMIT_FILE }}
+          echo ${{ env.CACHE_KEY_POSTFIX }}
 
       # GENERATED PROJECT CI/CD
 
