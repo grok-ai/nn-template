@@ -190,7 +190,7 @@ def setup(setup_commands) -> None:
                 )
                 answers[query.id] = True
 
-            if answers[query.id] and query.autorun:
+            if answers[query.id] and (query.interactive or query.autorun):
                 try:
                     subprocess.run(
                         query.command,
