@@ -62,6 +62,13 @@ jobs:
         run: |
           echo "CACHE_KEY_POSTFIX=${{ matrix.label }}-${{ matrix.python-version }}-${{ env.CACHE_NUMBER }}-${{ env.PY_CONDA_ENV_NAME }}-${{ hashFiles(env.PROJECT_CONDAENV_FILE) }}-${{ hashFiles(env.PROJECT_SETUPCFG_FILE) }}" >> $GITHUB_ENV
 
+      - name: Echo cache keys
+        run: |
+          echo ${{ env.PROJECT_SETUPCFG_FILE }}
+          echo ${{ env.PROJECT_CONDAENV_FILE }}
+          echo ${{ env.PROJECT_PRECOMMIT_FILE }}
+          echo ${{ env.CACHE_KEY_POSTFIX }}
+
       - uses: actions/checkout@v2
 
       # COOKIECUTTER GENERATION
