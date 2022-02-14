@@ -29,6 +29,7 @@ nav:
       - MkDocs: integrations/mkdocs.md
       - DVC: integrations/dvc.md
       - GitHub Actions: integrations/githubactions.md
+  - Publications: papers.md
   - Changelog:
     - changelog.md
     - Upgrade: upgrade.md
