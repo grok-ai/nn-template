@@ -95,8 +95,9 @@ def run(cfg: DictConfig) -> str:
     if fast_dev_run:
         pylogger.info("Skipping testing in 'fast_dev_run' mode!")
     else:
-        pylogger.info("Starting testing!")
-        trainer.test(datamodule=datamodule)
+        if "test" in cfg.nn.data.datasets and trainer.checkpoint_callback.best_model_path is not None:
+            pylogger.info("Starting testing!")
+            trainer.test(datamodule=datamodule)
 
     # Logger closing to release resources/avoid multi-run conflicts
     if logger is not None:
