@@ -28,7 +28,7 @@ pip install git+ssh://git@github.com/{{ cookiecutter.github_user }}/{{ cookiecut
 Setup the development environment:
 
 ```bash
-git clone git+ssh://git@{{ cookiecutter.github_user }}/{{ cookiecutter.repository_name }}.git
+git clone git@github.com:{{ cookiecutter.github_user }}/{{ cookiecutter.repository_name }}.git
 conda env create -f env.yaml
 conda activate {{ cookiecutter.conda_env_name }}
 pre-commit install
