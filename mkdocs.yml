@@ -5,14 +5,15 @@ repo_url: https://github.com/grok-ai/nn-template
 nav:
   - Home: index.md
   - Getting started:
+    - getting-started/index.md
     - Generating your project: getting-started/generation.md
-    - Strucure: getting-started/structure.md
   - Features:
     - Core: features/nncore.md
+    - Restore: features/restore.md
+    - Metadata: features/metadata.md
     - Tags: features/tags.md
     - Docs: features/docs.md
     - Tests: features/tests.md
-    - Restore: features/restore.md
     - Storage: features/storage.md
     - Determinism: features/determinism.md
     - Fast dev run: features/fastdevrun.md
@@ -21,6 +22,12 @@ nav:
     - Best practices:
         - Python Environment: features/conda.md
         - Tooling: features/bestpractices.md
+          #  - Project Structure:
+          #    - project-structure/index.md
+          #    - Structure: project-structure/structure.md
+          #    - Conf: project-structure/conf.md
+          #    - NN: project-structure/conf.md
+          #    - Train:  project-structure/conf.md
   - Integrations:
       - PyTorch Lightning: integrations/lightning.md
       - Hydra: integrations/hydra.md
@@ -31,8 +38,8 @@ nav:
       - GitHub Actions: integrations/githubactions.md
   - Publications: papers.md
   - Changelog:
-    - changelog.md
-    - Upgrade: upgrade.md
+    - changelog/index.md
+    - Upgrade: changelog/upgrade.md
 
 theme:
   name: material
@@ -90,7 +97,11 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.smartsymbols
@@ -99,6 +110,9 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 extra_javascript:
   - javascripts/mathjax.js

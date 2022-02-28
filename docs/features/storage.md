@@ -10,7 +10,7 @@ storage
 └── <project_name>
     └──  <run_id>
          ├── checkpoints
-         │    └── <checkpoint_name>.ckpt
+         │    └── <checkpoint_name>.ckpt.zip
          └── config.yaml
 ```
 
@@ -21,4 +21,5 @@ stored inside the `storage_dir` should be uploaded to the cloud:
 logging:
   upload:
     run_files: true
+    source: true
 ```

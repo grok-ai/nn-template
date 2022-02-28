@@ -17,5 +17,5 @@ This library contains the logic necessary for the restore, logging, and many oth
 
 !!! warning
 
-    It is important to not remove the `NNTemplateCore` callback from the instantiated callbacks
+    It is important to **not** remove the `NNTemplateCore` callback from the instantiated callbacks
     in the template. It is used to inject personalized behaviour in the training loop.

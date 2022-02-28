@@ -3,7 +3,7 @@ hide:
   - navigation
   - toc
 ---
-  
+
 # Scientific Papers based on nn-template
 
 ??? hint "WikiNEuRal: Combined Neural and Knowledge-based Silver Data Creation for Multilingual NER."
@@ -11,7 +11,7 @@ hide:
     [![](https://shields.io/badge/-Repository-emerald?style=flat&logo=github&labelColor=gray)](https://github.com/Babelscape/wikineural)
 
     ```bibtex
-      @inproceedings{wikineural,
+    @inproceedings{wikineural,
         title = "{W}iki{NE}u{R}al: {C}ombined Neural and Knowledge-based Silver Data Creation for Multilingual {NER}",
         author = "Tedeschi, Simone  and
           Maiorca, Valentino  and

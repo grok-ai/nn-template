@@ -1,11 +1,11 @@
 # Determinism
 
-The template always logs the seed utilized in order to guarantee reproducibility.
+The template always logs the seed utilized in order to guarantee **reproducibility**.
 
 The user specifies a `seed_index` value in the configuration `train/default.yaml`:
 
 ```yaml
-seed_index: 0
+seed_index: 1
 deterministic: False
 ```
 
@@ -25,7 +25,7 @@ Setting seed 1273642419 from seeds[1]
     in the logger dashboard:
 
     ```bash
-    python src/project/run.py -m train.seed_index=0,1,2,3,4
+    python src/project/run.py -m train.seed_index=1,2,3,4
     ```
 
 !!! info

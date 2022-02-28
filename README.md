@@ -31,7 +31,7 @@
 </p>
 
 
-Generic cookiecutter template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
+Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
 read more in the [documentation](https://grok-ai.github.io/nn-template).
 
 ## Get started
