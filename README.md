@@ -54,6 +54,7 @@ Install it with:
 More details in the [documentation](https://grok-ai.github.io/nn-template/latest/getting-started/generation/).
 
 ## Strengths  
+
 - **Actually works for [research](https://grok-ai.github.io/nn-template/latest/papers/)**!
 - Guided setup to customize project bootstrapping;
 - Fast prototyping of new ideas, no need to build a new code base from scratch;
@@ -74,3 +75,7 @@ Avoid writing boilerplate code to integrate:
 - [GitHub Actions](https://github.com/features/actions), to run the tests, publish the documentation and to PyPI automatically.
 - Python best practices for developing and publishing research projects.
 
+## Maintainers
+
+- Valentino Maiorca [@Flegyas](https://github.com/Flegyas)
+- Luca Moschella [@lucmos](https://github.com/lucmos)
