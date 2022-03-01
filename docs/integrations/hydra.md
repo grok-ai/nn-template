@@ -23,4 +23,4 @@ You can explore aggregate statistics or compare and analyze each run in the W&B 
 
 !!! info
 
-    We recommend to go through at least the [Basic Tutorial](https://hydra.cc/docs/tutorials/basic/your_first_app/simple_cli), and the docs about [Instantiating objects with Hydra](https://hydra.cc/docs/patterns/instantiate_objects/overview).
+    We recommend to go through at least the [Basic Tutorial](https://hydra.cc/docs/tutorials/basic/your_first_app/simple_cli), keep in mind that Hydra builds on top of [OmegaConf](https://omegaconf.readthedocs.io/en/latest/index.html).

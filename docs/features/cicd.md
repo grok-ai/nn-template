@@ -10,7 +10,7 @@ The generated project contains two [GiHub Actions](https://github.com/features/a
     between workflow runs.
 
 !!! warning
-    The annotated tags in the git repository to manage releases should follow the [semantic versioning](https://semver.org/l)
+    The annotated tags in the git repository to manage releases should follow the [semantic versioning](https://semver.org/)
     conventions: `<major>.<minor>.<patch>`
 
 

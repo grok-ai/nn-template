@@ -2,8 +2,7 @@
 
 When developing neural models ourselves, we often struggled with:
 
-- **Reproducibility**. We strongly believe in the reproducibility requirement of scientific work. Link a WikiNEuRal e
-  set-ops che usano il template!
+- **Reproducibility**. We strongly believe in the reproducibility requirement of scientific work.
 - **Framework Learning**. Even when you find (or code yourself) the best framework to fit your needs, you still end up
   in messy situations when collaborating since others have to learn to use it;
 - **Avoiding boilerplate**. We were bored to write the same code over and over in

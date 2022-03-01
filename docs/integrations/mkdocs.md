@@ -13,4 +13,4 @@ Documentation source files are written in Markdown, and configured with a single
     The template comes with Material for MkDocs already configured,
     to create your documentation you only need to write markdown files and define the `nav`.
 
-    See the [Documentation](/features/docs/) page to get started!
+    See the [Documentation](/latest/features/docs/) page to get started!
