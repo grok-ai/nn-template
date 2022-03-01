@@ -1,0 +1,50 @@
+name: Publish docs
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9']
+        include:
+          - os: ubuntu-20.04
+            label: linux-64
+            prefix: /usr/share/miniconda3/envs/
+
+    name: ${{ matrix.label }}-py${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+
+      - name: Install Dependencies
+        shell: bash -l {0}
+        run: |
+          pip install cookiecutter mkdocs mkdocs-material mike
+
+      # extract the first two digits from the release note
+      - name: Set release notes tag
+        run: |
+          export RELEASE_TAG_VERSION=${{ github.event.release.tag_name }}
+          echo "RELEASE_TAG_VERSION=${RELEASE_TAG_VERSION%.*}">> $GITHUB_ENV
+
+      - name: Echo release notes tag
+        run: |
+          echo "${RELEASE_TAG_VERSION}"
+
+      - name: Build docs website
+        shell: bash -l {0}
+        run: |
+          git config user.name ci-bot
+          git config user.email ci-bot@ci.com
+          mike deploy --push --rebase --update-aliases ${RELEASE_TAG_VERSION} latest

@@ -1,0 +1,127 @@
+site_name: NN Template
+site_description: Generic template to bootstrap your PyTorch project with PyTorch Lightning, Hydra, W&B, DVC, and Streamlit.
+repo_url: https://github.com/grok-ai/nn-template
+
+nav:
+  - Home: index.md
+  - Getting started:
+    - getting-started/index.md
+    - Generating your project: getting-started/generation.md
+  - Features:
+    - Core: features/nncore.md
+    - Restore: features/restore.md
+    - Metadata: features/metadata.md
+    - Tags: features/tags.md
+    - Docs: features/docs.md
+    - Tests: features/tests.md
+    - Storage: features/storage.md
+    - Determinism: features/determinism.md
+    - Fast dev run: features/fastdevrun.md
+    - Environment variables: features/envvars.md
+    - CI/CD: features/cicd.md
+    - Best practices:
+        - Python Environment: features/conda.md
+        - Tooling: features/bestpractices.md
+          #  - Project Structure:
+          #    - project-structure/index.md
+          #    - Structure: project-structure/structure.md
+          #    - Conf: project-structure/conf.md
+          #    - NN: project-structure/conf.md
+          #    - Train:  project-structure/conf.md
+  - Integrations:
+      - PyTorch Lightning: integrations/lightning.md
+      - Hydra: integrations/hydra.md
+      - Weigth & Biases: integrations/wandb.md
+      - Streamlit: integrations/streamlit.md
+      - MkDocs: integrations/mkdocs.md
+      - DVC: integrations/dvc.md
+      - GitHub Actions: integrations/githubactions.md
+  - Publications: papers.md
+  - Changelog:
+    - changelog/index.md
+    - Upgrade: changelog/upgrade.md
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  icon:
+    repo: fontawesome/brands/github
+
+  features:
+    - content.code.annotate
+    - navigation.indexes
+    - navigation.instant
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+
+  palette:
+    - scheme: default
+      primary: light green
+      accent:  green
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: green
+      accent: green
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+plugins:
+  - search
+
+extra:
+  version:
+    provider: mike

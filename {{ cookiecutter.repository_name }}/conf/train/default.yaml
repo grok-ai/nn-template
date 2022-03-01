@@ -1,0 +1,62 @@
+# reproducibility
+seed_index: 0
+deterministic: False
+
+# PyTorch Lightning Trainer https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html
+trainer:
+  fast_dev_run: False # Enable this for debug purposes
+  gpus: 1
+  precision: 32
+  max_epochs: 3
+  max_steps: 10000
+  accumulate_grad_batches: 1
+  num_sanity_val_steps: 2
+  gradient_clip_val: 10.0
+  val_check_interval: 1.0
+  deterministic: ${train.deterministic}
+
+restore:
+  ckpt_or_run_path: null
+  mode: continue # null, finetune, hotstart, continue
+
+monitor:
+  metric: 'loss/val'
+  mode: 'min'
+
+callbacks:
+  - _target_: pytorch_lightning.callbacks.EarlyStopping
+    patience: 42
+    verbose: False
+    monitor: ${train.monitor.metric}
+    mode: ${train.monitor.mode}
+
+  - _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    save_top_k: 1
+    verbose: False
+    monitor: ${train.monitor.metric}
+    mode: ${train.monitor.mode}
+
+  - _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: "step"
+    log_momentum: False
+
+  - _target_: pytorch_lightning.callbacks.progress.tqdm_progress.TQDMProgressBar
+    refresh_rate: 20
+
+logging:
+  upload:
+    run_files: true
+    source: true
+
+  logger:
+    _target_: pytorch_lightning.loggers.WandbLogger
+
+    project: ${core.project_name}
+    entity: null
+    log_model: ${..upload.run_files}
+    mode: 'online'
+    tags: ${core.tags}
+
+  wandb_watch:
+    log: 'all'
+    log_freq: 100
