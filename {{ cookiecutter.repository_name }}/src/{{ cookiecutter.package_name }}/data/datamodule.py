@@ -1,4 +1,5 @@
 import logging
+from functools import partial
 from pathlib import Path
 from typing import List, Mapping, Optional, Sequence, Union
 
@@ -7,9 +8,11 @@ import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset, random_split
+from torch.utils.data.dataloader import default_collate
 from torchvision import transforms
 
 from nn_core.common import PROJECT_ROOT
+from nn_core.nn_types import Split
 
 pylogger = logging.getLogger(__name__)
 
@@ -37,6 +40,7 @@ class MetaData:
         Args:
             class_vocab: association between class names and their indices
         """
+        # example
         self.class_vocab: Mapping[str, int] = class_vocab
 
     def save(self, dst_path: Path) -> None:
@@ -47,6 +51,7 @@ class MetaData:
         """
         pylogger.debug(f"Saving MetaData to '{dst_path}'")
 
+        # example
         (dst_path / "class_vocab.tsv").write_text(
             "\n".join(f"{key}\t{value}" for key, value in self.class_vocab.items())
         )
@@ -63,6 +68,7 @@ class MetaData:
         """
         pylogger.debug(f"Loading MetaData from '{src_path}'")
 
+        # example
         lines = (src_path / "class_vocab.tsv").read_text(encoding="utf-8").splitlines()
 
         class_vocab = {}
@@ -73,6 +79,20 @@ class MetaData:
         return MetaData(
             class_vocab=class_vocab,
         )
+
+
+def collate_fn(samples: List, split: Split, metadata: MetaData):
+    """Custom collate function for dataloaders with access to split and metadata.
+
+    Args:
+        samples: A list of samples coming from the Dataset to be merged into a batch
+        split: The data split (e.g. train/val/test)
+        metadata: The MetaData instance coming from the DataModule or the restored checkpoint
+
+    Returns:
+        A batch generated from the given samples
+    """
+    return default_collate(samples)
 
 
 class MyDataModule(pl.LightningDataModule):
@@ -91,6 +111,7 @@ class MyDataModule(pl.LightningDataModule):
         self.batch_size = batch_size
         # https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html#gpus
         self.pin_memory: bool = gpus is not None and str(gpus) != "0"
+
         self.train_dataset: Optional[Dataset] = None
         self.val_datasets: Optional[Sequence[Dataset]] = None
         self.test_datasets: Optional[Sequence[Dataset]] = None
@@ -153,6 +174,7 @@ class MyDataModule(pl.LightningDataModule):
             batch_size=self.batch_size.train,
             num_workers=self.num_workers.train,
             pin_memory=self.pin_memory,
+            collate_fn=partial(collate_fn, split="train", metadata=self.metadata),
         )
 
     def val_dataloader(self) -> Sequence[DataLoader]:
@@ -163,6 +185,7 @@ class MyDataModule(pl.LightningDataModule):
                 batch_size=self.batch_size.val,
                 num_workers=self.num_workers.val,
                 pin_memory=self.pin_memory,
+                collate_fn=partial(collate_fn, split="val", metadata=self.metadata),
             )
             for dataset in self.val_datasets
         ]
@@ -175,6 +198,7 @@ class MyDataModule(pl.LightningDataModule):
                 batch_size=self.batch_size.test,
                 num_workers=self.num_workers.test,
                 pin_memory=self.pin_memory,
+                collate_fn=partial(collate_fn, split="test", metadata=self.metadata),
             )
             for dataset in self.test_datasets
         ]
