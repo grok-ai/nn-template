@@ -1,5 +1,5 @@
 import logging
-from functools import partial
+from functools import cached_property, partial
 from pathlib import Path
 from typing import List, Mapping, Optional, Sequence, Union
 
@@ -119,7 +119,7 @@ class MyDataModule(pl.LightningDataModule):
         # example
         self.val_percentage: float = val_percentage
 
-    @property
+    @cached_property
     def metadata(self) -> MetaData:
         """Data information to be fed to the Lightning Module as parameter.
 

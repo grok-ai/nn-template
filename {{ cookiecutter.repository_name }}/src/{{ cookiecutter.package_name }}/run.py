@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, List
+from typing import List, Optional
 
 import hydra
 import omegaconf
@@ -15,6 +15,7 @@ from nn_core.serialization import NNCheckpointIO
 
 # Force the execution of __init__.py if this file is executed directly.
 import {{ cookiecutter.package_name }}  # noqa
+from {{ cookiecutter.package_name }}.data.datamodule import MetaData
 
 pylogger = logging.getLogger(__name__)
 
@@ -64,7 +65,9 @@ def run(cfg: DictConfig) -> str:
     pylogger.info(f"Instantiating <{cfg.nn.data['_target_']}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
 
-    metadata: Dict = getattr(datamodule, "metadata", None)
+    metadata: Optional[MetaData] = getattr(datamodule, "metadata", None)
+    if metadata is None:
+        pylogger.warning(f"No 'metadata' attribute found in datamodule <{datamodule.__class__.__name__}>")
 
     # Instantiate model
     pylogger.info(f"Instantiating <{cfg.nn.module['_target_']}>")
