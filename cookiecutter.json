@@ -9,5 +9,5 @@
     "repository_url": "https://github.com/{{ cookiecutter.github_user }}/{{ cookiecutter.project_name.strip().lower().replace(' ', '-') }}",
     "conda_env_name": "{{ cookiecutter.project_name.strip().lower().replace(' ', '-') }}",
     "python_version": "3.9",
-    "__version": "0.2.0"
+    "__version": "0.2.1"
 }
