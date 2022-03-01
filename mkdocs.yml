@@ -1,7 +1,7 @@
 site_name: NN Template
 site_description: Generic template to bootstrap your PyTorch project with PyTorch Lightning, Hydra, W&B, DVC, and Streamlit.
 repo_url: https://github.com/grok-ai/nn-template
-
+copyright: Copyright &copy; 2021 - 2022 <b><a href="https://github.com/Flegyas">Valentino Maiorca</a></b> |  <b><a href="https://luca.moschella.dev">Luca Moschella</a></b>
 nav:
   - Home: index.md
   - Getting started:
@@ -123,5 +123,6 @@ plugins:
   - search
 
 extra:
+  generator: true
   version:
     provider: mike

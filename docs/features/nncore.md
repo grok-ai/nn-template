@@ -6,7 +6,7 @@ This library contains the logic necessary for the restore, logging, and many oth
 
 !!! info
 
-    This decoupling eases the updating of the template, reaching a desiderable tradeoff:
+    This decoupling eases the updating of the template, reaching a desirable tradeoff:
 
     - `template`: easy to use and customize, hard to update
     - `library`: hard to customize, easy to update
