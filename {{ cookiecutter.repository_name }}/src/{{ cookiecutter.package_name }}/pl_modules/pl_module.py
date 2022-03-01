@@ -24,8 +24,9 @@ class MyLightningModule(pl.LightningModule):
     def __init__(self, metadata: Optional[MetaData] = None, *args, **kwargs) -> None:
         super().__init__()
 
-        # populate self.hparams with args and kwargs automagically!
-        # We want to skip metadata since it is saved separately by the
+        # Populate self.hparams with args and kwargs automagically!
+        # We want to skip metadata since it is saved separately by the NNCheckpointIO object.
+        # Be careful when modifying this instruction. If in doubt, don't do it :]
         self.save_hyperparameters(logger=False, ignore=("metadata",))
 
         self.metadata = metadata

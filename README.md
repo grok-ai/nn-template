@@ -31,22 +31,35 @@
 </p>
 
 
-Generic cookiecutter template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
+Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
 read more in the [documentation](https://grok-ai.github.io/nn-template).
 
 ## Get started
 
-Generate your project with cookiecutter:
+If you already know [cookiecutter](https://github.com/cookiecutter/cookiecutter), just generate your project with:
 
 ```bash
 cookiecutter https://github.com/grok-ai/nn-template
 ```
 
-> This is a *parametrized* template that uses [cookiecutter](https://github.com/cookiecutter/cookiecutter).
-> Install cookiecutter with:
->
-> ```pip install cookiecutter```
+<details>
+<summary>Otherwise</summary>
+Cookiecutter manages the setup stages and delivers to you a personalized ready to run project. 
 
+Install it with:
+<pre><code>pip install cookiecutter
+</code></pre>
+</details>
+
+More details in the [documentation](https://grok-ai.github.io/nn-template/getting-started/generation/).
+
+## Strengths  
+- **Actually works for [research](https://grok-ai.github.io/nn-template/papers/)**!
+- Guided setup to customize project bootstrapping;
+- Fast prototyping of new ideas, no need to build a new code base from scratch;
+- Less boilerplate with no impact on the learning curve (as long as you know the integrated tools);
+- Automatize via GitHub actions: testing, stylish documentation deploy, PyPi upload;
+- Enforce Python [best practices](https://grok-ai.github.io/nn-template/features/bestpractices/);
 
 ## Integrations
 
@@ -61,67 +74,3 @@ Avoid writing boilerplate code to integrate:
 - [GitHub Actions](https://github.com/features/actions), to run the tests, publish the documentation and to PyPI automatically.
 - Python best practices for developing and publishing research projects.
 
-## Structure
-
-The generated projects will contain the following files:
-
-```bash
-.
-├── conf
-│   ├── default.yaml
-│   ├── hydra
-│   │   └── default.yaml
-│   ├── nn
-│   │   └── default.yaml
-│   └── train
-│       └── default.yaml
-├── data
-│   └── .gitignore
-├── docs
-│   ├── index.md
-│   └── overrides
-│       └── main.html
-├── .editorconfig
-├── .env
-├── .env.template
-├── env.yaml
-├── .flake8
-├── .github
-│   └── workflows
-│       ├── publish.yml
-│       └── test_suite.yml
-├── .gitignore
-├── LICENSE
-├── mkdocs.yml
-├── .pre-commit-config.yaml
-├── pyproject.toml
-├── README.md
-├── setup.cfg
-├── setup.py
-├── src
-│   └── awesome_project
-│       ├── data
-│       │   ├── datamodule.py
-│       │   ├── dataset.py
-│       │   └── __init__.py
-│       ├── __init__.py
-│       ├── modules
-│       │   ├── __init__.py
-│       │   └── module.py
-│       ├── pl_modules
-│       │   ├── __init__.py
-│       │   └── pl_module.py
-│       ├── run.py
-│       └── ui
-│           ├── __init__.py
-│           └── run.py
-└── tests
-    ├── conftest.py
-    ├── __init__.py
-    ├── test_checkpoint.py
-    ├── test_configuration.py
-    ├── test_nn_core_integration.py
-    ├── test_resume.py
-    ├── test_storage.py
-    └── test_training.py
-```

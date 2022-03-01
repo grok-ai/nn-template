@@ -1,6 +1,6 @@
 # Tooling
 
-The template configures are the tooling necessary for a modern python project.
+The template configures are the tooling necessary for a modern Python project.
 
 These include:
 

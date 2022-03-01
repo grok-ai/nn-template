@@ -1,6 +1,6 @@
 # CI/CD
 
-The generated project contains two GiHub Actions workflow to run the Test Suite and to publish you project.
+The generated project contains two [GiHub Actions](https://github.com/features/actions) workflow to run the Test Suite and to publish you project.
 
 !!! note
     You need to enable the GitHub Actions from the settings in your repository.
@@ -34,6 +34,10 @@ specify the default docs version.
 mike deploy 0.1 latest --push
 mike set-default latest
 ```
+
+!!! warning
+
+    You do not need to execute these commands if you accepted the optional cookiecutter setup step.
 
 !!! info
 
