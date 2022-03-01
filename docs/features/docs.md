@@ -27,4 +27,4 @@ In order to create your docs it is enough to:
     ```
 
 3. To preview your documentation it is enough to run `mkdocs serve`. To manually deploy the documentation
-    see [`mike`](https://github.com/jimporter/mike), or see the integrated GitHub Action to [publish the docs on release](/latest/features/cicd/#publish-docs).
+    see [`mike`](https://github.com/jimporter/mike), or see the integrated GitHub Action to [publish the docs on release](https://grok-ai.github.io/nn-template/latest/features/cicd/#publish-docs).
