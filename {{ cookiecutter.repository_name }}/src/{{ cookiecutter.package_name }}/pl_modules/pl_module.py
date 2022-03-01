@@ -51,13 +51,14 @@ class MyLightningModule(pl.LightningModule):
         # example
         return self.model(x)
 
-    # example
     def step(self, x, y) -> Mapping[str, Any]:
+        # example
         logits = self(x)
         loss = F.cross_entropy(logits, y)
         return {"logits": logits.detach(), "loss": loss}
 
     def training_step(self, batch: Any, batch_idx: int) -> Mapping[str, Any]:
+        # example
         x, y = batch
         step_out = self.step(x, y)
 
@@ -79,6 +80,7 @@ class MyLightningModule(pl.LightningModule):
         return step_out
 
     def validation_step(self, batch: Any, batch_idx: int) -> Mapping[str, Any]:
+        # example
         x, y = batch
         step_out = self.step(x, y)
 
@@ -100,6 +102,7 @@ class MyLightningModule(pl.LightningModule):
         return step_out
 
     def test_step(self, batch: Any, batch_idx: int) -> Mapping[str, Any]:
+        # example
         x, y = batch
         step_out = self.step(x, y)
 
