@@ -15,5 +15,5 @@ requirements. After many epochs of training, the result is **nn-template**.
 !!! warning "nn-template is not a framework"
 
     - It does not aim to sidestep the need to write code.
-    - It does not contraint your workflow more than PyTorch Lightning does.
+    - It does not constrain your workflow more than PyTorch Lightning does.
 
