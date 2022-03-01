@@ -51,15 +51,15 @@ Install it with:
 </code></pre>
 </details>
 
-More details in the [documentation](https://grok-ai.github.io/nn-template/getting-started/generation/).
+More details in the [documentation](https://grok-ai.github.io/nn-template/latest/getting-started/generation/).
 
 ## Strengths  
-- **Actually works for [research](https://grok-ai.github.io/nn-template/papers/)**!
+- **Actually works for [research](https://grok-ai.github.io/nn-template/latest/papers/)**!
 - Guided setup to customize project bootstrapping;
 - Fast prototyping of new ideas, no need to build a new code base from scratch;
 - Less boilerplate with no impact on the learning curve (as long as you know the integrated tools);
 - Automatize via GitHub actions: testing, stylish documentation deploy, PyPi upload;
-- Enforce Python [best practices](https://grok-ai.github.io/nn-template/features/bestpractices/);
+- Enforce Python [best practices](https://grok-ai.github.io/nn-template/latest/features/bestpractices/);
 
 ## Integrations
 
