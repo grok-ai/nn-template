@@ -55,6 +55,7 @@ logging:
     entity: null
     log_model: ${..upload.run_files}
     mode: 'online'
+    tags: ${core.tags}
 
   wandb_watch:
     log: 'all'
