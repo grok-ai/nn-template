@@ -4,4 +4,4 @@ Automate, customize, and execute your software development workflows right in yo
 
 !!! info
 
-    The template offers worfloes to autmatically run tests and pre-commits on pull requestes, publish on PyPi and the docs on GitHub Pages on release.
+    The template offers workflows to automatically run tests and pre-commits on pull requests, publish on PyPi and the docs on GitHub Pages on release.
