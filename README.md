@@ -26,7 +26,7 @@
 
 <p align="center">
     <i>
-        nn-template is opinionated so you don't have to be
+        "We demand rigidly defined areas of doubt and uncertainty."
     </i>
 </p>
 
@@ -59,8 +59,10 @@ More details in the [documentation](https://grok-ai.github.io/nn-template/latest
 - Guided setup to customize project bootstrapping;
 - Fast prototyping of new ideas, no need to build a new code base from scratch;
 - Less boilerplate with no impact on the learning curve (as long as you know the integrated tools);
+- Ensure experiments reproducibility;
 - Automatize via GitHub actions: testing, stylish documentation deploy, PyPi upload;
 - Enforce Python [best practices](https://grok-ai.github.io/nn-template/latest/features/bestpractices/);
+- Many more in the [documentation](https://grok-ai.github.io/nn-template/latest/features/nncore/);
 
 ## Integrations
 

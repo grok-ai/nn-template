@@ -16,7 +16,7 @@ hide:
 
 <p align="center">
     <i>
-        nn-template is opinionated so you don't have to be
+        "We demand rigidly defined areas of doubt and uncertainty."
     </i>
 </p>
 
