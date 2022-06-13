@@ -34,6 +34,9 @@
 Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
 read more in the [documentation](https://grok-ai.github.io/nn-template).
 
+![nn-template-asciinema](https://s8.gifyu.com/images/optimized.gif)
+
+
 ## Get started
 
 If you already know [cookiecutter](https://github.com/cookiecutter/cookiecutter), just generate your project with:
