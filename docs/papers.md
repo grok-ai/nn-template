@@ -8,6 +8,14 @@ hide:
 
 The following papers acknowledge the adoption of NN Template:
 
+!!! abstract "Computer Graphics Forum: CGF 2022"
+
+    **Learning Spectral Unions of Partial Deformable 3D Shapes**
+
+    *Luca Moschella, Simone Melzi, Luca Cosmo, Filippo Maggioli, Or Litany, Maks Ovsjanikov, Leonidas Guibas, Emanuele Rodolà*
+
+    [![](https://shields.io/badge/-Repository-emerald?style=for-the-badge&logo=github&labelColor=gray)](https://github.com/lucmos/spectral-unions)
+
 !!! abstract "Findings of the Association for Computational Linguistics: EMNLP 2021"
 
     **WikiNEuRal: Combined Neural and Knowledge-based Silver Data Creation for Multilingual NER**
