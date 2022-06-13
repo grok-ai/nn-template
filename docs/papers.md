@@ -8,6 +8,14 @@ hide:
 
 The following papers acknowledge the adoption of NN Template:
 
+!!! abstract "arXiv 2022"
+
+    **Metric Based Few-Shot Graph Classification**
+
+    *Donato Crisostomi, Simone Antonelli, Valentino Maiorca, Luca Moschella, Riccardo Marin, Emanuele Rodolà*
+
+    [![](https://shields.io/badge/-Repository-emerald?style=for-the-badge&logo=github&labelColor=gray)](https://github.com/crisostomi/metric-few-shot-graph)
+
 !!! abstract "Computer Graphics Forum: CGF 2022"
 
     **Learning Spectral Unions of Partial Deformable 3D Shapes**
