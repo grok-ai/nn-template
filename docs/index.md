@@ -28,6 +28,10 @@ cookiecutter https://github.com/grok-ai/nn-template
 
 ---
 
+![nn-template-asciinema](https://s8.gifyu.com/images/optimized.gif)
+
+---
+
 Generic cookiecutter template to bootstrap [PyTorch](https://pytorch.org/get-started/locally/) projects
 and to avoid writing boilerplate code to integrate:
 
