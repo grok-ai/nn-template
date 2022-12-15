@@ -26,4 +26,3 @@ def test_resume(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig, tmp_pat
 
     assert old_checkpoint["run_path"] != new_checkpoint["run_path"]
     assert old_checkpoint["global_step"] * 2 == new_checkpoint["global_step"]
-    assert new_checkpoint["epoch"] == 2
