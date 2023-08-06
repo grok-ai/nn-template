@@ -1,9 +1,9 @@
 # NN Template
 
 <p align="center">
-    <a href="https://github.com/grok-ai/nn-template/actions/workflows/test_suite.yml"><img alt="CI" src=https://img.shields.io/github/workflow/status/grok-ai/nn-template/Test%20Suite/main?label=main%20checks></a>
-    <a href="https://github.com/grok-ai/nn-template/actions/workflows/test_suite.yml"><img alt="CI" src=https://img.shields.io/github/workflow/status/grok-ai/nn-template/Test%20Suite/develop?label=develop%20checks></a>
-    <a href="https://grok-ai.github.io/nn-template"><img alt="Docs" src=https://img.shields.io/github/deployments/grok-ai/nn-template/github-pages?label=docs></a>
+    <a href="https://github.com/grok-ai/nn-template/actions/workflows/test_suite.yml"><img alt="CI" src=https://github.com/grok-ai/nn-template/actions/workflows/test_suite.yml/badge.svg?branch=main></a>
+    <a href="https://github.com/grok-ai/nn-template/actions/workflows/test_suite.yml"><img alt="CI" src=https://github.com/grok-ai/nn-template/actions/workflows/test_suite.yml/badge.svg?branch=develop></a>
+    <a href="https://github.com/grok-ai/nn-template/actions/workflows/publish_docs.yml/badge.svg"><img alt="Docs" src=https://github.com/grok-ai/nn-template/actions/workflows/publish_docs.yml/badge.svg></a>
     <a href="https://pypi.org/project/nn-template-core/"><img alt="Release" src="https://img.shields.io/pypi/v/nn-template-core?label=nn-core"></a>
     <a href="https://black.readthedocs.io/en/stable/"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
@@ -34,8 +34,8 @@
 Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
 read more in the [documentation](https://grok-ai.github.io/nn-template).
 
-![nn-template-asciinema](https://s8.gifyu.com/images/optimized.gif)
 
+[![asciicast](https://asciinema.org/a/475623.svg)](https://asciinema.org/a/475623)
 
 ## Get started
 
@@ -47,7 +47,7 @@ cookiecutter https://github.com/grok-ai/nn-template
 
 <details>
 <summary>Otherwise</summary>
-Cookiecutter manages the setup stages and delivers to you a personalized ready to run project. 
+Cookiecutter manages the setup stages and delivers to you a personalized ready to run project.
 
 Install it with:
 <pre><code>pip install cookiecutter
@@ -56,7 +56,7 @@ Install it with:
 
 More details in the [documentation](https://grok-ai.github.io/nn-template/latest/getting-started/generation/).
 
-## Strengths  
+## Strengths
 
 - **Actually works for [research](https://grok-ai.github.io/nn-template/latest/papers/)**!
 - Guided setup to customize project bootstrapping;

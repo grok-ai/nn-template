@@ -13,7 +13,7 @@ on:
       - synchronize
 
 env:
-  CACHE_NUMBER: 3  # increase to reset cache manually
+  CACHE_NUMBER: 4  # increase to reset cache manually
   CONDA_ENV_FILE: 'env.yaml'
   CONDA_ENV_NAME: 'project-test'
   COOKIECUTTER_PROJECT_NAME: 'project-test'
@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9']
+        python-version: ['3.8', '3.11']
         include:
           - os: ubuntu-20.04
             label: linux-64
@@ -102,6 +102,14 @@ jobs:
         shell: bash -l {0}
         run: |
           sed -Ei '/^\s*-?\s*python\s*([#=].*)?$/d' ${{ env.CONDA_ENV_FILE }}
+          cat  ${{ env.CONDA_ENV_FILE }}
+        working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
+
+      # Install torch cpu-only
+      - name: Install torch cpu only
+        shell: bash -l {0}
+        run: |
+          sed -i '/nvidia\|cuda/d' ${{ env.CONDA_ENV_FILE }}
           cat  ${{ env.CONDA_ENV_FILE }}
         working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 

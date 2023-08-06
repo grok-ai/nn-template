@@ -32,7 +32,10 @@ class MyLightningModule(pl.LightningModule):
         self.metadata = metadata
 
         # example
-        metric = torchmetrics.Accuracy()
+        metric = torchmetrics.Accuracy(
+            task="multiclass",
+            num_classes=len(metadata.class_vocab) if metadata is not None else None,
+        )
         self.train_accuracy = metric.clone()
         self.val_accuracy = metric.clone()
         self.test_accuracy = metric.clone()
@@ -151,9 +154,11 @@ def main(cfg: omegaconf.DictConfig) -> None:
     Args:
         cfg: the hydra configuration
     """
+    module = cfg.nn.module
     _: pl.LightningModule = hydra.utils.instantiate(
-        cfg.model,
-        optim=cfg.optim,
+        module,
+        optim=module.optimizer,
+        metadata=MetaData(class_vocab={str(i): i for i in range(10)}),
         _recursive_=False,
     )
 

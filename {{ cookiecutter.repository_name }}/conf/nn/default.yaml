@@ -11,7 +11,7 @@ data:
     test:
       - _target_: {{ cookiecutter.package_name }}.data.dataset.MyDataset
 
-  gpus: ${train.trainer.gpus}
+  accelerator: ${train.trainer.accelerator}
 
   num_workers:
     train: 8
