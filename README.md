@@ -34,8 +34,8 @@
 Generic template to bootstrap your [PyTorch](https://pytorch.org/get-started/locally/) project,
 read more in the [documentation](https://grok-ai.github.io/nn-template).
 
-![nn-template-asciinema](https://s8.gifyu.com/images/optimized.gif)
 
+[![asciicast](https://asciinema.org/a/475623.svg)](https://asciinema.org/a/475623)
 
 ## Get started
 
@@ -47,7 +47,7 @@ cookiecutter https://github.com/grok-ai/nn-template
 
 <details>
 <summary>Otherwise</summary>
-Cookiecutter manages the setup stages and delivers to you a personalized ready to run project. 
+Cookiecutter manages the setup stages and delivers to you a personalized ready to run project.
 
 Install it with:
 <pre><code>pip install cookiecutter
@@ -56,7 +56,7 @@ Install it with:
 
 More details in the [documentation](https://grok-ai.github.io/nn-template/latest/getting-started/generation/).
 
-## Strengths  
+## Strengths
 
 - **Actually works for [research](https://grok-ai.github.io/nn-template/latest/papers/)**!
 - Guided setup to customize project bootstrapping;
