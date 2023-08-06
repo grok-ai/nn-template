@@ -55,7 +55,7 @@ def cfg_simple_train(cfg: DictConfig) -> DictConfig:
     cfg.core.tags = ["testing"]
 
     # Disable gpus
-    cfg.train.trainer.gpus = 0
+    cfg.train.trainer.accelerator = "cpu"
 
     # Disable logger
     cfg.train.logging.logger.mode = "disabled"

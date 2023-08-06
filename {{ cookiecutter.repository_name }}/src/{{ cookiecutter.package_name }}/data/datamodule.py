@@ -1,7 +1,7 @@
 import logging
 from functools import cached_property, partial
 from pathlib import Path
-from typing import List, Mapping, Optional, Sequence, Union
+from typing import List, Mapping, Optional, Sequence
 
 import hydra
 import omegaconf
@@ -101,7 +101,7 @@ class MyDataModule(pl.LightningDataModule):
         datasets: DictConfig,
         num_workers: DictConfig,
         batch_size: DictConfig,
-        gpus: Optional[Union[List[int], str, int]],
+        accelerator: str,
         # example
         val_percentage: float,
     ):
@@ -110,7 +110,7 @@ class MyDataModule(pl.LightningDataModule):
         self.num_workers = num_workers
         self.batch_size = batch_size
         # https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html#gpus
-        self.pin_memory: bool = gpus is not None and str(gpus) != "0"
+        self.pin_memory: bool = accelerator is not None and str(accelerator) == "gpu"
 
         self.train_dataset: Optional[Dataset] = None
         self.val_datasets: Optional[Sequence[Dataset]] = None
