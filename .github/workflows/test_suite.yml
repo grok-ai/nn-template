@@ -109,7 +109,7 @@ jobs:
       - name: Install torch cpu only
         shell: bash -l {0}
         run: |
-          sed -Ei '/nvidia\|cuda/d' ${{ env.CONDA_ENV_FILE }}
+          sed -i '/nvidia\|cuda/d' ${{ env.CONDA_ENV_FILE }}
           cat  ${{ env.CONDA_ENV_FILE }}
         working-directory: ${{ env.COOKIECUTTER_PROJECT_NAME }}
 
