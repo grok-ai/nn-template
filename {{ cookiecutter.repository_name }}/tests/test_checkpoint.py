@@ -25,7 +25,7 @@ def test_load_checkpoint(run_trainings_not_dry: str, cfg_all_not_dry: DictConfig
 
     checkpoint = NNCheckpointIO.load(path=checkpoint_path)
 
-    module = _load_state(cls=module_class, checkpoint=checkpoint, metadata=checkpoint["metadata"])
+    module = _load_state(cls=module_class, checkpoint=checkpoint, metadata=checkpoint["metadata"], strict=True)
     assert module is not None
     assert sum(p.numel() for p in module.parameters())
 
