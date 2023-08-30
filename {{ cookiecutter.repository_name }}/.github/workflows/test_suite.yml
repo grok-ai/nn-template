@@ -60,7 +60,7 @@ jobs:
         run: |
           sed -Ei '/^\s*-?\s*python\s*([#=].*)?$/d' ${{ env.CONDA_ENV_FILE }}
           cat  ${{ env.CONDA_ENV_FILE }}
-          
+
       # Install torch cpu-only
       - name: Install torch cpu only
         shell: bash -l {0}
