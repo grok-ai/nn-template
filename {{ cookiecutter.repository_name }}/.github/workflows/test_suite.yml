@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.8', '3.9']
+        python-version: ['3.11']
         include:
           - os: ubuntu-20.04
             label: linux-64
@@ -59,6 +59,13 @@ jobs:
         shell: bash -l {0}
         run: |
           sed -Ei '/^\s*-?\s*python\s*([#=].*)?$/d' ${{ env.CONDA_ENV_FILE }}
+          cat  ${{ env.CONDA_ENV_FILE }}
+
+      # Install torch cpu-only
+      - name: Install torch cpu only
+        shell: bash -l {0}
+        run: |
+          sed -i '/nvidia\|cuda/d' ${{ env.CONDA_ENV_FILE }}
           cat  ${{ env.CONDA_ENV_FILE }}
 
       - name: Setup Mambaforge
