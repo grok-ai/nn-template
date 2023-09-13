@@ -214,7 +214,7 @@ def main(cfg: omegaconf.DictConfig) -> None:
     Args:
         cfg: the hydra configuration
     """
-    _: pl.LightningDataModule = hydra.utils.instantiate(cfg.data.datamodule, _recursive_=False)
+    _: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
 
 
 if __name__ == "__main__":
