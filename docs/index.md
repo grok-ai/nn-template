@@ -36,6 +36,7 @@ and to avoid writing boilerplate code to integrate:
 
 - [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning), lightweight PyTorch wrapper for high-performance AI research.
 - [Hydra](https://github.com/facebookresearch/hydra), a framework for elegantly configuring complex applications.
+- [Hugging Face Datasets](https://huggingface.co/docs/datasets/index),a library for easily accessing and sharing datasets.
 - [Weights and Biases](https://wandb.ai/home), organize and analyze machine learning experiments. *(educational account available)*
 - [Streamlit](https://streamlit.io/), turns data scripts into shareable web apps in minutes.
 - [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), a fast, simple and downright gorgeous static site generator.
