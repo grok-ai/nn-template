@@ -9,6 +9,7 @@ env:
   CACHE_NUMBER: 0  # increase to reset cache manually
   CONDA_ENV_FILE: './env.yaml'
   CONDA_ENV_NAME: '{{ cookiecutter.conda_env_name }}'
+  HUGGING_FACE_HUB_TOKEN: ${{secrets.HUGGING_FACE_HUB_TOKEN}}
 
 {% raw %}
 jobs:
