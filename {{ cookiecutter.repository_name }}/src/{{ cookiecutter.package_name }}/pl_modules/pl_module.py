@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Mapping, Optional, Sequence, Tuple, Union
+from typing import Any, Dict, Mapping, Optional, Sequence, Tuple, Union
 
 import hydra
 import omegaconf
@@ -13,7 +13,6 @@ from nn_core.common import PROJECT_ROOT
 from nn_core.model_logging import NNLogger
 
 from {{ cookiecutter.package_name }}.data.datamodule import MetaData
-from {{ cookiecutter.package_name }}.modules.module import CNN
 
 pylogger = logging.getLogger(__name__)
 
@@ -21,7 +20,7 @@ pylogger = logging.getLogger(__name__)
 class MyLightningModule(pl.LightningModule):
     logger: NNLogger
 
-    def __init__(self, metadata: Optional[MetaData] = None, *args, **kwargs) -> None:
+    def __init__(self, model, metadata: Optional[MetaData] = None, *args, **kwargs) -> None:
         super().__init__()
 
         # Populate self.hparams with args and kwargs automagically!
@@ -36,11 +35,11 @@ class MyLightningModule(pl.LightningModule):
             task="multiclass",
             num_classes=len(metadata.class_vocab) if metadata is not None else None,
         )
-        self.train_accuracy = metric.clone()
-        self.val_accuracy = metric.clone()
-        self.test_accuracy = metric.clone()
+        self.train_acc = metric.clone()
+        self.val_acc = metric.clone()
+        self.test_acc = metric.clone()
 
-        self.model = CNN(num_classes=len(metadata.class_vocab))
+        self.model = hydra.utils.instantiate(model, num_classes=len(metadata.class_vocab))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Method for the forward pass.
@@ -54,74 +53,36 @@ class MyLightningModule(pl.LightningModule):
         # example
         return self.model(x)
 
-    def step(self, x, y) -> Mapping[str, Any]:
+    def _step(self, batch: Dict[str, torch.Tensor], split: str) -> Mapping[str, Any]:
+        x = batch[self.hparams.x_key]
+        gt_y = batch[self.hparams.y_key]
+
         # example
         logits = self(x)
-        loss = F.cross_entropy(logits, y)
+        loss = F.cross_entropy(logits, gt_y)
+        preds = torch.softmax(logits, dim=-1)
+
+        metrics = getattr(self, f"{split}_acc")
+        metrics.update(preds, gt_y)
+
+        self.log_dict(
+            {
+                f"acc/{split}": metrics,
+                f"loss/{split}": loss,
+            },
+            on_epoch=True,
+        )
+
         return {"logits": logits.detach(), "loss": loss}
 
     def training_step(self, batch: Any, batch_idx: int) -> Mapping[str, Any]:
-        # example
-        x, y = batch
-        step_out = self.step(x, y)
-
-        self.log_dict(
-            {"loss/train": step_out["loss"].cpu().detach()},
-            on_step=True,
-            on_epoch=True,
-            prog_bar=True,
-        )
-
-        self.train_accuracy(torch.softmax(step_out["logits"], dim=-1), y)
-        self.log_dict(
-            {
-                "acc/train": self.train_accuracy,
-            },
-            on_epoch=True,
-        )
-
-        return step_out
+        return self._step(batch=batch, split="train")
 
     def validation_step(self, batch: Any, batch_idx: int) -> Mapping[str, Any]:
-        # example
-        x, y = batch
-        step_out = self.step(x, y)
-
-        self.log_dict(
-            {"loss/val": step_out["loss"].cpu().detach()},
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True,
-        )
-
-        self.val_accuracy(torch.softmax(step_out["logits"], dim=-1), y)
-        self.log_dict(
-            {
-                "acc/val": self.val_accuracy,
-            },
-            on_epoch=True,
-        )
-
-        return step_out
+        return self._step(batch=batch, split="val")
 
     def test_step(self, batch: Any, batch_idx: int) -> Mapping[str, Any]:
-        # example
-        x, y = batch
-        step_out = self.step(x, y)
-
-        self.log_dict(
-            {"loss/test": step_out["loss"].cpu().detach()},
-        )
-
-        self.test_accuracy(torch.softmax(step_out["logits"], dim=-1), y)
-        self.log_dict(
-            {
-                "acc/test": self.test_accuracy,
-            },
-            on_epoch=True,
-        )
-
-        return step_out
+        return self._step(batch=batch, split="test")
 
     def configure_optimizers(
         self,
@@ -154,13 +115,8 @@ def main(cfg: omegaconf.DictConfig) -> None:
     Args:
         cfg: the hydra configuration
     """
-    module = cfg.nn.module
-    _: pl.LightningModule = hydra.utils.instantiate(
-        module,
-        optim=module.optimizer,
-        metadata=MetaData(class_vocab={str(i): i for i in range(10)}),
-        _recursive_=False,
-    )
+    m: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
+    _: pl.LightningModule = hydra.utils.instantiate(cfg.nn.module, _recursive_=False, metadata=m.metadata)
 
 
 if __name__ == "__main__":

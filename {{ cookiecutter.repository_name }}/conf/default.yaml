@@ -5,6 +5,10 @@ core:
   version: 0.0.1
   tags: null
 
+conventions:
+  x_key: 'x'
+  y_key: 'y'
+
 defaults:
   - hydra: default
   - nn: default
