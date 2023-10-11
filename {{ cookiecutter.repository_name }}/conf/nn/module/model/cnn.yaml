@@ -1,1 +1,2 @@
 _target_: {{ cookiecutter.package_name }}.modules.module.CNN
+input_shape: ${nn.data.dataset.input_shape}

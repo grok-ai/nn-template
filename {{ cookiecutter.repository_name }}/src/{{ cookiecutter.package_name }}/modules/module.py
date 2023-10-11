@@ -3,11 +3,11 @@ from torch import nn
 
 # https://medium.com/@nutanbhogendrasharma/pytorch-convolutional-neural-network-with-mnist-dataset-4e8a4265e118
 class CNN(nn.Module):
-    def __init__(self, num_classes: int):
+    def __init__(self, input_shape: int, num_classes: int):
         super(CNN, self).__init__()
         self.model = nn.Sequential(
             nn.Conv2d(
-                in_channels=1,
+                in_channels=input_shape[0],
                 out_channels=16,
                 kernel_size=5,
                 stride=1,

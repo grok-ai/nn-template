@@ -4,30 +4,19 @@ _target_: {{ cookiecutter.package_name }}.utils.hf_io.load_hf_dataset
 name: "mnist"
 ref: "mnist"
 train_split: train
+# val_split: val
 val_percentage: 0.1
 test_split: test
 label_key: label
-image_key: image
+data_key: image
 num_classes: 10
-input_size: 28
-in_channels: 1
+input_shape: [1, 28, 28]
 standard_x_key: ${conventions.x_key}
 standard_y_key: ${conventions.y_key}
 transforms:
-  _target_: {{ cookiecutter.package_name }}.utils.hf_io.HFTransforms
+  _target_: {{ cookiecutter.package_name }}.utils.hf_io.HFTransform
   key: ${conventions.x_key}
-  transforms:
+  transform:
     _target_: torchvision.transforms.Compose
     transforms:
       - _target_: torchvision.transforms.ToTensor
-      # - _target_: learngrad.data.vision.data_transforms.ChannelOrder
-
-      # - _target_: learngrad.data.vision.data_transforms.ChannelAdapt
-        # in_channels: ${nn.data.dataset.in_channels}
-        # out_channels: ${nn.module.model.in_channels}
-  #
-      # - _target_: torchvision.transforms.Resize
-        # size: ${nn.module.model.input_size}
-        # antialias: true
-
-      # - _target_: learngrad.data.vision.data_transforms.Normalize01
