@@ -56,9 +56,8 @@ def preprocess_dataset(
 def save_dataset_to_disk(dataset: MetadataDatasetDict, output_path: Path):
     if not isinstance(output_path, Path):
         output_path = Path(output_path)
-
-    if not output_path.exists():
-        output_path.mkdir(parents=True)
+        
+    output_path.mkdir(parents=True, exist_ok=True)
 
     dataset.save_to_disk(output_path)
 
