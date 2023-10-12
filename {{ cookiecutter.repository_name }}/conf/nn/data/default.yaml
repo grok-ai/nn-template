@@ -11,6 +11,7 @@ val_images_fixed_idxs: [7371, 3963, 2861, 1701, 3172,
                         9129, 1798, 6477, 9264, 476,
                         3007, 4992, 1428, 9901, 5388]
 
+accelerator: ${train.trainer.accelerator}
 
 num_workers:
   train: 4

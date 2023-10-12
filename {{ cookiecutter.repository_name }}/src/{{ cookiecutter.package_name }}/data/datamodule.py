@@ -105,6 +105,7 @@ class MyDataModule(pl.LightningDataModule):
         dataset: DictConfig,
         num_workers: DictConfig,
         batch_size: DictConfig,
+        accelerator: str,
         # example
         val_images_fixed_idxs: List[int],
     ):
@@ -113,7 +114,7 @@ class MyDataModule(pl.LightningDataModule):
         self.num_workers = num_workers
         self.batch_size = batch_size
         # https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html#gpus
-        self.pin_memory: bool = True  # TODO: fixme
+        self.pin_memory: bool = accelerator is not None and str(accelerator) == "gpu"
 
         self.train_dataset: Optional[Dataset] = None
         self.val_dataset: Optional[Dataset] = None
