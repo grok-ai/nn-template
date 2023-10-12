@@ -1,0 +1,28 @@
+_target_: {{ cookiecutter.package_name }}.data.datamodule.MyDataModule
+
+val_images_fixed_idxs: [7371, 3963, 2861, 1701, 3172,
+                        1749, 7023, 1606, 6481, 1377,
+                        6003, 3593, 3410, 3399, 7277,
+                        5337, 968, 8206, 288, 1968,
+                        5677, 9156, 8139, 7660, 7089,
+                        1893, 3845, 2084, 1944, 3375,
+                        4848, 8704, 6038, 2183, 7422,
+                        2682, 6878, 6127, 2941, 5823,
+                        9129, 1798, 6477, 9264, 476,
+                        3007, 4992, 1428, 9901, 5388]
+
+accelerator: ${train.trainer.accelerator}
+
+num_workers:
+  train: 4
+  val: 2
+  test: 0
+
+batch_size:
+  train: 512
+  val: 128
+  test: 16
+
+defaults:
+  - _self_
+  - dataset: vision/mnist # pick one of the yamls in nn/data/

@@ -1,15 +1,15 @@
 import logging
 from functools import cached_property, partial
 from pathlib import Path
-from typing import List, Mapping, Optional, Sequence
+from typing import List, Mapping, Optional
 
 import hydra
 import omegaconf
 import pytorch_lightning as pl
 from omegaconf import DictConfig
-from torch.utils.data import DataLoader, Dataset, random_split
+from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.dataloader import default_collate
-from torchvision import transforms
+from tqdm import tqdm
 
 from nn_core.common import PROJECT_ROOT
 from nn_core.nn_types import Split
@@ -80,6 +80,10 @@ class MetaData:
             class_vocab=class_vocab,
         )
 
+    def __repr__(self) -> str:
+        attributes = ",\n    ".join([f"{key}={value}" for key, value in self.__dict__.items()])
+        return f"{self.__class__.__name__}(\n    {attributes}\n)"
+
 
 def collate_fn(samples: List, split: Split, metadata: MetaData):
     """Custom collate function for dataloaders with access to split and metadata.
@@ -98,26 +102,26 @@ def collate_fn(samples: List, split: Split, metadata: MetaData):
 class MyDataModule(pl.LightningDataModule):
     def __init__(
         self,
-        datasets: DictConfig,
+        dataset: DictConfig,
         num_workers: DictConfig,
         batch_size: DictConfig,
         accelerator: str,
         # example
-        val_percentage: float,
+        val_images_fixed_idxs: List[int],
     ):
         super().__init__()
-        self.datasets = datasets
+        self.dataset = dataset
         self.num_workers = num_workers
         self.batch_size = batch_size
         # https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html#gpus
         self.pin_memory: bool = accelerator is not None and str(accelerator) == "gpu"
 
         self.train_dataset: Optional[Dataset] = None
-        self.val_datasets: Optional[Sequence[Dataset]] = None
-        self.test_datasets: Optional[Sequence[Dataset]] = None
+        self.val_dataset: Optional[Dataset] = None
+        self.test_dataset: Optional[Dataset] = None
 
         # example
-        self.val_percentage: float = val_percentage
+        self.val_images_fixed_idxs: List[int] = val_images_fixed_idxs
 
     @cached_property
     def metadata(self) -> MetaData:
@@ -132,40 +136,25 @@ class MyDataModule(pl.LightningDataModule):
         if self.train_dataset is None:
             self.setup(stage="fit")
 
-        return MetaData(class_vocab=self.train_dataset.dataset.class_vocab)
+        return MetaData(class_vocab={i: name for i, name in enumerate(self.train_dataset.features["y"].names)})
 
     def prepare_data(self) -> None:
         # download only
         pass
 
     def setup(self, stage: Optional[str] = None):
-        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
+        self.transform = hydra.utils.instantiate(self.dataset.transforms)
 
-        # Here you should instantiate your datasets, you may also split the train into train and validation if needed.
-        if (stage is None or stage == "fit") and (self.train_dataset is None and self.val_datasets is None):
-            # example
-            mnist_train = hydra.utils.instantiate(
-                self.datasets.train,
-                split="train",
-                transform=transform,
-                path=PROJECT_ROOT / "data",
-            )
-            train_length = int(len(mnist_train) * (1 - self.val_percentage))
-            val_length = len(mnist_train) - train_length
-            self.train_dataset, val_dataset = random_split(mnist_train, [train_length, val_length])
+        self.hf_datasets = hydra.utils.instantiate(self.dataset)
+        self.hf_datasets.set_transform(self.transform)
 
-            self.val_datasets = [val_dataset]
+        # Here you should instantiate your dataset, you may also split the train into train and validation if needed.
+        if (stage is None or stage == "fit") and (self.train_dataset is None and self.val_dataset is None):
+            self.train_dataset = self.hf_datasets["train"]
+            self.val_dataset = self.hf_datasets["val"]
 
         if stage is None or stage == "test":
-            self.test_datasets = [
-                hydra.utils.instantiate(
-                    dataset_cfg,
-                    split="test",
-                    path=PROJECT_ROOT / "data",
-                    transform=transform,
-                )
-                for dataset_cfg in self.datasets.test
-            ]
+            self.test_dataset = self.hf_datasets["test"]
 
     def train_dataloader(self) -> DataLoader:
         return DataLoader(
@@ -177,34 +166,28 @@ class MyDataModule(pl.LightningDataModule):
             collate_fn=partial(collate_fn, split="train", metadata=self.metadata),
         )
 
-    def val_dataloader(self) -> Sequence[DataLoader]:
-        return [
-            DataLoader(
-                dataset,
-                shuffle=False,
-                batch_size=self.batch_size.val,
-                num_workers=self.num_workers.val,
-                pin_memory=self.pin_memory,
-                collate_fn=partial(collate_fn, split="val", metadata=self.metadata),
-            )
-            for dataset in self.val_datasets
-        ]
+    def val_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.val_dataset,
+            shuffle=False,
+            batch_size=self.batch_size.val,
+            num_workers=self.num_workers.val,
+            pin_memory=self.pin_memory,
+            collate_fn=partial(collate_fn, split="val", metadata=self.metadata),
+        )
 
-    def test_dataloader(self) -> Sequence[DataLoader]:
-        return [
-            DataLoader(
-                dataset,
-                shuffle=False,
-                batch_size=self.batch_size.test,
-                num_workers=self.num_workers.test,
-                pin_memory=self.pin_memory,
-                collate_fn=partial(collate_fn, split="test", metadata=self.metadata),
-            )
-            for dataset in self.test_datasets
-        ]
+    def test_dataloader(self) -> DataLoader:
+        return DataLoader(
+            self.test_dataset,
+            shuffle=False,
+            batch_size=self.batch_size.test,
+            num_workers=self.num_workers.test,
+            pin_memory=self.pin_memory,
+            collate_fn=partial(collate_fn, split="test", metadata=self.metadata),
+        )
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(" f"{self.datasets=}, " f"{self.num_workers=}, " f"{self.batch_size=})"
+        return f"{self.__class__.__name__}(" f"{self.dataset=}, " f"{self.num_workers=}, " f"{self.batch_size=})"
 
 
 @hydra.main(config_path=str(PROJECT_ROOT / "conf"), config_name="default")
@@ -214,7 +197,12 @@ def main(cfg: omegaconf.DictConfig) -> None:
     Args:
         cfg: the hydra configuration
     """
-    _: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
+    m: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
+    m.metadata
+    m.setup()
+
+    for _ in tqdm(m.train_dataloader()):
+        pass
 
 
 if __name__ == "__main__":

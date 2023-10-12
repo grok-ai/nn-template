@@ -4,6 +4,7 @@ from typing import List, Optional
 import hydra
 import omegaconf
 import pytorch_lightning as pl
+import torch
 from omegaconf import DictConfig, ListConfig
 from pytorch_lightning import Callback
 
@@ -18,6 +19,8 @@ import {{ cookiecutter.package_name }}  # noqa
 from {{ cookiecutter.package_name }}.data.datamodule import MetaData
 
 pylogger = logging.getLogger(__name__)
+
+torch.set_float32_matmul_precision("high")
 
 
 def build_callbacks(cfg: ListConfig, *args: Callback) -> List[Callback]:
@@ -64,6 +67,7 @@ def run(cfg: DictConfig) -> str:
     # Instantiate datamodule
     pylogger.info(f"Instantiating <{cfg.nn.data['_target_']}>")
     datamodule: pl.LightningDataModule = hydra.utils.instantiate(cfg.nn.data, _recursive_=False)
+    datamodule.setup(stage=None)
 
     metadata: Optional[MetaData] = getattr(datamodule, "metadata", None)
     if metadata is None:
@@ -98,7 +102,7 @@ def run(cfg: DictConfig) -> str:
     if fast_dev_run:
         pylogger.info("Skipping testing in 'fast_dev_run' mode!")
     else:
-        if "test" in cfg.nn.data.datasets and trainer.checkpoint_callback.best_model_path is not None:
+        if datamodule.test_dataset is not None and trainer.checkpoint_callback.best_model_path is not None:
             pylogger.info("Starting testing!")
             trainer.test(datamodule=datamodule)
 
