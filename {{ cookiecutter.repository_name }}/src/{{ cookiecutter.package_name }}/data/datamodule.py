@@ -1,7 +1,7 @@
 import logging
 from functools import cached_property, partial
 from pathlib import Path
-from typing import List, Mapping, Optional, Sequence
+from typing import List, Mapping, Optional
 
 import hydra
 import omegaconf
@@ -166,7 +166,7 @@ class MyDataModule(pl.LightningDataModule):
             collate_fn=partial(collate_fn, split="train", metadata=self.metadata),
         )
 
-    def val_dataloader(self) -> Sequence[DataLoader]:
+    def val_dataloader(self) -> DataLoader:
         return DataLoader(
             self.val_dataset,
             shuffle=False,
@@ -176,7 +176,7 @@ class MyDataModule(pl.LightningDataModule):
             collate_fn=partial(collate_fn, split="val", metadata=self.metadata),
         )
 
-    def test_dataloader(self) -> Sequence[DataLoader]:
+    def test_dataloader(self) -> DataLoader:
         return DataLoader(
             self.test_dataset,
             shuffle=False,
