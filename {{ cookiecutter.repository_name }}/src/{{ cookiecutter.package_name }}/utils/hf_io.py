@@ -18,7 +18,7 @@ class HFTransform:
         key: str,
         transform: Callable[[torch.Tensor], torch.Tensor],
     ):
-        """Apply a transform to a dataset column.
+        """Apply a row-wise transform to a dataset column.
 
         Args:
             key (str): The key of the column to transform.
@@ -90,7 +90,7 @@ def load_hf_dataset(**cfg: DictConfig) -> MetadataDatasetDict:
     It will contain the following splits:
         - train
         - val
-        - test.
+        - test
     If `val_split` is not specified in the config, it will be created from the train split
     according to the `val_percentage` specified in the config.
 
