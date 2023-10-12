@@ -17,30 +17,30 @@ trainer:
 
 restore:
   ckpt_or_run_path: null
-  mode: continue # null, finetune, hotstart, continue
+  mode: null # null, finetune, hotstart, continue
 
 monitor:
   metric: 'loss/val'
   mode: 'min'
 
 callbacks:
-  - _target_: pytorch_lightning.callbacks.EarlyStopping
+  - _target_: lightning.pytorch.callbacks.EarlyStopping
     patience: 42
     verbose: False
     monitor: ${train.monitor.metric}
     mode: ${train.monitor.mode}
 
-  - _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  - _target_: lightning.pytorch.callbacks.ModelCheckpoint
     save_top_k: 1
     verbose: False
     monitor: ${train.monitor.metric}
     mode: ${train.monitor.mode}
 
-  - _target_: pytorch_lightning.callbacks.LearningRateMonitor
+  - _target_: lightning.pytorch.callbacks.LearningRateMonitor
     logging_interval: "step"
     log_momentum: False
 
-  - _target_: pytorch_lightning.callbacks.progress.tqdm_progress.TQDMProgressBar
+  - _target_: lightning.pytorch.callbacks.progress.tqdm_progress.TQDMProgressBar
     refresh_rate: 20
 
 logging:
@@ -49,7 +49,7 @@ logging:
     source: true
 
   logger:
-    _target_: pytorch_lightning.loggers.WandbLogger
+    _target_: lightning.pytorch.loggers.WandbLogger
 
     project: ${core.project_name}
     entity: null
