@@ -2,11 +2,11 @@ import logging
 from typing import List, Optional
 
 import hydra
-import omegaconf
 import lightning.pytorch as pl
+import omegaconf
 import torch
-from omegaconf import DictConfig, ListConfig
 from lightning.pytorch import Callback
+from omegaconf import DictConfig, ListConfig
 
 from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT

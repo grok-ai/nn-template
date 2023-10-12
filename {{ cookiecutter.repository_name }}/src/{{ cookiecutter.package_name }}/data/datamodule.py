@@ -4,8 +4,8 @@ from pathlib import Path
 from typing import List, Mapping, Optional
 
 import hydra
-import omegaconf
 import lightning.pytorch as pl
+import omegaconf
 from omegaconf import DictConfig
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.dataloader import default_collate

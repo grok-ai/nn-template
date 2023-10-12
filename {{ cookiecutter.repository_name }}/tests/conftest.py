@@ -7,9 +7,9 @@ from typing import Dict, Union
 import pytest
 from hydra import compose, initialize
 from hydra.core.hydra_config import HydraConfig
+from lightning.pytorch import seed_everything
 from omegaconf import DictConfig, OmegaConf, open_dict
 from pytest import FixtureRequest, TempPathFactory
-from lightning.pytorch import seed_everything
 
 from nn_core.serialization import NNCheckpointIO
 
