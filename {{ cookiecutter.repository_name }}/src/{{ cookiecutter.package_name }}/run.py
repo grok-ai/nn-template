@@ -3,10 +3,10 @@ from typing import List, Optional
 
 import hydra
 import omegaconf
-import pytorch_lightning as pl
+import lightning.pytorch as pl
 import torch
 from omegaconf import DictConfig, ListConfig
-from pytorch_lightning import Callback
+from lightning.pytorch import Callback
 
 from nn_core.callbacks import NNTemplateCore
 from nn_core.common import PROJECT_ROOT

@@ -6,7 +6,7 @@ from nn_core.console_logging import NNRichHandler
 # thus the logging configuration defined in the __init__.py must be called before
 # the lightning import otherwise it has no effect.
 # See https://github.com/PyTorchLightning/pytorch-lightning/issues/1503
-lightning_logger = logging.getLogger("pytorch_lightning")
+lightning_logger = logging.getLogger("lightning.pytorch")
 # Remove all handlers associated with the lightning logger.
 for handler in lightning_logger.handlers[:]:
     lightning_logger.removeHandler(handler)

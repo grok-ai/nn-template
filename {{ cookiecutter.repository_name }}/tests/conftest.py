@@ -9,7 +9,7 @@ from hydra import compose, initialize
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf, open_dict
 from pytest import FixtureRequest, TempPathFactory
-from pytorch_lightning import seed_everything
+from lightning.pytorch import seed_everything
 
 from nn_core.serialization import NNCheckpointIO
 
