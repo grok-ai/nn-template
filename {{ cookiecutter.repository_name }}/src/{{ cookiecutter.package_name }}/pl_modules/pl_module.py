@@ -2,8 +2,8 @@ import logging
 from typing import Any, Dict, Mapping, Optional, Sequence, Tuple, Union
 
 import hydra
+import lightning.pytorch as pl
 import omegaconf
-import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
 import torchmetrics

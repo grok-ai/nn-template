@@ -2,9 +2,9 @@ from importlib import import_module
 from pathlib import Path
 from typing import Any, Dict
 
+from lightning.pytorch import LightningModule
+from lightning.pytorch.core.saving import _load_state
 from omegaconf import DictConfig, OmegaConf
-from pytorch_lightning import LightningModule
-from pytorch_lightning.core.saving import _load_state
 
 from nn_core.serialization import NNCheckpointIO
 from tests.conftest import load_checkpoint
